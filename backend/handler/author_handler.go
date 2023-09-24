@@ -3,15 +3,15 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
 	"github.com/Kimoto-Norihiro/nkt-scholar/model"
+	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
 )
 
 type AuthorHandler struct {
-	usecase usecase.IAuthorUseCase
+	usecase usecase.IAuthorUsecase
 }
 
-func NewAuthorHandler(u usecase.IAuthorUseCase) *AuthorHandler {
+func NewAuthorHandler(u usecase.IAuthorUsecase) *AuthorHandler {
 	return &AuthorHandler{
 		usecase: u,
 	}

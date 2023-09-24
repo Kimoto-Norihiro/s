@@ -7,23 +7,23 @@ import (
 	"github.com/Kimoto-Norihiro/nkt-scholar/repository"
 )
 
-type AuthorUseCase struct {
+type AuthorUsecase struct {
 	repository repository.IAuthorRepository
-	validate *validator.Validate
+	validate   *validator.Validate
 }
 
-func NewAuthorUseCase(r repository.IAuthorRepository) *AuthorUseCase {
-	return &AuthorUseCase{
+func NewAuthorUsecase(r repository.IAuthorRepository) *AuthorUsecase {
+	return &AuthorUsecase{
 		repository: r,
-		validate: validator.New(),
+		validate:   validator.New(),
 	}
 }
 
-func (u *AuthorUseCase) IndexAuthor() ([]model.Author, error) {
+func (u *AuthorUsecase) IndexAuthor() ([]model.Author, error) {
 	return u.repository.IndexAuthor()
 }
 
-func (u *AuthorUseCase) CreateAuthor(m model.Author) error {
+func (u *AuthorUsecase) CreateAuthor(m model.Author) error {
 	err := u.validate.Struct(m)
 	if err != nil {
 		return err

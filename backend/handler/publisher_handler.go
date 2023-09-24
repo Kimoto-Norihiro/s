@@ -3,15 +3,15 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
 	"github.com/Kimoto-Norihiro/nkt-scholar/model"
+	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
 )
 
 type PublisherHandler struct {
-	usecase usecase.IPublisherUseCase
+	usecase usecase.IPublisherUsecase
 }
 
-func NewPublisherHandler(u usecase.IPublisherUseCase) *PublisherHandler {
+func NewPublisherHandler(u usecase.IPublisherUsecase) *PublisherHandler {
 	return &PublisherHandler{
 		usecase: u,
 	}

@@ -23,33 +23,47 @@ func main() {
     panic(err)
   }
 
-	// Paper
-	er := repository.NewPaperRepository(db)
-  eu := usecase.NewPaperUseCase(er)
-  eh := handler.NewPaperHandler(eu)
-  r.POST("/paper", eh.CreatePaper)
-  r.GET("/papers", eh.IndexPaper)
-
 	// Publisher
 	pr := repository.NewPublisherRepository(db)
-	pu := usecase.NewPublisherUseCase(pr)
+	pu := usecase.NewPublisherUsecase(pr)
 	ph := handler.NewPublisherHandler(pu)
 	r.POST("/publisher", ph.CreatePublisher)
 	r.GET("/publishers", ph.IndexPublisher)
 
 	// Author
 	ar := repository.NewAuthorRepository(db)
-	au := usecase.NewAuthorUseCase(ar)
+	au := usecase.NewAuthorUsecase(ar)
 	ah := handler.NewAuthorHandler(au)
 	r.POST("/author", ah.CreateAuthor)
 	r.GET("/authors", ah.IndexAuthor)
 
-	// ConferenceAndJournal
-	cr := repository.NewConferenceAndJournalRepository(db)
-	cu := usecase.NewConferenceAndJournalUseCase(cr)
-	ch := handler.NewConferenceAndJournalHandler(cu)
-	r.POST("/conference_and_journal", ch.CreateConferenceAndJournal)
-	r.GET("/conference_and_journals", ch.IndexConferenceAndJournal)
+	// Tag
+	tr := repository.NewTagRepository(db)
+	tu := usecase.NewTagUsecase(tr)
+	th := handler.NewTagHandler(tu)
+	r.GET("/tags", th.ListTags)
+
+	// Journal
+	jr := repository.NewJournalRepository(db)
+	ju := usecase.NewJournalUsecase(jr)
+	jh := handler.NewJournalHandler(ju)
+	r.POST("/journal", jh.CreateJournal)
+	r.GET("/journals", jh.ListJournals)
+	r.PUT("/journal", jh.UpdateJournal)
+
+	// JournalInfo
+	jir := repository.NewJournalInfoRepository(db)
+	jiu := usecase.NewJournalInfoUsecase(jir)
+	jih := handler.NewJournalInfoHandler(jiu)
+	r.POST("/journal_info", jih.CreateJournalInfo)
+	r.GET("/journal_infos", jih.ListJournalInfos)
+
+	// JournalEvaluation
+	jer := repository.NewJournalEvaluationRepository(db)
+	jeu := usecase.NewJournalEvaluationUsecase(jer)
+	jeh := handler.NewJournalEvaluationHandler(jeu)
+	r.POST("/journal_evaluation", jeh.CreateJournalEvaluation)
+	r.GET("/journal_evaluations", jeh.ListJournalEvaluations)
 
   r.Run(":8080")
 }
