@@ -1,6 +1,6 @@
 import React from 'react'
-import { PublisherForm } from '../../parts/edit_consts/publisher_form';
-import { PublisherTable } from '../../parts/edit_consts/publisher_table';
+import { PublisherForm } from '../../parts/settings/publisher_form';
+import { PublisherTable } from '../../parts/settings/publisher_table';
 
 export const PublisherPage = () => {
 	return (

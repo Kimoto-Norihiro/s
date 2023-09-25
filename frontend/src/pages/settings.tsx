@@ -1,16 +1,16 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import { HeaderWithBody } from '../components/layouts/HeaderWithBody';
-import { AuthorPage } from '@/components/pages/edit_consts/AuthorPage';
-import { PublisherPage } from '@/components/pages/edit_consts/PublisherPage';
-import { TagPage } from '@/components/pages/edit_consts/TagPage';
-import { JournalInfoPage }  from '@/components/pages/edit_consts/JournalInfoPage';
-import { JournalEvaluationPage } from '@/components/pages/edit_consts/JournalEvaluationPage';
-import { InternationalConferenceInfoPage } from '@/components/pages/edit_consts/InternationalConferenceInfoPage';
-import { InternationalConferenceEvaluationPage } from '@/components/pages/edit_consts/InternationalConferenceEvaluationPage';
-import { DomesticConferenceInfoPage } from '@/components/pages/edit_consts/DomesticConferenceInfoPage';
-import { AwardOrganizationPage } from '@/components/pages/edit_consts/AwardOrganizationPage';
-import { CountryPage } from '@/components/pages/edit_consts/CountryPage';
+import { AuthorPage } from '@/components/pages/settings/AuthorPage';
+import { PublisherPage } from '@/components/pages/settings/PublisherPage';
+import { TagPage } from '@/components/pages/settings/TagPage';
+import { JournalInfoPage }  from '@/components/pages/settings/JournalInfoPage';
+import { JournalEvaluationPage } from '@/components/pages/settings/JournalEvaluationPage';
+import { InternationalConferenceInfoPage } from '@/components/pages/settings/InternationalConferenceInfoPage';
+import { InternationalConferenceEvaluationPage } from '@/components/pages/settings/InternationalConferenceEvaluationPage';
+import { DomesticConferenceInfoPage } from '@/components/pages/settings/DomesticConferenceInfoPage';
+import { AwardOrganizationPage } from '@/components/pages/settings/AwardOrganizationPage';
+import { CountryPage } from '@/components/pages/settings/CountryPage';
 
 type SettingsKind = 'author' 
 | 'publisher' 

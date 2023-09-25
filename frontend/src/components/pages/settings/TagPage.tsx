@@ -1,6 +1,6 @@
 import React from 'react'
-import { TagForm } from '../../parts/edit_consts/tag_form';
-import { TagTable } from '../../parts/edit_consts/tag_table';
+import { TagForm } from '../../parts/settings/tag_form';
+import { TagTable } from '../../parts/settings/tag_table';
 
 export const TagPage = () => {
 	return (

@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import type { NextPage } from 'next'
 import { HeaderWithBody } from '../components/layouts/HeaderWithBody';
-import axios from 'axios';
-import { Paper } from '@/types/types';
-import { PaperForm } from '../components/pages/paper_form';
-import { PaperTable } from '../components/pages/paper_table';
 import { JournalPage } from '@/components/pages/index/JournalPage';
 import { InternationalConferencePage } from '@/components/pages/index/InternationalConferencePage';
 import { DomesticConferencePage } from '@/components/pages/index/DomesticConferencePage';

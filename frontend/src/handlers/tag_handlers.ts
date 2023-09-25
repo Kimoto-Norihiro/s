@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TagUpsertValues } from '@/components/parts/edit_consts/tag_form';
+import { TagUpsertValues } from '@/components/parts/settings/tag_form';
 
 export const createTag = async (data: TagUpsertValues) => {
 	try {

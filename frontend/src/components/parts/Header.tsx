@@ -6,7 +6,7 @@ export const Header = () => {
   const router = useRouter()
   return (
     <div className='flex items-center h-[8vh] justify-between px-10 border-b-2 border-black'>
-      <p className='text-3xl text-black' onClick={() => router.push('/')}>nkt scholar</p>
+      <p className='text-3xl text-black' onClick={() => router.push('/')}>scholar manager</p>
       <div className='flex'>
         <div 
           onClick={() => router.push('/edit_consts')}

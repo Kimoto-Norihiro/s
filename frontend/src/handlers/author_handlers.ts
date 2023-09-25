@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AuthorUpsertValues } from '../components/parts/edit_consts/author_form';
+import { AuthorUpsertValues } from '../components/parts/settings/author_form';
 import { error } from "console";
 
 export async function CreateAuthor(data: AuthorUpsertValues): Promise<Error | null> {

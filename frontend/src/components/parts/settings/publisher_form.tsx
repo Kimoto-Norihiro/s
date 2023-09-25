@@ -2,7 +2,7 @@ import React from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { Publisher } from '@/types/types'
+import { Publisher } from '@/types/publisher'
 import axios from 'axios'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
@@ -41,9 +41,9 @@ export const PublisherForm = () => {
 	}
 
 	return (
-		<div className='w-[60%]'>
+		<div className='w-full flex flex-col items-center'>
 			<form 
-				className='w-full flex flex-col' 
+				className='w-[60%] flex flex-col' 
 				onSubmit={(e) => {
 					e.preventDefault()
 					submit()
