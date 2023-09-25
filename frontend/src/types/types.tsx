@@ -1,3 +1,5 @@
+import { Tags } from "./tag"
+
 export type PaperKind = {
   id: number
   name: string
@@ -10,6 +12,7 @@ export type Author = {
   en_first_name: string
   en_last_name: string
 }
+export type Authors = Author[]
 
 export type ConferenceAndJournal = {
   id: number
@@ -19,12 +22,14 @@ export type ConferenceAndJournal = {
   paper_kind: PaperKind
   publisher: Publisher
 }
+export type ConferenceAndJournals = ConferenceAndJournal[]
 
 export type Publisher = {
   id: number
   name: string
   short_name: string
 }
+export type Publishers = Publisher[]
 
 export type Paper = {
   id: number
@@ -39,12 +44,45 @@ export type Paper = {
   month: number
   pdf_path: string
 }
-
-export type Authors = Author[]
 export type Papers = Paper[]
-export type ConferenceAndJournals = ConferenceAndJournal[]
-export type Publishers = Publisher[]
 
+export type Journal = {
+  id: number
+  authors: Authors
+  title: string
+  journal_info: JournalInfo
+  year: number
+  month: number
+  start_page: number
+  end_page: number
+  url1: string
+  url2: string
+  doi: string
+  is_joint_research: boolean
+  evaluation: JournalEvaluation
+  peer_review_course: string
+  is_manuscript_exist: boolean
+  is_appendix_exist: boolean
+  is_domestic: boolean
+  tags: Tags
+}
+
+export type JournalInfo = {
+  id: number
+  name: string
+  short_name: string
+  iso4_name: string
+  publisher: Publisher
+}
+
+export type JournalEvaluation = {
+  journal_info_id: number
+  year: number
+  if: number
+  acceptance_rate: number
+  number_of_submitted_papers: number
+  number_of_accepted_papers: number
+}
 // type of table
 export type AuthorTableDisplay = {
 	ja_name: string

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { Publisher } from '@/types/types'
 import axios from 'axios'
 import { InputWithError } from '@/components/parts/form/InputWithError'
-import { FormButton } from '../parts/form/FormButton';
+import { FormButton } from '../form/FormButton';
 
 const PublisherUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),

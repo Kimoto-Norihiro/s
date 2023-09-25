@@ -3,9 +3,9 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { Author } from '@/types/types'
-import { InputWithError } from '@/components/parts/form/InputWithError'
-import axios from 'axios'
-import { FormButton } from '../parts/form/FormButton';
+import { InputWithError } from '../form/InputWithError'
+import { FormButton } from '../form/FormButton';
+import { CreateAuthor } from '@/handlers/author_handlers'
 
 const AuthorUpsertSchema = yup.object().shape({
   ja_first_name: yup.string().required('入力してください'),
@@ -21,20 +21,9 @@ export const AuthorForm = () => {
 		resolver: yupResolver(AuthorUpsertSchema)
 	})
 
-	const createAuthor = async (data: AuthorUpsertValues) => {
-		try {
-			const res = await axios.post('http://localhost:8080/author', data, {
-				withCredentials: true
-			})
-			console.log(res.data)
-		} catch (err) {
-			console.log(err)
-		}
-	}
-
 	const submit = async () => {
 		handleSubmit(async (data) => {
-      await createAuthor(data)
+      await CreateAuthor(data)
       console.log("create Paper")
     }, (error) => {
       console.log(error)

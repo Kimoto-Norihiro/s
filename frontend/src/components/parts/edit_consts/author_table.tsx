@@ -1,46 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Publishers, PublisherTableDisplay } from '@/types/types'
+import { Authors, authorsToTableDisplays, AuthorTableDisplay } from '@/types/types'
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { publishersToTableDisplays } from '../../types/types';
+import { IndexAuthor } from '@/handlers/author_handlers'
 
-export const PublisherTable = () => {
-	const [publisherList, setPublisherList] = useState<Publishers>([])
-	const indexPublisher = async () => {
-		try {
-			const res = await axios.get('http://localhost:8080/publishers', {
-				withCredentials: true
-			})
-			setPublisherList(res.data)
-			console.log('indexPublisher',res.data)
-		} catch (err) {
-			console.log(err)
-		}
-	}
+export const AuthorTable = () => {
+	const [authorList, setAuthorList] = useState<Authors>([])
 
 	useEffect(() => {
-		indexPublisher()
+		IndexAuthor().then((res) => {
+      if (res.status !== 200) {
+        console.log('error')
+        return
+      }
+      setAuthorList(res.data)
+    })
 	}, [])
 
-	const publisherTableDisplayList = publishersToTableDisplays(publisherList)
-	const columns: ColumnDef<PublisherTableDisplay, any>[] = [
+	const authorTableDisplayList = authorsToTableDisplays(authorList)
+	const columns: ColumnDef<AuthorTableDisplay, any>[] = [
 		{
-			accessorKey: 'name',
-			header: '出版社名',
+			accessorKey: 'ja_name',
+			header: '日本語表記',
 		},
 		{
-			accessorKey: 'short_name',
-			header: '省略名',
+			accessorKey: 'en_name',
+			header: '英語表記',
 		},
 	]
-	const table = useReactTable<PublisherTableDisplay>({
-    data: publisherTableDisplayList,
+	const table = useReactTable<AuthorTableDisplay>({
+    data: authorTableDisplayList,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
 	return (
-		<table className='border-collapse border border-slate-400'>
+    <table className='border-collapse border border-slate-400'>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
