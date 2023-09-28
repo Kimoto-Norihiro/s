@@ -19,3 +19,8 @@ type IJournalHandler interface {
 	ListJournals(c *gin.Context)
 	UpdateJournal(c *gin.Context)
 }
+
+type ITagHandler interface {
+	CreateTag(c *gin.Context)
+	ListTags(c *gin.Context)
+}

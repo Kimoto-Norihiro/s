@@ -21,6 +21,7 @@ type IJournalRepository interface {
 }
 
 type ITagRepository interface {
+	CreateTag(m model.Tag) error
 	ListTags() ([]model.Tag, error)
 }
 

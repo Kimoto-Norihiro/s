@@ -21,6 +21,7 @@ type IJournalUsecase interface {
 }
 
 type ITagUsecase interface {
+	CreateTag(m model.Tag) error
 	ListTags() ([]model.Tag, error)
 }
 

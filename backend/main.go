@@ -41,6 +41,7 @@ func main() {
 	tr := repository.NewTagRepository(db)
 	tu := usecase.NewTagUsecase(tr)
 	th := handler.NewTagHandler(tu)
+	r.POST("/tag", th.CreateTag)
 	r.GET("/tags", th.ListTags)
 
 	// Journal
