@@ -2,33 +2,20 @@ import React from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { Publisher } from '@/types/publisher'
-import axios from 'axios'
+import { PublisherUpsertValues } from '@/types/publisher'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
+import { createPublisher } from '@/handlers/publisher_handlers'
 
 const PublisherUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 	short_name: yup.string().required('入力してください'),
 })
 
-export type PublisherUpsertValues = Omit<Publisher, 'id'>
-
 export const PublisherForm = () => {
 	const { register, handleSubmit, formState: { errors }} = useForm<PublisherUpsertValues>({
 		resolver: yupResolver(PublisherUpsertSchema)
 	})
-
-	const createPublisher = async (data: PublisherUpsertValues) => {
-		try {
-			const res = await axios.post('http://localhost:8080/publisher', data, {
-				withCredentials: true
-			})
-			console.log(res.data)
-		} catch (err) {
-			console.log(err)
-		}
-	}
 
 	const submit = async () => {
 		handleSubmit(async (data) => {

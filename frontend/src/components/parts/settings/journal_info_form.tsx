@@ -8,7 +8,7 @@ import { FormButton } from '../form/FormButton';
 import { JournalInfoUpsertValues } from '@/types/journal_info'
 import { createJournalInfo } from '@/handlers/journal_info_handlers'
 import { Publishers } from '@/types/publisher'
-import { ListPublishers } from '@/handlers/publisher_handlers'
+import { listPublishers } from '@/handlers/publisher_handlers'
 
 const JournalInfoUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
@@ -33,7 +33,7 @@ export const JournalInfoForm = () => {
 	}
 
 	useEffect(() => {
-		ListPublishers(setPublisherList)
+		listPublishers(setPublisherList)
 	}, [])
 
 	return (

@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Publishers, PublisherTableDisplay, publishersToTableDisplays } from '@/types/publisher'
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { DisplayTable } from '../table/DisplayTable'
+import { listPublishers } from '@/handlers/publisher_handlers'
 
 export const PublisherTable = () => {
 	const [publisherList, setPublisherList] = useState<Publishers>([])
-	const indexPublisher = async () => {
-		try {
-			const res = await axios.get('http://localhost:8080/publishers', {
-				withCredentials: true
-			})
-			setPublisherList(res.data)
-			console.log('indexPublisher',res.data)
-		} catch (err) {
-			console.log(err)
-		}
-	}
 
 	useEffect(() => {
-		indexPublisher()
+		listPublishers(setPublisherList)
 	}, [])
 
 	const publisherTableDisplayList = publishersToTableDisplays(publisherList)
