@@ -9,7 +9,7 @@ export const Header = () => {
       <p className='text-3xl text-black' onClick={() => router.push('/')}>scholar manager</p>
       <div className='flex'>
         <div 
-          onClick={() => router.push('/edit_consts')}
+          onClick={() => router.push('/settings')}
         >
           <IoMdSettings size={30}/>
         </div>

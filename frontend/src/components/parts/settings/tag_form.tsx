@@ -29,9 +29,9 @@ export const TagForm = () => {
 	}
 
 	return (
-		<div className='w-[60%]'>
+		<div className='w-full flex flex-col items-center'>
 			<form 
-				className='w-full flex flex-col' 
+				className='w-[60%] flex flex-col'
 				onSubmit={(e) => {
 					e.preventDefault()
 					submit()

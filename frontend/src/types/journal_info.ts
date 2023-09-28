@@ -8,3 +8,5 @@ export type JournalInfo = {
   publisher: Publisher
 }
 export type JournalInfos = JournalInfo[]
+
+export type JournalInfoUpsertValues = Omit<JournalInfo, 'id'>

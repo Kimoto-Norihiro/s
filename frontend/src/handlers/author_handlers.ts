@@ -1,38 +1,27 @@
 import axios from "axios"
 import { AuthorUpsertValues } from '../components/parts/settings/author_form';
-import { error } from "console";
+import { Authors } from '../types/author';
 
-export async function CreateAuthor(data: AuthorUpsertValues): Promise<Error | null> {
+export async function CreateAuthor(data: AuthorUpsertValues) {
 	try {
 		const res = await axios.post('http://localhost:8000/author', data, {
 			withCredentials: true
 		})
 		console.log('success to create author', res)
-		return null
 	} catch (err) {
-		if (err instanceof Error) {
-			console.log('fail to create author', err.message)
-			return err
-		} else {
-			throw err
-		}
+		console.log('fail to create author', err)
 	}
 }
 
-export async function IndexAuthor(): Promise<any | Error> {
+export async function IndexAuthor(setAuthorList: React.Dispatch<React.SetStateAction<Authors>>) {
 	try {
 		const res = await axios.get('http://localhost:8000/authors', {
 			withCredentials: true
 		})
 		console.log('indexAuthor', res.data)
-		return res.data, null
+		setAuthorList(res.data)
 	} catch (err) {
-		if (err instanceof Error) {
-			console.log('fail to index author', err.message)
-			return err
-		} else {
-			throw err
-		}
+		console.log('fail to index author', err)
 	}
 }
 

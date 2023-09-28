@@ -6,7 +6,6 @@ import axios from 'axios'
 import { InputWithError } from '../../parts/form/InputWithError';
 import { SelectWithError } from '../../parts/form/SelectWithError';
 import { FormButton } from '../../parts/form/FormButton';
-import { Publisher } from '@/types/publisher'
 import { JournalUpsertValues } from '@/types/journal'
 import { createJournal } from '@/handlers/journal_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
@@ -27,7 +26,7 @@ const JournalUpsertSchema = yup.object().shape({
 })
 
 export const JournalForm = () => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<JournalUpsertValues>({
+	const { control, register, handleSubmit, formState: { errors }} = useForm<JournalUpsertValues>({
 		resolver: yupResolver(JournalUpsertSchema)
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])

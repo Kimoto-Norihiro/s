@@ -8,13 +8,7 @@ export const AuthorTable = () => {
 	const [authorList, setAuthorList] = useState<Authors>([])
 
 	useEffect(() => {
-		IndexAuthor().then((res) => {
-      if (res.status !== 200) {
-        console.log('error')
-        return
-      }
-      setAuthorList(res.data)
-    })
+		IndexAuthor(setAuthorList)
 	}, [])
 
 	const authorTableDisplayList = authorsToTableDisplays(authorList)
