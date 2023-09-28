@@ -1,10 +1,5 @@
 package model
 
-type PaperKind struct {
-	ID   int    `json:"id" gorm:"primaryKey"`
-	Name string `json:"name"`
-}
-
 type Author struct {
 	ID          int    `json:"id" gorm:"primaryKey"`
 	JaFirstName string `json:"ja_first_name"`
@@ -13,40 +8,12 @@ type Author struct {
 	EnLastName  string `json:"en_last_name"`
 }
 
-type ConferenceAndJournal struct {
-	ID          int       `json:"id" gorm:"primaryKey"`
-	Name        string    `json:"name"`
-	ShortName   string    `json:"short_name"`
-	ISO4Name    string    `json:"iso4_name"`
-	PaperKind   PaperKind `json:"paper_kind"`
-	PaperKindID int       `json:"paper_kind_id"`
-	Publisher   Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
-	PublisherID uint      `json:"publisher_id"`
-}
-
 type Publisher struct {
 	ID        int    `json:"id" gorm:"primaryKey"`
 	Name      string `json:"name"`
 	ShortName string `json:"short_name"`
 }
 
-type Paper struct {
-	ID                     int                  `json:"id" gorm:"primaryKey"`
-	PaperKind              PaperKind            `json:"paper_kind"`
-	PaperKindID            int                  `json:"paper_kind_id"`
-	Title                  string               `json:"title"`
-	Url                    string               `json:"url"`
-	Authors                []Author             `json:"authors" gorm:"many2many:paper_authors;"`
-	ConferenceAndJournal   ConferenceAndJournal `json:"conference_and_journal" gorm:"foreignKey:ConferenceAndJournalID"`
-	ConferenceAndJournalID uint                 `json:"conference_and_journal_id"`
-	StartPage              int                  `json:"start_page"`
-	EndPage                int                  `json:"end_page"`
-	Year                   int                  `json:"year"`
-	Month                  int                  `json:"month"`
-	PdfPath                string               `json:"pdf_path"`
-}
-
-// new models
 // 分野タグ
 type Tag struct {
 	ID   int    `json:"id" gorm:"primaryKey"`
@@ -65,6 +32,7 @@ type Journal struct {
 	Authors           []Author          `json:"authors" gorm:"many2many:journal_authors;" validate:"required"`
 	Title             string            `json:"title" validate:"required"`
 	JournalInfo       JournalInfo       `json:"journal_info" gorm:"foreignKey:JournalInfoID"`
+	JournalInfoID     int               `json:"journal_info_id"`
 	Year              int               `json:"year" validate:"required"`
 	Volume            int               `json:"volume"`
 	Number            int               `json:"number"`
@@ -74,7 +42,7 @@ type Journal struct {
 	Url2              string            `json:"url2"`
 	DOI               string            `json:"doi"`
 	IsJointResearch   bool              `json:"is_joint_research" validate:"required"`
-	Evaluation        JournalEvaluation `json:"evaluation" gorm:"foreignKey:EvaluationID"`
+	Evaluation        JournalEvaluation `json:"evaluation" gorm:"foreignKey:JournalInfoID, Year"`
 	EvaluationID      uint              `json:"evaluation_id"`
 	PeerReviewCourse  string            `json:"peer_review_course"`
 	IsManuscriptExist bool              `json:"is_manuscript_exist" validate:"required"`
@@ -85,21 +53,22 @@ type Journal struct {
 
 // 雑誌名
 type JournalInfo struct {
-	ID        int    `json:"id" gorm:"primaryKey" validate:"required"`
-	Name      string `json:"name" validate:"required"`
-	ISO4Name  string `json:"iso4_name" validate:"required"`
-	ShortName string `json:"short_name" validate:"required"`
-	Publisher Publisher
+	ID          int       `json:"id" gorm:"primaryKey" validate:"required"`
+	Name        string    `json:"name" validate:"required"`
+	ISO4Name    string    `json:"iso4_name" validate:"required"`
+	ShortName   string    `json:"short_name" validate:"required"`
+	Publisher   Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
+	PublisherID int       `json:"publisher_id"`
 }
 
 // ジャーナル評価
 type JournalEvaluation struct {
-	JournalNameID              int     `json:"journal_name_id" gorm:"primaryKey"`
-	Year                       int     `json:"year" gorm:"primaryKey"`
-	IF                         float64 `json:"if"`
-	PercentageOfAcceptedPapers float64 `json:"percentage_of_accepted_papers"`
-	NumberOfSubmittedPapers    int     `json:"number_of_submitted_papers"`
-	NumberOfAcceptedPapers     int     `json:"number_of_accepted_papers"`
+	JournalInfoID           int     `json:"journal_info_id" gorm:"primaryKey"`
+	Year                    int     `json:"year" gorm:"primaryKey"`
+	IF                      float64 `json:"if"`
+	AcceptanceRate          float64 `json:"acceptance_rate"`
+	NumberOfSubmittedPapers int     `json:"number_of_submitted_papers"`
+	NumberOfAcceptedPapers  int     `json:"number_of_accepted_papers"`
 }
 
 // 国際会議
@@ -190,17 +159,17 @@ type DomesticConferenceInfo struct {
 
 // 表彰
 type Award struct {
-	ID                 int    `json:"id" gorm:"primaryKey"`
-	Name               string `json:"name" validate:"required"`
+	ID                 int          `json:"id" gorm:"primaryKey"`
+	Name               string       `json:"name" validate:"required"`
 	Organization       Organization `json:"organization" validate:"required"`
-	Year               int    `json:"year" validate:"required"`
-	Month              int    `json:"month" validate:"required"`
-	Url1               string `json:"url1"`
-	Url2               string `json:"url2"`
-	RelationID         int    `json:"relation_id"`
-	IsJointResearch    bool   `json:"is_joint_research" validate:"required"`
-	IsCertificateExist bool   `json:"is_certificate_exist" validate:"required"`
-	Tags               []Tag  `json:"tags" gorm:"many2many:award_tags;"`
+	Year               int          `json:"year" validate:"required"`
+	Month              int          `json:"month" validate:"required"`
+	Url1               string       `json:"url1"`
+	Url2               string       `json:"url2"`
+	RelationID         int          `json:"relation_id"`
+	IsJointResearch    bool         `json:"is_joint_research" validate:"required"`
+	IsCertificateExist bool         `json:"is_certificate_exist" validate:"required"`
+	Tags               []Tag        `json:"tags" gorm:"many2many:award_tags;"`
 }
 
 // 表彰団体

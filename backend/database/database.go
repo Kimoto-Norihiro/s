@@ -12,10 +12,26 @@ func NewMySql(dns string) (db *gorm.DB, err error) {
 	if err != nil {
 		return nil, err
 	}
-	// drop tables
-	db.Migrator().DropTable(&model.Author{}, &model.Publisher{}, &model.ConferenceAndJournal{}, &model.Paper{}, &model.PaperKind{})
-	
-	// db.AutoMigrate(&model.Author{}, &model.Publisher{}, &model.ConferenceAndJournal{}, &model.Paper{}, &model.PaperKind{})
+
+	// db.Migrator().DropTable(
+	// 	&model.Author{},
+	// 	&model.Publisher{},
+	// 	&model.Journal{},
+	// 	&model.JournalInfo{},
+	// 	&model.JournalEvaluation{},
+	// 	&model.Tag{},
+	// 	&model.Country{},
+	// )
+
+	db.AutoMigrate(
+		&model.Author{},
+		&model.Publisher{},
+		&model.Journal{},
+		&model.JournalInfo{},
+		&model.JournalEvaluation{},
+		&model.Tag{},
+		&model.Country{},
+	)
 
 	return db, nil
 }

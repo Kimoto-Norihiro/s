@@ -12,16 +12,16 @@ import (
 )
 
 func main() {
-  utils.LoadEnv()
-  
-  r := gin.Default()
+	utils.LoadEnv()
+
+	r := gin.Default()
 	r.Use(middleware.Cors())
 
-  const dns = "n000r111:password@tcp(localhost:3306)/nkt_scholar?charset=utf8mb4&parseTime=True&loc=Local"
-  db, err := database.NewMySql(dns)
-  if err != nil {
-    panic(err)
-  }
+	const dns = "n000r111:password@tcp(localhost:3306)/nkt_scholar?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := database.NewMySql(dns)
+	if err != nil {
+		panic(err)
+	}
 
 	// Publisher
 	pr := repository.NewPublisherRepository(db)
@@ -65,5 +65,5 @@ func main() {
 	r.POST("/journal_evaluation", jeh.CreateJournalEvaluation)
 	r.GET("/journal_evaluations", jeh.ListJournalEvaluations)
 
-  r.Run(":8080")
+	r.Run(":8000")
 }
