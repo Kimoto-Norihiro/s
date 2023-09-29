@@ -33,4 +33,5 @@ type IJournalInfoRepository interface {
 type IJournalEvaluationRepository interface {
 	CreateJournalEvaluation(m model.JournalEvaluation) error
 	ListJournalEvaluations() ([]model.JournalEvaluation, error)
+	GetJournalEvaluationByJournalIDAndYear(journalID int, year int) (model.JournalEvaluation, error)
 }

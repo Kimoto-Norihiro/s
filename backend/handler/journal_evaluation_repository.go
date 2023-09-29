@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strconv"
+
 	"github.com/Kimoto-Norihiro/nkt-scholar/model"
 	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
 	"github.com/gin-gonic/gin"
@@ -39,4 +41,15 @@ func (h *JournalEvaluationHandler) ListJournalEvaluations(c *gin.Context) {
 		return
 	}
 	c.JSON(200, journalEvaluations)
+}
+
+func (h *JournalEvaluationHandler) GetJournalEvaluationByJournalIDAndYear(c *gin.Context) {
+	journalID, _ := strconv.Atoi(c.Param("journal_id"))
+	year, _ := strconv.Atoi(c.Param("year"))
+	journalEvaluation, err := h.usecase.GetJournalEvaluationByJournalIDAndYear(journalID, year)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, journalEvaluation)
 }

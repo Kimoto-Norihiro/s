@@ -29,3 +29,7 @@ func (u *JournalEvaluationUsecase) CreateJournalEvaluation(m model.JournalEvalua
 func (u *JournalEvaluationUsecase) ListJournalEvaluations() ([]model.JournalEvaluation, error) {
 	return u.repository.ListJournalEvaluations()
 }
+
+func (u *JournalEvaluationUsecase) GetJournalEvaluationByJournalIDAndYear(journalID int, year int) (model.JournalEvaluation, error) {
+	return u.repository.GetJournalEvaluationByJournalIDAndYear(journalID, year)
+}

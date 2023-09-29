@@ -40,3 +40,4 @@ func (h *JournalInfoHandler) ListJournalInfos(c *gin.Context) {
 	}
 	c.JSON(200, journalInfos)
 }
+

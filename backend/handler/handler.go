@@ -24,3 +24,14 @@ type ITagHandler interface {
 	CreateTag(c *gin.Context)
 	ListTags(c *gin.Context)
 }
+
+type IJournalInfoHandler interface {
+	CreateJournalInfo(c *gin.Context)
+	ListJournalInfos(c *gin.Context)
+}
+
+type IJournalEvaluationHandler interface {
+	CreateJournalEvaluation(c *gin.Context)
+	ListJournalEvaluations(c *gin.Context)
+	GetJournalEvaluationByJournalIDAndYear(c *gin.Context)
+}
