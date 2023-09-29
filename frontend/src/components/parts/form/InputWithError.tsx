@@ -1,6 +1,5 @@
 import React from 'react'
-import { FieldErrors, FieldValues, Path } from 'react-hook-form'
-import { UseFormRegister } from 'react-hook-form'
+import { FieldErrors, FieldValues, Path, UseFormRegister } from 'react-hook-form'
 import { AddLabel } from './AddLabel'
 
 type Props<T extends FieldValues> = {

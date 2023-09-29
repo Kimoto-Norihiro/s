@@ -24,9 +24,10 @@ export const MultiSelectWithError = <T extends FieldValues>({ label, name, contr
 						isMulti
 						options={options}
 						onChange={(e) => {
-							field.onChange(e.map((option) => {
+							const newObjects = e.map((option) => {
 								return list[option.value-1]
-							}))
+							})
+							field.onChange(newObjects)
 						}}
 					/>
 				)}
