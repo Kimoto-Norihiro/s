@@ -19,6 +19,6 @@ func (r *JournalInfoRepository) CreateJournalInfo(m model.JournalInfo) error {
 
 func (r *JournalInfoRepository) ListJournalInfos() ([]model.JournalInfo, error) {
 	var journalInfos []model.JournalInfo
-	err := r.db.Find(&journalInfos).Error
+	err := r.db.Preload("Publisher").Find(&journalInfos).Error
 	return journalInfos, err
 }

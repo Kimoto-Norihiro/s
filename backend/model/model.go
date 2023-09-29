@@ -53,7 +53,7 @@ type Journal struct {
 
 // 雑誌名
 type JournalInfo struct {
-	ID          int       `json:"id" gorm:"primaryKey" validate:"required"`
+	ID          int       `json:"id" gorm:"primaryKey"`
 	Name        string    `json:"name" validate:"required"`
 	ISO4Name    string    `json:"iso4_name" validate:"required"`
 	ShortName   string    `json:"short_name" validate:"required"`

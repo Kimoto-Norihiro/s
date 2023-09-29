@@ -33,7 +33,7 @@ export const JournalForm = () => {
 
 	const indexAuthor = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/authors', {
+      const res = await axios.get('http://localhost:8000/authors', {
         withCredentials: true
       })
       console.log('index', res.data)

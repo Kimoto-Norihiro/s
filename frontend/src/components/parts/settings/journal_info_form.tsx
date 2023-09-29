@@ -45,7 +45,7 @@ export const JournalInfoForm = () => {
 					submit()
 			}}>
 				<InputWithError 
-					label='出版社名'
+					label='雑誌名'
 					name='name'
 					register={register}
 					errors={errors}
@@ -59,8 +59,8 @@ export const JournalInfoForm = () => {
 					required
 				/>
 				<InputWithError 
-					label='省略名'
-					name='short_name'
+					label='ISO4名'
+					name='iso4_name'
 					register={register}
 					errors={errors}
 					required

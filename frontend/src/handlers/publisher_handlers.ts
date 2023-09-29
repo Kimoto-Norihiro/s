@@ -3,7 +3,7 @@ import { Publishers, PublisherUpsertValues } from '@/types/publisher';
 
 export const listPublishers = async (setPublisherList: React.Dispatch<React.SetStateAction<Publishers>>) => {
 	try {
-		const res = await axios.get('http://localhost:8080/publishers', {
+		const res = await axios.get('http://localhost:8000/publishers', {
 			withCredentials: true
 		})
 		setPublisherList(res.data)
