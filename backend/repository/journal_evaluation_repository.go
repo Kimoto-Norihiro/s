@@ -19,6 +19,6 @@ func (r *JournalEvaluationRepository) CreateJournalEvaluation(m model.JournalEva
 
 func (r *JournalEvaluationRepository) ListJournalEvaluations() ([]model.JournalEvaluation, error) {
 	var journalEvaluations []model.JournalEvaluation
-	err := r.db.Find(&journalEvaluations).Error
+	err := r.db.Preload("JournalInfo").Find(&journalEvaluations).Error
 	return journalEvaluations, err
 }

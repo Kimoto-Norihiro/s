@@ -63,12 +63,13 @@ type JournalInfo struct {
 
 // ジャーナル評価
 type JournalEvaluation struct {
-	JournalInfoID           int     `json:"journal_info_id" gorm:"primaryKey"`
-	Year                    int     `json:"year" gorm:"primaryKey"`
-	IF                      float64 `json:"if"`
-	AcceptanceRate          float64 `json:"acceptance_rate"`
-	NumberOfSubmittedPapers int     `json:"number_of_submitted_papers"`
-	NumberOfAcceptedPapers  int     `json:"number_of_accepted_papers"`
+	JournalInfoID           int         `json:"journal_info_id" gorm:"primaryKey"`
+	JournalInfo             JournalInfo `json:"journal_info" gorm:"foreignKey:JournalInfoID"`
+	Year                    int         `json:"year" gorm:"primaryKey"`
+	IF                      float64     `json:"if"`
+	AcceptanceRate          float64     `json:"acceptance_rate"`
+	NumberOfSubmittedPapers int         `json:"number_of_submitted_papers"`
+	NumberOfAcceptedPapers  int         `json:"number_of_accepted_papers"`
 }
 
 // 国際会議

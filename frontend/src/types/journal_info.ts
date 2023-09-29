@@ -24,6 +24,5 @@ export function journalInfosToTableDisplays(journalInfos: JournalInfos): Journal
 	})
 }
 
-
 // type for form
 export type JournalInfoUpsertValues = Omit<JournalInfo, 'id'>

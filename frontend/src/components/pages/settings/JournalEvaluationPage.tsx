@@ -1,7 +1,12 @@
 import React from 'react'
+import { JournalEvaluationForm } from '@/components/parts/settings/journal_evaluation_form'
+import { JournalEvaluationTable } from '@/components/parts/settings/journal_evaluation_table'
 
 export const JournalEvaluationPage = () => {
 	return (
-		<div>実装中</div>
+		<div className='p-4'>
+			<JournalEvaluationForm/>
+			<JournalEvaluationTable/>
+		</div>
 	)
 }
