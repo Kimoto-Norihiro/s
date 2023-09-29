@@ -2,6 +2,7 @@ import axios from 'axios';
 import { JournalInfoUpsertValues, JournalInfos } from '@/types/journal_info';
 
 export const createJournalInfo = async (data: JournalInfoUpsertValues) => {
+	console.log('data', data)
 	try {
 		const res = await axios.post('http://localhost:8000/journal_info', data, {
 			withCredentials: true

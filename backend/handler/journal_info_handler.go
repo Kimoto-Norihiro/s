@@ -29,7 +29,7 @@ func (h *JournalInfoHandler) CreateJournalInfo(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, gin.H{"message": "success"})
+	c.JSON(200, gin.H{"message": "success", "model": m})
 }
 
 func (h *JournalInfoHandler) ListJournalInfos(c *gin.Context) {

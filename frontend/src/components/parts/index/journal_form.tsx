@@ -1,47 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, Controller } from 'react-hook-form'
-import axios from 'axios'
+import { useForm } from 'react-hook-form'
 import { InputWithError } from '../../parts/form/InputWithError';
 import { SelectWithError } from '../../parts/form/SelectWithError';
 import { FormButton } from '../../parts/form/FormButton';
 import { JournalUpsertValues } from '@/types/journal'
 import { createJournal } from '@/handlers/journal_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
-import { AddLabel } from '../form/AddLabel'
-import Select from 'react-select'
+import { Tags, tagsToOptions } from '@/types/tag'
+import { listAuthors } from '@/handlers/author_handlers'
+import { listTags } from '@/handlers/tag_handlers'
+import { JournalInfos } from '../../../types/journal_info';
+import { listJournalInfos } from '@/handlers/journal_info_handlers';
+import CheckBox from '../form/CheckBox';
+import { MultiSelectWithError } from '../form/MultiSelectWithError';
 
 const currentYear = new Date().getFullYear()
+
+const numberCondition = yup.number()
+.typeError('数字を入力してください')
+.integer('整数を入力してください')
+.min(0, '0以上の数字を入れてください')
+.nullable()
+.transform((value, originalValue) =>
+  String(originalValue).trim() === '' ? null : value
+)
 
 const JournalUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
 	title: yup.string().required('入力してください'),
+	volume: numberCondition,
+	number: numberCondition,
+	start_page: numberCondition,
+	end_page: numberCondition,
+	year: yup.number().required('選択してください'),
 	journal_info: yup.object().required('選択してください'),
-	is_joint_research: yup.boolean().required('選択してください'),
-	is_manuscript_exist: yup.boolean().required('選択してください'),
-	is_appendix_exist: yup.boolean().required('選択してください'),
-	is_domestic: yup.boolean().required('選択してください'),
 	tags: yup.array().required('選択してください'),
 })
 
 export const JournalForm = () => {
-	const { control, register, handleSubmit, formState: { errors }} = useForm<JournalUpsertValues>({
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<JournalUpsertValues>({
 		resolver: yupResolver(JournalUpsertSchema)
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
-
-	const indexAuthor = async () => {
-    try {
-      const res = await axios.get('http://localhost:8000/authors', {
-        withCredentials: true
-      })
-      console.log('index', res.data)
-      setAuthorList(res.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
+	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
@@ -52,8 +56,16 @@ export const JournalForm = () => {
 		})()
 	}
 
+	const { authors } = watch()
+
 	useEffect(() => {
-		indexAuthor()
+		console.log(authors)
+	}, [authors])
+
+	useEffect(() => {
+		listAuthors(setAuthorList)
+		listJournalInfos(setJournalInfoList)
+		listTags(setTagList)
 	}, [])
 
 	return (
@@ -64,27 +76,15 @@ export const JournalForm = () => {
 					e.preventDefault()
 					submit()
 			}}>
-				<AddLabel label="著者" required>
-					<Controller
-						control={control}
-						name="authors"
-						render={({ field }) => (
-							<Select
-								isMulti
-								options={authorsToOptions(authorList)}
-								onChange={(e) => {
-									const newAuthors = e.map((option) => {
-										return authorList[option.value-1]
-									})
-									field.onChange(newAuthors)
-								}}
-							/>
-						)}
-					/>
-				</AddLabel>
-				{
-					errors['authors'] ? <div className='text-red-800 text-sm'>{`${errors['authors']?.message}`}</div> : <div className='h-5'></div>
-				}
+				<MultiSelectWithError
+					label='著者'
+					name='authors'
+					control={control}
+					errors={errors}
+					required
+					options={authorsToOptions(authorList)}
+					list={authorList}
+				/>
 				<InputWithError
 					label='題目' 
 					name='title'
@@ -92,26 +92,25 @@ export const JournalForm = () => {
 					errors={errors}
 					required
 				/>
-				<SelectWithError 
-					label='雑誌情報'
+				<SelectWithError
+					label='雑誌名'
 					name='journal_info'
 					control={control}
 					errors={errors}
 					required
-					options = {
-						Array.from(Array(12).keys()).map((month) => {
-							return {
-								value: month+1,
-								label: `${month+1}`
-							}
-						})
-					}
+					options={journalInfoList.map((journal_info) => {
+						return {
+							value: journal_info.id,
+							label: `${journal_info.name}`
+						}
+					})}
+					list={journalInfoList}
 				/>
 				<div className='flex justify-between'>
 					<div className='w-[45%]'>
 						<InputWithError 
 							label='巻'
-							name='start_page'
+							name='volume'
 							register={register}
 							errors={errors}
 						/>
@@ -119,7 +118,7 @@ export const JournalForm = () => {
 					<div className='w-[45%]'>
 						<InputWithError 
 							label='号'
-							name='end_page'
+							name='number'
 							register={register}
 							errors={errors}
 						/>
@@ -149,6 +148,7 @@ export const JournalForm = () => {
 						<SelectWithError
 							label='年'
 							name='year'
+							required
 							control={control}
 							errors={errors}
 							options={Array.from(Array(200).keys()).map((year) => {
@@ -194,48 +194,57 @@ export const JournalForm = () => {
 					register={register}
 					errors={errors}
 				/>
-				<SelectWithError 
-					label='ジャーナル評価'
-					name='evaluation'
-					control={control}
-					errors={errors}
-					required
-					options = {
-						Array.from(Array(12).keys()).map((month) => {
-							return {
-								value: month+1,
-								label: `${month+1}`
-							}
-						})
-					}
-				/>
 				<InputWithError
 					label='査読課程'
 					name='peer_review_course'
 					register={register}
 					errors={errors}
 				/>
-				<AddLabel label="分野タグ" required>
-					<Controller
-						control={control}
-						name="authors"
-						render={({ field }) => (
-							<Select
-								isMulti
-								options={authorsToOptions(authorList)}
-								onChange={(e) => {
-									const newAuthors = e.map((option) => {
-										return authorList[option.value-1]
-									})
-									field.onChange(newAuthors)
-								}}
-							/>
-						)}
-					/>
-				</AddLabel>
-				{
-					errors['authors'] ? <div className='text-red-800 text-sm'>{`${errors['authors']?.message}`}</div> : <div className='h-5'></div>
-				}
+				<div className='flex justify-between'>
+					<div className='w-[45%]'>
+						<CheckBox 
+							label='共同研究'
+							name='is_joint_research'
+							register={register}
+							explain='該当する'
+						/>
+					</div>
+					<div className='w-[45%]'>
+						<CheckBox 
+							label='原稿'
+							name='is_manuscript_exist'
+							register={register}
+							explain='存在する'
+						/>
+					</div>
+				</div>
+				<div className='flex justify-between'>
+					<div className='w-[45%]'>
+						<CheckBox 
+							label='付録'
+							name='is_appendix_exist'
+							register={register}
+							explain='存在する'
+						/>
+					</div>
+					<div className='w-[45%]'>
+						<CheckBox 
+							label='国内'
+							name='is_domestic'
+							register={register}
+							explain='該当する'
+						/>
+					</div>
+				</div>
+				<MultiSelectWithError 
+					label='分野タグ'
+					name='tags'
+					control={control}
+					errors={errors}
+					required
+					options={tagsToOptions(tagList)}
+					list={tagList}
+				/>
 				<FormButton />
 			</form>
 		</div>

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Authors, authorsToTableDisplays, AuthorTableDisplay } from '@/types/author'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { IndexAuthor } from '@/handlers/author_handlers'
+import { listAuthors } from '@/handlers/author_handlers'
 import { DisplayTable } from '../table/DisplayTable'
 
 export const AuthorTable = () => {
 	const [authorList, setAuthorList] = useState<Authors>([])
 
 	useEffect(() => {
-		IndexAuthor(setAuthorList)
+		listAuthors(setAuthorList)
 	}, [])
 
 	const authorTableDisplayList = authorsToTableDisplays(authorList)

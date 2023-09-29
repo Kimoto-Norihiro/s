@@ -13,7 +13,7 @@ export async function CreateAuthor(data: AuthorUpsertValues) {
 	}
 }
 
-export async function IndexAuthor(setAuthorList: React.Dispatch<React.SetStateAction<Authors>>) {
+export async function listAuthors(setAuthorList: React.Dispatch<React.SetStateAction<Authors>>) {
 	try {
 		const res = await axios.get('http://localhost:8000/authors', {
 			withCredentials: true

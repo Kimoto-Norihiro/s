@@ -3,23 +3,13 @@ import axios from 'axios'
 import { Tags, TagTableDisplay, tagsToTableDisplays } from '@/types/tag'
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { DisplayTable } from '../table/DisplayTable';
+import { listTags } from '@/handlers/tag_handlers';
 
 export const TagTable = () => {
 	const [tagList, setTagList] = useState<Tags>([])
-	const indexTag = async () => {
-		try {
-			const res = await axios.get('http://localhost:8000/tags', {
-				withCredentials: true
-			})
-			setTagList(res.data)
-			console.log('indexTag',res.data)
-		} catch (err) {
-			console.log(err)
-		}
-	}
 
 	useEffect(() => {
-		indexTag()
+		listTags(setTagList)
 	}, [])
 
 	const tagTableDisplayList = tagsToTableDisplays(tagList)

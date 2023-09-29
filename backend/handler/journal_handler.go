@@ -20,12 +20,12 @@ func (h *JournalHandler) CreateJournal(c *gin.Context) {
 	var m model.Journal
 	err := c.BindJSON(&m)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, gin.H{"bind error": err.Error()})
 		return
 	}
 	err = h.usecase.CreateJournal(m)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, gin.H{"create error": err.Error(), "model": m})
 		return
 	}
 	c.JSON(200, gin.H{"message": "success"})

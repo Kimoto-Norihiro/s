@@ -34,6 +34,7 @@ type Journal struct {
 	JournalInfo       JournalInfo       `json:"journal_info" gorm:"foreignKey:JournalInfoID"`
 	JournalInfoID     int               `json:"journal_info_id"`
 	Year              int               `json:"year" validate:"required"`
+	Evaluation        JournalEvaluation `json:"evaluation" gorm:"foreignKey:JournalInfoID, Year"`
 	Volume            int               `json:"volume"`
 	Number            int               `json:"number"`
 	StartPage         int               `json:"start_page"`
@@ -41,23 +42,21 @@ type Journal struct {
 	Url1              string            `json:"url1"`
 	Url2              string            `json:"url2"`
 	DOI               string            `json:"doi"`
-	IsJointResearch   bool              `json:"is_joint_research" validate:"required"`
-	Evaluation        JournalEvaluation `json:"evaluation" gorm:"foreignKey:JournalInfoID, Year"`
-	EvaluationID      uint              `json:"evaluation_id"`
+	IsJointResearch   bool              `json:"is_joint_research"`
 	PeerReviewCourse  string            `json:"peer_review_course"`
-	IsManuscriptExist bool              `json:"is_manuscript_exist" validate:"required"`
-	IsAppendixExist   bool              `json:"is_appendix_exist" validate:"required"`
-	IsDomestic        bool              `json:"is_domestic" validate:"required"`
+	IsManuscriptExist bool              `json:"is_manuscript_exist"`
+	IsAppendixExist   bool              `json:"is_appendix_exist"`
+	IsDomestic        bool              `json:"is_domestic"`
 	Tags              []Tag             `json:"tags" gorm:"many2many:journal_tags;"`
 }
 
 // 雑誌名
 type JournalInfo struct {
 	ID          int       `json:"id" gorm:"primaryKey"`
-	Name        string    `json:"name" validate:"required"`
-	ISO4Name    string    `json:"iso4_name" validate:"required"`
-	ShortName   string    `json:"short_name" validate:"required"`
-	Publisher   Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
+	Name        string    `json:"name"`
+	ISO4Name    string    `json:"iso4_name"`
+	ShortName   string    `json:"short_name"`
+	Publisher   Publisher `json:"publisher"`
 	PublisherID int       `json:"publisher_id"`
 }
 

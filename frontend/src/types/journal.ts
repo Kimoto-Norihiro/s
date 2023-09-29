@@ -10,6 +10,8 @@ export type Journal = {
   journal_info: JournalInfo
   year: number
   month: number
+	volume: number
+	number: number
   start_page: number
   end_page: number
   url1: string
