@@ -44,14 +44,6 @@ func main() {
 	r.POST("/tag", th.CreateTag)
 	r.GET("/tags", th.ListTags)
 
-	// Journal
-	jr := repository.NewJournalRepository(db)
-	ju := usecase.NewJournalUsecase(jr)
-	jh := handler.NewJournalHandler(ju)
-	r.POST("/journal", jh.CreateJournal)
-	r.GET("/journals", jh.ListJournals)
-	r.PUT("/journal", jh.UpdateJournal)
-
 	// JournalInfo
 	jir := repository.NewJournalInfoRepository(db)
 	jiu := usecase.NewJournalInfoUsecase(jir)
@@ -65,6 +57,14 @@ func main() {
 	jeh := handler.NewJournalEvaluationHandler(jeu)
 	r.POST("/journal_evaluation", jeh.CreateJournalEvaluation)
 	r.GET("/journal_evaluations", jeh.ListJournalEvaluations)
+
+	// Journal
+	jr := repository.NewJournalRepository(db)
+	ju := usecase.NewJournalUsecase(jr, jer)
+	jh := handler.NewJournalHandler(ju)
+	r.POST("/journal", jh.CreateJournal)
+	r.GET("/journals", jh.ListJournals)
+	r.PUT("/journal", jh.UpdateJournal)
 
 	r.Run(":8000")
 }

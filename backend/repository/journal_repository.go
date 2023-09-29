@@ -14,13 +14,6 @@ func NewJournalRepository(db *gorm.DB) *JournalRepository {
 }
 
 func (r *JournalRepository) CreateJournal(m model.Journal) error {
-	jer := NewJournalEvaluationRepository(r.db)
-	_, err := jer.GetJournalEvaluationByJournalIDAndYear(m.JournalInfo.ID, m.Year)
-	if err != nil {
-		err := jer.CreateJournalEvaluation(model.JournalEvaluation{JournalInfoID: m.JournalInfo.ID, Year: m.Year})
-		return err
-	}
-
 	return r.db.Create(&m).Error
 }
 
