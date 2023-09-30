@@ -36,3 +36,24 @@ type IJournalEvaluationRepository interface {
 	ListJournalEvaluations() ([]model.JournalEvaluation, error)
 	GetJournalEvaluationByJournalIDAndYear(journalID int, year int) (model.JournalEvaluation, error)
 }
+
+type IInternationalConferenceInfoRepository interface {
+	CreateInternationalConferenceInfo(m model.InternationalConferenceInfo) error
+	ListInternationalConferenceInfos() ([]model.InternationalConferenceInfo, error)
+	UpdateInternationalConferenceInfo(m model.InternationalConferenceInfo) error
+}
+
+type IInternationalConferenceEvaluationRepository interface {
+	CreateInternationalConferenceEvaluation(m model.InternationalConferenceEvaluation) error
+	ListInternationalConferenceEvaluations() ([]model.InternationalConferenceEvaluation, error)
+	UpdateInternationalConferenceEvaluation(m model.InternationalConferenceEvaluation) error
+	GetInternationalConferenceEvaluationByInternationalConferenceIDAndYear(internationalConferenceID int, year int) (model.InternationalConferenceEvaluation, error)
+}
+
+type IInternationalConferenceRepository interface {
+	CreateInternationalConference(m model.InternationalConference) error
+	ListInternationalConferences() ([]model.InternationalConference, error)
+	UpdateInternationalConference(m model.InternationalConference) error
+	GetInternationalConferenceByID(id int) (model.InternationalConference, error)
+}
+

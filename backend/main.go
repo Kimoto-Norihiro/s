@@ -66,5 +66,31 @@ func main() {
 	r.GET("/journals", jh.ListJournals)
 	r.PUT("/journal", jh.UpdateJournal)
 
+	// InternationalConferenceInfo
+	icir := repository.NewInternationalConferenceInfoRepository(db)
+	iciu := usecase.NewInternationalConferenceInfoUsecase(icir)
+	icih := handler.NewInternationalConferenceInfoHandler(iciu)
+	r.POST("/international_conference_info", icih.CreateInternationalConferenceInfo)
+	r.GET("/international_conference_infos", icih.ListInternationalConferenceInfos)
+	r.PUT("/international_conference_info", icih.UpdateInternationalConferenceInfo)
+
+	// InternationalConferenceEvaluation
+	icer := repository.NewInternationalConferenceEvaluationRepository(db)
+	iceu := usecase.NewInternationalConferenceEvaluationUsecase(icer)
+	iceh := handler.NewInternationalConferenceEvaluationHandler(iceu)
+	r.POST("/international_conference_evaluation", iceh.CreateInternationalConferenceEvaluation)
+	r.GET("/international_conference_evaluations", iceh.ListInternationalConferenceEvaluations)
+	r.PUT("/international_conference_evaluation", iceh.UpdateInternationalConferenceEvaluation)
+	r.GET("/international_conference_evaluation", iceh.GetInternationalConferenceEvaluationByInternationalConferenceIDAndYear)
+
+	// InternationalConference
+	icr := repository.NewInternationalConferenceRepository(db)
+	icu := usecase.NewInternationalConferenceUsecase(icr, icer)
+	ich := handler.NewInternationalConferenceHandler(icu)
+	r.POST("/international_conference", ich.CreateInternationalConference)
+	r.GET("/international_conferences", ich.ListInternationalConferences)
+	r.PUT("/international_conference", ich.UpdateInternationalConference)
+	r.GET("/international_conference", ich.GetInternationalConferenceByID)
+
 	r.Run(":8000")
 }

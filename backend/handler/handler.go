@@ -35,3 +35,24 @@ type IJournalEvaluationHandler interface {
 	ListJournalEvaluations(c *gin.Context)
 	GetJournalEvaluationByJournalIDAndYear(c *gin.Context)
 }
+
+type IInternationalConferenceInfoHandler interface {
+	CreateInternationalConferenceInfo(c *gin.Context)
+	ListInternationalConferenceInfos(c *gin.Context)
+	UpdateInternationalConferenceInfo(c *gin.Context)
+}
+
+type IInternationalConferenceEvaluationHandler interface {
+	CreateInternationalConferenceEvaluation(c *gin.Context)
+	ListInternationalConferenceEvaluations(c *gin.Context)
+	GetInternationalConferenceEvaluationByInternationalConferenceIDAndYear(c *gin.Context)
+	UpdateInternationalConferenceEvaluation(c *gin.Context)
+}
+
+type IInternationalConferenceHandler interface {
+	CreateInternationalConference(c *gin.Context)
+	ListInternationalConferences(c *gin.Context)
+	UpdateInternationalConference(c *gin.Context)
+	GetInternationalConferenceByID(c *gin.Context)
+}
+

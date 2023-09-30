@@ -72,46 +72,46 @@ type JournalEvaluation struct {
 }
 
 // 国際会議
-type InterNationalConference struct {
-	ID                int                         `json:"id" gorm:"primaryKey"`
-	Authors           []Author                    `json:"authors" gorm:"many2many:jp_conference_authors;" validate:"required"`
-	Title             string                      `json:"title" validate:"required"`
-	ConferenceInfo    InterNationalConferenceInfo `json:"conference_info" gorm:"foreignKey:ConferenceInfoID"`
-	StartPage         int                         `json:"start_page"`
-	EndPage           int                         `json:"end_page"`
-	Year              int                         `json:"year" validate:"required"`
-	Month             int                         `json:"month" validate:"required"`
-	Url1              string                      `json:"url1"`
-	Url2              string                      `json:"url2"`
-	DOI               string                      `json:"doi"`
-	IsJointResearch   bool                        `json:"is_joint_research" validate:"required"`
-	Country           Country                     `json:"country" gorm:"foreignKey:CountryID"`
-	CountryID         uint                        `json:"country_id"`
-	City              string                      `json:"city"`
-	Venue             string                      `json:"venue"`
-	Evaluation        ConferenceEvaluation        `json:"evaluation" gorm:"foreignKey:EvaluationID"`
-	EvaluationID      uint                        `json:"evaluation_id"`
-	PeerReviewCourse  string                      `json:"peer_review_course"`
-	IsManuscriptExist bool                        `json:"is_manuscript_exist" validate:"required"`
-	IsSlidePDFExist   bool                        `json:"is_slide_pdf_exist" validate:"required"`
-	ISSlidePPTExist   bool                        `json:"is_slide_ppt_exist" validate:"required"`
-	IsPosterExist     bool                        `json:"is_poster_exist" validate:"required"`
-	IsVideoExist      bool                        `json:"is_video_exist" validate:"required"`
-	Tags              []Tag                       `json:"tags" gorm:"many2many:jp_conference_tags;"`
+type InternationalConference struct {
+	ID                            int                               `json:"id" gorm:"primaryKey"`
+	Authors                       []Author                          `json:"authors" gorm:"many2many:jp_conference_authors;" validate:"required"`
+	Title                         string                            `json:"title" validate:"required"`
+	ConferenceInfo                InternationalConferenceInfo       `json:"conference_info" gorm:"foreignKey:InternationalConferenceInfoID"`
+	InternationalConferenceInfoID int                               `json:"international_conference_info_id"`
+	StartPage                     int                               `json:"start_page"`
+	EndPage                       int                               `json:"end_page"`
+	Year                          int                               `json:"year" validate:"required"`
+	Month                         int                               `json:"month" validate:"required"`
+	Url1                          string                            `json:"url1"`
+	Url2                          string                            `json:"url2"`
+	DOI                           string                            `json:"doi"`
+	IsJointResearch               bool                              `json:"is_joint_research" validate:"required"`
+	Country                       Country                           `json:"country" gorm:"foreignKey:CountryID"`
+	CountryID                     int                               `json:"country_id"`
+	City                          string                            `json:"city"`
+	Venue                         string                            `json:"venue"`
+	Evaluation                    InternationalConferenceEvaluation `json:"evaluation" gorm:"foreignKey:InternationalConferenceInfoID, Year"`
+	PeerReviewCourse              string                            `json:"peer_review_course"`
+	IsManuscriptExist             bool                              `json:"is_manuscript_exist" validate:"required"`
+	IsSlidePDFExist               bool                              `json:"is_slide_pdf_exist" validate:"required"`
+	ISSlidePPTExist               bool                              `json:"is_slide_ppt_exist" validate:"required"`
+	IsPosterExist                 bool                              `json:"is_poster_exist" validate:"required"`
+	IsVideoExist                  bool                              `json:"is_video_exist" validate:"required"`
+	Tags                          []Tag                             `json:"tags" gorm:"many2many:jp_conference_tags;"`
 }
 
 // 国際会議名
-type InterNationalConferenceInfo struct {
+type InternationalConferenceInfo struct {
 	ID          int       `json:"id" gorm:"primaryKey" validate:"required"`
 	Name        string    `json:"name" validate:"required"`
 	ShortName   string    `json:"short_name" validate:"required"`
 	ISO4Name    string    `json:"iso4_name" validate:"required"`
 	Publisher   Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
-	PublisherID uint      `json:"publisher_id"`
+	PublisherID int       `json:"publisher_id"`
 }
 
 // 国際会議評価
-type ConferenceEvaluation struct {
+type InternationalConferenceEvaluation struct {
 	ConferenceNameID        int     `json:"conference_name_id" gorm:"primaryKey"`
 	Year                    int     `json:"year" gorm:"primaryKey"`
 	CORERank                float64 `json:"core_rank"`
