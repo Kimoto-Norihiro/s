@@ -21,7 +21,7 @@ export const CountryForm = () => {
 	const submit = async () => {
 		handleSubmit(async (data) => {
 			await createCountry(data)
-			console.log("create Paper")
+			console.log("create Country")
 		}, (error) => {
 			console.log(error)
 			console.log('error')

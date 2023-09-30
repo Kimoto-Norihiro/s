@@ -8,9 +8,11 @@ export type Countries = Country[]
 export type CountryTableDisplay = Omit<Country, 'id'>
 export type CountryTableDisplays = CountryTableDisplay[]
 
+// type for form
 export type CountryUpsertValues = Omit<Country, 'id'>
 
-export function tagsToTableDisplays(countries: Countries): CountryTableDisplays {
+// type for table display
+export function countriesToTableDisplays(countries: Countries): CountryTableDisplays {
   return countries.map((tag) => {
     return {
       name: tag.name,
@@ -18,7 +20,7 @@ export function tagsToTableDisplays(countries: Countries): CountryTableDisplays 
   })
 }
 
-export const tagsToOptions = (list: Countries) => {
+export const countriesToOptions = (list: Countries) => {
 	return list.map((country) => {
 		return {
 			value: country.id,

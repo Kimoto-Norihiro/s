@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CountryUpsertValues } from '@/types/country';
+import { Countries, CountryUpsertValues } from '@/types/country';
 
 export async function createCountry(data: CountryUpsertValues) {
 	try {
@@ -12,7 +12,7 @@ export async function createCountry(data: CountryUpsertValues) {
 	}
 }
 
-export async function listCountries(setCountryList: React.Dispatch<React.SetStateAction<CountryUpsertValues[]>>) {
+export async function listCountries(setCountryList: React.Dispatch<React.SetStateAction<Countries>>) {
 	try {
 		const res = await axios.get('http://localhost:8000/countries', {
 			withCredentials: true
