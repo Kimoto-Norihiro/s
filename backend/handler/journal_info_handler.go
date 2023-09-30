@@ -3,8 +3,8 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
-	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/usecase"
 )
 
 type JournalInfoHandler struct {
@@ -40,4 +40,3 @@ func (h *JournalInfoHandler) ListJournalInfos(c *gin.Context) {
 	}
 	c.JSON(200, journalInfos)
 }
-

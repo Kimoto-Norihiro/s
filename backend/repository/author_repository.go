@@ -3,7 +3,7 @@ package repository
 import (
 	"gorm.io/gorm"
 
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
 )
 
 type AuthorRepository struct {
@@ -23,4 +23,3 @@ func (r *AuthorRepository) IndexAuthor() ([]model.Author, error) {
 func (r *AuthorRepository) CreateAuthor(m model.Author) error {
 	return r.db.Create(&m).Error
 }
-

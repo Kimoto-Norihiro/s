@@ -1,22 +1,22 @@
 package usecase
 
 import (
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
-	"github.com/Kimoto-Norihiro/nkt-scholar/repository"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/repository"
 	"github.com/go-playground/validator/v10"
 )
 
 type JournalUsecase struct {
-	repository repository.IJournalRepository
+	repository           repository.IJournalRepository
 	evaluationRepository repository.IJournalEvaluationRepository
-	validate *validator.Validate
+	validate             *validator.Validate
 }
 
 func NewJournalUsecase(r repository.IJournalRepository, er repository.IJournalEvaluationRepository) *JournalUsecase {
 	return &JournalUsecase{
-		repository: r,
+		repository:           r,
 		evaluationRepository: er,
-		validate: validator.New(),
+		validate:             validator.New(),
 	}
 }
 
@@ -29,7 +29,7 @@ func (u *JournalUsecase) CreateJournal(m model.Journal) error {
 	if err != nil {
 		err := u.evaluationRepository.CreateJournalEvaluation(model.JournalEvaluation{
 			JournalInfoID: m.JournalInfo.ID,
-			Year: m.Year,
+			Year:          m.Year,
 		})
 		if err != nil {
 			return err

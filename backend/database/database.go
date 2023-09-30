@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

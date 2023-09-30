@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
 )
 
 type IAuthorRepository interface {
@@ -57,3 +57,16 @@ type IInternationalConferenceRepository interface {
 	GetInternationalConferenceByID(id int) (model.InternationalConference, error)
 }
 
+type IDomesticConferenceInfoRepository interface {
+	CreateDomesticConferenceInfo(m model.DomesticConferenceInfo) error
+	ListDomesticConferenceInfos() ([]model.DomesticConferenceInfo, error)
+	UpdateDomesticConferenceInfo(m model.DomesticConferenceInfo) error
+	GetDomesticConferenceInfoByID(id int) (model.DomesticConferenceInfo, error)
+}
+
+type IDomesticConferenceRepository interface {
+	CreateDomesticConference(m model.DomesticConference) error
+	ListDomesticConferences() ([]model.DomesticConference, error)
+	UpdateDomesticConference(m model.DomesticConference) error
+	GetDomesticConferenceByID(id int) (model.DomesticConference, error)
+}

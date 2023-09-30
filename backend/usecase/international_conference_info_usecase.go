@@ -1,20 +1,20 @@
 package usecase
 
 import (
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
-	"github.com/Kimoto-Norihiro/nkt-scholar/repository"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/repository"
 	"github.com/go-playground/validator/v10"
 )
 
 type InternationalConferenceInfoUsecase struct {
 	repository repository.IInternationalConferenceInfoRepository
-	validate *validator.Validate
+	validate   *validator.Validate
 }
 
 func NewInternationalConferenceInfoUsecase(r repository.IInternationalConferenceInfoRepository) *InternationalConferenceInfoUsecase {
 	return &InternationalConferenceInfoUsecase{
 		repository: r,
-		validate: validator.New(),
+		validate:   validator.New(),
 	}
 }
 

@@ -1,20 +1,20 @@
 package usecase
 
 import (
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
-	"github.com/Kimoto-Norihiro/nkt-scholar/repository"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/repository"
 	"github.com/go-playground/validator/v10"
 )
 
 type JournalEvaluationUsecase struct {
 	repository repository.IJournalEvaluationRepository
-	validate *validator.Validate
+	validate   *validator.Validate
 }
 
 func NewJournalEvaluationUsecase(r repository.IJournalEvaluationRepository) *JournalEvaluationUsecase {
 	return &JournalEvaluationUsecase{
 		repository: r,
-		validate: validator.New(),
+		validate:   validator.New(),
 	}
 }
 

@@ -3,12 +3,12 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/Kimoto-Norihiro/nkt-scholar/database"
-	"github.com/Kimoto-Norihiro/nkt-scholar/handler"
-	"github.com/Kimoto-Norihiro/nkt-scholar/middleware"
-	"github.com/Kimoto-Norihiro/nkt-scholar/repository"
-	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
-	"github.com/Kimoto-Norihiro/nkt-scholar/utils"
+	"github.com/Kimoto-Norihiro/scholar-manager/database"
+	"github.com/Kimoto-Norihiro/scholar-manager/handler"
+	"github.com/Kimoto-Norihiro/scholar-manager/middleware"
+	"github.com/Kimoto-Norihiro/scholar-manager/repository"
+	"github.com/Kimoto-Norihiro/scholar-manager/usecase"
+	"github.com/Kimoto-Norihiro/scholar-manager/utils"
 )
 
 func main() {
@@ -91,6 +91,24 @@ func main() {
 	r.GET("/international_conferences", ich.ListInternationalConferences)
 	r.PUT("/international_conference", ich.UpdateInternationalConference)
 	r.GET("/international_conference", ich.GetInternationalConferenceByID)
+
+	// DomesticConferenceInfo
+	dcir := repository.NewDomesticConferenceInfoRepository(db)
+	dciu := usecase.NewDomesticConferenceInfoUsecase(dcir)
+	dcih := handler.NewDomesticConferenceInfoHandler(dciu)
+	r.POST("/domestic_conference_info", dcih.CreateDomesticConferenceInfo)
+	r.GET("/domestic_conference_infos", dcih.ListDomesticConferenceInfos)
+	r.PUT("/domestic_conference_info", dcih.UpdateDomesticConferenceInfo)
+	r.GET("/domestic_conference_info", dcih.GetDomesticConferenceInfoByID)
+
+	// DomesticConference
+	dcr := repository.NewDomesticConferenceRepository(db)
+	dcu := usecase.NewDomesticConferenceUsecase(dcr)
+	dch := handler.NewDomesticConferenceHandler(dcu)
+	r.POST("/domestic_conference", dch.CreateDomesticConference)
+	r.GET("/domestic_conferences", dch.ListDomesticConferences)
+	r.PUT("/domestic_conference", dch.UpdateDomesticConference)
+	r.GET("/domestic_conference", dch.GetDomesticConferenceByID)
 
 	r.Run(":8000")
 }

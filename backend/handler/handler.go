@@ -56,3 +56,10 @@ type IInternationalConferenceHandler interface {
 	GetInternationalConferenceByID(c *gin.Context)
 }
 
+type IDomesticConferenceInfoHandler interface {
+	CreateDomesticConferenceInfo(c *gin.Context)
+	ListDomesticConferenceInfos(c *gin.Context)
+	UpdateDomesticConferenceInfo(c *gin.Context)
+	GetDomesticConferenceByID(c *gin.Context)
+}
+

@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
-	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/usecase"
 	"github.com/gin-gonic/gin"
 )
 

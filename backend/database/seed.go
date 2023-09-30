@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
 	"gorm.io/gorm"
 )
 

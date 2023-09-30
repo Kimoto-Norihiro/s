@@ -3,8 +3,8 @@ package usecase
 import (
 	"github.com/go-playground/validator/v10"
 
-	"github.com/Kimoto-Norihiro/nkt-scholar/model"
-	"github.com/Kimoto-Norihiro/nkt-scholar/repository"
+	"github.com/Kimoto-Norihiro/scholar-manager/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/repository"
 )
 
 type AuthorUsecase struct {
