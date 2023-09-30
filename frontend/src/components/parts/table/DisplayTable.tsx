@@ -12,7 +12,7 @@ export const DisplayTable = <T extends any>({ table }: Props<T>) => {
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id} className='border border-slate-300 px-4'>
+              <th key={header.id} className='border border-slate-300 px-2 text-xs'>
                 {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
               </th>
             ))}
@@ -24,7 +24,7 @@ export const DisplayTable = <T extends any>({ table }: Props<T>) => {
         {table.getRowModel().rows.map((row) => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id} className='border border-slate-300 px-4'>
+              <td key={cell.id} className='border border-slate-300 px-2 text-xs'>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}

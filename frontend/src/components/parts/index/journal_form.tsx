@@ -56,11 +56,15 @@ export const JournalForm = () => {
 		})()
 	}
 
-	const { authors } = watch()
+	const { authors, tags } = watch()
 
 	useEffect(() => {
 		console.log(authors)
 	}, [authors])
+
+	useEffect(() => {
+		console.log(tags)
+	}, [tags])
 
 	useEffect(() => {
 		listAuthors(setAuthorList)

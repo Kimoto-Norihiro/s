@@ -49,3 +49,7 @@ func (u *JournalUsecase) UpdateJournal(m model.Journal) error {
 	}
 	return u.repository.UpdateJournal(m)
 }
+
+func (u *JournalUsecase) GetJournalByID(id int) (model.Journal, error) {
+	return u.repository.GetJournalByID(id)
+}

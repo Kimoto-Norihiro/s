@@ -18,6 +18,7 @@ type IJournalUsecase interface {
 	CreateJournal(m model.Journal) error
 	ListJournals() ([]model.Journal, error)
 	UpdateJournal(m model.Journal) error
+	GetJournalByID(id int) (model.Journal, error)
 }
 
 type ITagUsecase interface {

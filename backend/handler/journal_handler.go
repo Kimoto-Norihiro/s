@@ -1,6 +1,9 @@
 package handler
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/Kimoto-Norihiro/nkt-scholar/model"
 	"github.com/Kimoto-Norihiro/nkt-scholar/usecase"
 	"github.com/gin-gonic/gin"
@@ -19,6 +22,7 @@ func NewJournalHandler(u *usecase.JournalUsecase) *JournalHandler {
 func (h *JournalHandler) CreateJournal(c *gin.Context) {
 	var m model.Journal
 	err := c.BindJSON(&m)
+	fmt.Println(m)
 	if err != nil {
 		c.JSON(400, gin.H{"bind error": err.Error()})
 		return
@@ -28,7 +32,7 @@ func (h *JournalHandler) CreateJournal(c *gin.Context) {
 		c.JSON(400, gin.H{"create error": err.Error(), "model": m})
 		return
 	}
-	c.JSON(200, gin.H{"message": "success"})
+	c.JSON(200, gin.H{"message": "success", "model": m})
 }
 
 func (h *JournalHandler) ListJournals(c *gin.Context) {
@@ -53,4 +57,14 @@ func (h *JournalHandler) UpdateJournal(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{"message": "success"})
+}
+
+func (h *JournalHandler) GetJournalByID(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	journal, err := h.usecase.GetJournalByID(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, journal)
 }
