@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"log"
+
 	"github.com/Kimoto-Norihiro/nkt-scholar/model"
 	"gorm.io/gorm"
 )
@@ -14,15 +16,23 @@ func NewJournalRepository(db *gorm.DB) *JournalRepository {
 }
 
 func (r *JournalRepository) CreateJournal(m model.Journal) error {
+	log.Print(m)
 	return r.db.Create(&m).Error
 }
 
 func (r *JournalRepository) ListJournals() ([]model.Journal, error) {
 	var journals []model.Journal
-	err := r.db.Preload("JournalInfo").Preload("JournalEvaluation").Find(&journals).Error
+	err := r.db.Preload("Authors").Preload("JournalInfo").Preload("Evaluation").Preload("Tags").Find(&journals).Error
+	log.Print(journals)
 	return journals, err
 }
 
 func (r *JournalRepository) UpdateJournal(m model.Journal) error {
 	return r.db.Save(&m).Error
+}
+
+func (r *JournalRepository) GetJournalByID(id int) (model.Journal, error) {
+	var journal model.Journal
+	err := r.db.Preload("Authors").Preload("JournalInfo").Preload("Evaluation").Preload("Tags").Where("id = ?", id).First(&journal).Error
+	return journal, err
 }
