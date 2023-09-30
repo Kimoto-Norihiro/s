@@ -7,7 +7,7 @@ type Props<T extends any> = {
 
 export const DisplayTable = <T extends any>({ table }: Props<T>) => {
 	return (
-		<table className='border-collapse border border-slate-400'>
+		<table className='border-collapse border border-slate-300'>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
@@ -16,6 +16,7 @@ export const DisplayTable = <T extends any>({ table }: Props<T>) => {
                 {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
               </th>
             ))}
+            
           </tr>
         ))}
       </thead>
@@ -27,6 +28,13 @@ export const DisplayTable = <T extends any>({ table }: Props<T>) => {
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
+            <td className='border border-slate-300 px-4'>
+              <button
+                className='bg-black text-white px-2 rounded hover:bg-white hover:text-black hover: border border-black'
+              >
+                編集
+              </button>
+            </td>
           </tr>
         ))}
       </tbody>
