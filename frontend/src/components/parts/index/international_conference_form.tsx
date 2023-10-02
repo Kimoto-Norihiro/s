@@ -5,18 +5,18 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '../form/InputWithError';
 import { SelectWithError } from '../form/SelectWithError';
 import { FormButton } from '../form/FormButton';
-import { createDomesticConference } from '@/handlers/domestic_conference_handlers'
+import { createInternationalConference } from '@/handlers/international_conference_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
 import { listTags } from '@/handlers/tag_handlers'
-import { DomesticConferenceInfos } from '../../../types/domestic_conference_info';
-import { listDomesticConferenceInfos } from '@/handlers/domestic_conference_info_handlers';
+import { InternationalConferenceInfos } from '../../../types/international_conference_info';
+import { listInternationalConferenceInfos } from '@/handlers/international_conference_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { Countries } from '@/types/country';
 import { listCountries } from '@/handlers/country_handlers';
-import { DomesticConferenceUpsertValues } from '@/types/domestic_conference';
+import { InternationalConferenceUpsertValues } from '@/types/international_conference';
 
 const currentYear = new Date().getFullYear()
 
@@ -29,7 +29,7 @@ const numberCondition = yup.number()
   String(originalValue).trim() === '' ? null : value
 )
 
-const DomesticConferenceUpsertSchema = yup.object().shape({
+const InternationalConferenceUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
 	title: yup.string().required('入力してください'),
 	volume: numberCondition,
@@ -37,22 +37,22 @@ const DomesticConferenceUpsertSchema = yup.object().shape({
 	start_page: numberCondition,
 	end_page: numberCondition,
 	year: yup.number().required('選択してください'),
-	domestic_conference_info: yup.object().required('選択してください'),
+	international_conference_info: yup.object().required('選択してください'),
 	tags: yup.array().required('選択してください'),
 })
 
-export const DomesticConferenceForm = () => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<DomesticConferenceUpsertValues>({
-		resolver: yupResolver(DomesticConferenceUpsertSchema)
+export const InternationalConferenceForm = () => {
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<InternationalConferenceUpsertValues>({
+		resolver: yupResolver(InternationalConferenceUpsertSchema)
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
-	const [domestic_conferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])
+	const [international_conferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
 	const [countryList, setCountryList] = useState<Countries>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createDomesticConference(data)
+			await createInternationalConference(data)
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -61,7 +61,7 @@ export const DomesticConferenceForm = () => {
 
 	useEffect(() => {
 		listAuthors(setAuthorList)
-		listDomesticConferenceInfos(setDomesticConferenceInfoList)
+		listInternationalConferenceInfos(setInternationalConferenceInfoList)
 		listCountries(setCountryList)
 		listTags(setTagList)
 	}, [])
@@ -92,17 +92,17 @@ export const DomesticConferenceForm = () => {
 				/>
 				<SelectWithError
 					label='会議名'
-					name='domestic_conference_info'
+					name='international_conference_info'
 					control={control}
 					errors={errors}
 					required
-					options={domestic_conferenceInfoList.map((domestic_conference_info) => {
+					options={international_conferenceInfoList.map((international_conference_info) => {
 						return {
-							value: domestic_conference_info.id,
-							label: `${domestic_conference_info.name}`
+							value: international_conference_info.id,
+							label: `${international_conference_info.name}`
 						}
 					})}
-					list={domestic_conferenceInfoList}
+					list={international_conferenceInfoList}
 				/>
 				<div className='flex justify-between'>
 					<div className='w-[45%]'>
@@ -175,6 +175,12 @@ export const DomesticConferenceForm = () => {
 					errors={errors}
 				/>
 				<InputWithError
+					label='査読課程'
+					name='peer_review_course'
+					register={register}
+					errors={errors}
+				/>
+				<InputWithError
 					label='会場'
 					name='venue'
 					register={register}
@@ -185,6 +191,20 @@ export const DomesticConferenceForm = () => {
 					name='city'
 					register={register}
 					errors={errors}
+				/>
+				<SelectWithError
+					label='国'
+					name='country'
+					control={control}
+					errors={errors}
+					required
+					options={countryList.map((country) => {
+						return {
+							value: country.id,
+							label: `${country.name}`
+						}
+					})}
+					list={international_conferenceInfoList}
 				/>
 				<div className='flex justify-between'>
 					<div className='w-[45%]'>

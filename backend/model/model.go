@@ -161,6 +161,7 @@ type DomesticConferenceInfo struct {
 // 表彰
 type Award struct {
 	ID                 int          `json:"id" gorm:"primaryKey"`
+	Authors            []Author     `json:"authors" gorm:"many2many:award_authors;" validate:"required"`
 	Name               string       `json:"name" validate:"required"`
 	Organization       Organization `json:"organization" validate:"required"`
 	Year               int          `json:"year" validate:"required"`

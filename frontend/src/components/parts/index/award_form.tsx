@@ -5,18 +5,16 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '../form/InputWithError';
 import { SelectWithError } from '../form/SelectWithError';
 import { FormButton } from '../form/FormButton';
-import { createDomesticConference } from '@/handlers/domestic_conference_handlers'
+import { createAward } from '@/handlers/award_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
 import { listTags } from '@/handlers/tag_handlers'
-import { DomesticConferenceInfos } from '../../../types/domestic_conference_info';
-import { listDomesticConferenceInfos } from '@/handlers/domestic_conference_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
-import { Countries } from '@/types/country';
-import { listCountries } from '@/handlers/country_handlers';
-import { DomesticConferenceUpsertValues } from '@/types/domestic_conference';
+import { AwardUpsertValues } from '@/types/award';
+import { Organizations, organizationsToOptions } from '../../../types/organization';
+import { listOrganizations } from '@/handlers/organization_handlers';
 
 const currentYear = new Date().getFullYear()
 
@@ -29,7 +27,7 @@ const numberCondition = yup.number()
   String(originalValue).trim() === '' ? null : value
 )
 
-const DomesticConferenceUpsertSchema = yup.object().shape({
+const AwardUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
 	title: yup.string().required('入力してください'),
 	volume: numberCondition,
@@ -37,22 +35,21 @@ const DomesticConferenceUpsertSchema = yup.object().shape({
 	start_page: numberCondition,
 	end_page: numberCondition,
 	year: yup.number().required('選択してください'),
-	domestic_conference_info: yup.object().required('選択してください'),
+	award_info: yup.object().required('選択してください'),
 	tags: yup.array().required('選択してください'),
 })
 
-export const DomesticConferenceForm = () => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<DomesticConferenceUpsertValues>({
-		resolver: yupResolver(DomesticConferenceUpsertSchema)
+export const AwardForm = () => {
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<AwardUpsertValues>({
+		resolver: yupResolver(AwardUpsertSchema)
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
-	const [domestic_conferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])
-	const [countryList, setCountryList] = useState<Countries>([])
+	const [organizationList, setOrganizationList] = useState<Organizations>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createDomesticConference(data)
+			await createAward(data)
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -61,8 +58,7 @@ export const DomesticConferenceForm = () => {
 
 	useEffect(() => {
 		listAuthors(setAuthorList)
-		listDomesticConferenceInfos(setDomesticConferenceInfoList)
-		listCountries(setCountryList)
+		listOrganizations(setOrganizationList)
 		listTags(setTagList)
 	}, [])
 
@@ -84,45 +80,20 @@ export const DomesticConferenceForm = () => {
 					list={authorList}
 				/>
 				<InputWithError
-					label='題目' 
-					name='title'
+					label='賞名' 
+					name='name'
 					register={register}
 					errors={errors}
 					required
 				/>
 				<SelectWithError
-					label='会議名'
-					name='domestic_conference_info'
+					label='表彰団体'
+					name='organization'
+					required
 					control={control}
 					errors={errors}
-					required
-					options={domestic_conferenceInfoList.map((domestic_conference_info) => {
-						return {
-							value: domestic_conference_info.id,
-							label: `${domestic_conference_info.name}`
-						}
-					})}
-					list={domestic_conferenceInfoList}
+					options={organizationsToOptions(organizationList)}
 				/>
-				<div className='flex justify-between'>
-					<div className='w-[45%]'>
-						<InputWithError 
-							label='開始ページ'
-							name='start_page'
-							register={register}
-							errors={errors}
-						/>
-					</div>
-					<p>~</p>
-					<div className='w-[45%]'>
-						<InputWithError 
-							label='終了ページ'
-							name='end_page'
-							register={register}
-							errors={errors}
-						/>
-					</div>
-				</div>
 				<div className='flex justify-between'>
 					<div className='w-[45%]'>
 						<SelectWithError
@@ -168,24 +139,6 @@ export const DomesticConferenceForm = () => {
 					register={register}
 					errors={errors}
 				/>
-				<InputWithError
-					label='DOI'
-					name='doi'
-					register={register}
-					errors={errors}
-				/>
-				<InputWithError
-					label='会場'
-					name='venue'
-					register={register}
-					errors={errors}
-				/>
-				<InputWithError
-					label='都市'
-					name='city'
-					register={register}
-					errors={errors}
-				/>
 				<div className='flex justify-between'>
 					<div className='w-[45%]'>
 						<CheckBox 
@@ -197,44 +150,8 @@ export const DomesticConferenceForm = () => {
 					</div>
 					<div className='w-[45%]'>
 						<CheckBox 
-							label='原稿'
-							name='is_manuscript_exist'
-							register={register}
-							explain='存在する'
-						/>
-					</div>
-				</div>
-				<div className='flex justify-between'>
-					<div className='w-[45%]'>
-						<CheckBox 
-							label='スライドPDF'
-							name='is_slide_pdf_exist'
-							register={register}
-							explain='存在する'
-						/>
-					</div>
-					<div className='w-[45%]'>
-						<CheckBox 
-							label='スライドPPT'
-							name='is_slide_pdf_exist'
-							register={register}
-							explain='存在する'
-						/>
-					</div>
-				</div>
-				<div className='flex justify-between'>
-					<div className='w-[45%]'>
-						<CheckBox 
-							label='ポスター'
-							name='is_poster_exist'
-							register={register}
-							explain='存在する'
-						/>
-					</div>
-					<div className='w-[45%]'>
-						<CheckBox 
-							label='ビデオ'
-							name='is_video_exist'
+							label='賞状'
+							name='is_certificate_exist'
 							register={register}
 							explain='存在する'
 						/>
