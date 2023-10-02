@@ -26,6 +26,7 @@ export type AwardUpsertValues = Omit<Award, 'id'>
 export type AwardTableDisplay = {
 	id: string
   authors_name: string
+	authors_name_short: string
   name: string
 	organization_name: string
   year: number

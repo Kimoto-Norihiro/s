@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { JournalInfoTableDisplay, JournalInfos, journalInfosToTableDisplays } from '@/types/journal_info'
-import { DisplayTable } from '../table/DisplayTable'
 import { listJournalInfos } from '@/handlers/journal_info_handlers'
+import { MyTable, Table, ColumnDef } from '../table/MyTable';
+
 
 export const JournalInfoTable = () => {
 	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
@@ -30,11 +30,10 @@ export const JournalInfoTable = () => {
 			header: '出版社名',
 		},
 	]
-	const table = useReactTable<JournalInfoTableDisplay>({
-    data: journalInfoTableDisplayList,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+	const table = ({
+		data: journalInfoTableDisplayList,
+		columns,
+	}) as Table<JournalInfoTableDisplay>
 
-	return <DisplayTable table={table}/>
+	return <MyTable table={table}/>
 }

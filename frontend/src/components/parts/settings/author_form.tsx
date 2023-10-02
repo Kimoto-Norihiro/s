@@ -34,7 +34,7 @@ export const AuthorForm = () => {
 	return (
 		<div className='w-full flex flex-col items-center'>
 			<form 
-				className='w-[60%] flex flex-col' 
+				className='w-full flex flex-col' 
 				onSubmit={(e) => {
 					e.preventDefault()
 					submit()

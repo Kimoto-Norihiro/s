@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { DisplayTable } from '../table/DisplayTable'
 import { DomesticConferenceTableDisplay, DomesticConferences, DomesticConferencesToTableDisplays } from '@/types/domestic_conference'
 import { listDomesticConferences } from '@/handlers/domestic_conference_handlers'
+import { MyTable, Table, ColumnDef } from '../table/MyTable';
+
 
 export const DomesticConferenceTable = () => {
 	const [domesticConferenceList, setDomesticConferenceList] = useState<DomesticConferences>([])
@@ -19,7 +19,7 @@ export const DomesticConferenceTable = () => {
 		{ accessorKey: 'authors_name_short', header: '著者_略記'},
 		{ accessorKey: 'title', header: '題目'},
 		{ accessorKey: 'domestic_conference_info_name', header: '会議名'},
-		{ accessorKey: 'domestic_conference_info_name_iso4', header: '会議名_ISO4'},
+		{ accessorKey: 'domestic_conference_info_name_other', header: '会議名_別名'},
 		{ accessorKey: 'domestic_conference_info_name_short', header: '会議名_略記'},
 		{ accessorKey: 'page', header: 'ページ'},
 		{ accessorKey: 'year', header: '年'},
@@ -37,11 +37,11 @@ export const DomesticConferenceTable = () => {
 		{ accessorKey: 'is_video_exist', header: 'ビデオ'},
 		{ accessorKey: 'tag_names', header: '分野タグ'},
 	]
-	const table = useReactTable<DomesticConferenceTableDisplay>({
-    data: domesticConferenceTableDisplayList,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
 
-	return <DisplayTable table={table}/>
+	const table = ({
+		data: domesticConferenceTableDisplayList,
+		columns,
+	}) as Table<DomesticConferenceTableDisplay>
+
+	return <MyTable table={table}/>
 }

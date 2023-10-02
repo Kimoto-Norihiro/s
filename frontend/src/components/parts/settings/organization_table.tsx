@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { DisplayTable } from '../table/DisplayTable'
 import { Organizations, OrganizationTableDisplay } from '@/types/organization'
 import { listOrganizations } from '@/handlers/organization_handlers'
 import { organizationsToTableDisplays } from '@/types/organization'
+import { MyTable, Table, ColumnDef } from '../table/MyTable';
+
 
 export const OrganizationTable = () => {
 	const [organizationList, setOrganizationList] = useState<Organizations>([])
@@ -20,11 +20,10 @@ export const OrganizationTable = () => {
 			header: '国名',
 		},
 	]
-	const table = useReactTable<OrganizationTableDisplay>({
+	const table = ({
     data: organizationTableDisplayList,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+    columns
+  }) as Table<OrganizationTableDisplay>
 
-	return <DisplayTable table={table}/>
+	return <MyTable table={table}/>
 }

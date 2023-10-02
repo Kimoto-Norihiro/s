@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { DisplayTable } from '../table/DisplayTable'
 import { JournalTableDisplay, Journals, JournalsToTableDisplays } from '@/types/journal'
 import { listJournals } from '@/handlers/journal_handlers'
+import { MyTable, Table, ColumnDef } from '../table/MyTable';
 
 export const JournalTable = () => {
 	const [journalList, setJournalList] = useState<Journals>([])
@@ -36,11 +35,10 @@ export const JournalTable = () => {
 		{ accessorKey: 'is_appendix_exist', header: '付録'},
 		{ accessorKey: 'tag_names', header: '分野タグ'},
 	]
-	const table = useReactTable<JournalTableDisplay>({
-    data: journalTableDisplayList,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+	const table = ({
+		data: journalTableDisplayList,
+		columns,
+	}) as Table<JournalTableDisplay>
 
-	return <DisplayTable table={table}/>
+	return <MyTable table={table}/>
 }

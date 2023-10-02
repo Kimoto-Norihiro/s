@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Authors, authorsToTableDisplays, AuthorTableDisplay } from '@/types/author'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { listAuthors } from '@/handlers/author_handlers'
-import { DisplayTable } from '../table/DisplayTable'
+import { MyTable, Table, ColumnDef } from '../table/MyTable';
 
 export const AuthorTable = () => {
 	const [authorList, setAuthorList] = useState<Authors>([])
@@ -22,11 +21,10 @@ export const AuthorTable = () => {
 			header: '英語表記',
 		},
 	]
-	const table = useReactTable<AuthorTableDisplay>({
-    data: authorTableDisplayList,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+	const table = ({
+		data: authorTableDisplayList,
+		columns,
+	}) as Table<AuthorTableDisplay>
 
-	return <DisplayTable table={table}/>
+	return <MyTable table={table}/>
 }

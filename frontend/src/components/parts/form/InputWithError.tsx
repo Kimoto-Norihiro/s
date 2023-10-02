@@ -14,7 +14,7 @@ export const InputWithError = <T extends FieldValues>({ label, name, register, e
   return (
     <div>
       <AddLabel label={label} required={required}>
-        <input type="text" className='border border-gray-300 rounded-sm h-8' id={name} {...register(name, {required: true})}/>
+        <input type="text" className='border border-gray-300 rounded-sm h-8 px-3' id={name} {...register(name, {required: true})}/>
       </AddLabel>
       {
         errors[name] ? <div className='text-red-800 text-sm'>{`${errors[name]?.message}`}</div> : <div className='h-5'></div>

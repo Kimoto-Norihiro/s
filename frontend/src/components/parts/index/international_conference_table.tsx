@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { DisplayTable } from '../table/DisplayTable'
 import { InternationalConferenceTableDisplay, InternationalConferences, InternationalConferencesToTableDisplays } from '@/types/international_conference'
 import { listInternationalConferences } from '@/handlers/international_conference_handlers'
+import { MyTable, Table, ColumnDef } from '../table/MyTable';
+
 
 export const InternationalConferenceTable = () => {
 	const [internationalConferenceList, setInternationalConferenceList] = useState<InternationalConferences>([])
@@ -42,11 +42,11 @@ export const InternationalConferenceTable = () => {
 		{ accessorKey: 'is_video_exist', header: 'ビデオ'},
 		{ accessorKey: 'tag_names', header: '分野タグ'},
 	]
-	const table = useReactTable<InternationalConferenceTableDisplay>({
-    data: internationalConferenceTableDisplayList,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+	
+	const table = ({
+		data: internationalConferenceTableDisplayList,
+		columns,
+	}) as Table<InternationalConferenceTableDisplay>
 
-	return <DisplayTable table={table}/>
+	return <MyTable table={table}/>
 }

@@ -129,6 +129,7 @@ type DomesticConference struct {
 	Authors                []Author               `json:"authors" gorm:"many2many:jp_conference_authors;" validate:"required"`
 	Title                  string                 `json:"title" validate:"required"`
 	DomesticConferenceInfo DomesticConferenceInfo `json:"conference_info" gorm:"foreignKey:ConferenceInfoID"`
+	ConferenceInfoID       int                    `json:"conference_info_id"`
 	StartPage              int                    `json:"start_page"`
 	EndPage                int                    `json:"end_page"`
 	Year                   int                    `json:"year" validate:"required"`
