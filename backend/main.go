@@ -110,5 +110,23 @@ func main() {
 	r.PUT("/domestic_conference", dch.UpdateDomesticConference)
 	r.GET("/domestic_conference", dch.GetDomesticConferenceByID)
 
+	// Award
+	awr := repository.NewAwardRepository(db)
+	awu := usecase.NewAwardUsecase(awr)
+	awh := handler.NewAwardHandler(awu)
+	r.POST("/award", awh.CreateAward)
+	r.GET("/awards", awh.ListAwards)
+	r.PUT("/award", awh.UpdateAward)
+	r.GET("/award", awh.GetAwardByID)
+
+	// Organization
+	or := repository.NewOrganizationRepository(db)
+	ou := usecase.NewOrganizationUsecase(or)
+	oh := handler.NewOrganizationHandler(ou)
+	r.POST("/organization", oh.CreateOrganization)
+	r.GET("/organizations", oh.ListOrganizations)
+	r.PUT("/organization", oh.UpdateOrganization)
+	r.GET("/organization", oh.GetOrganizationByID)
+
 	r.Run(":8000")
 }

@@ -70,3 +70,17 @@ type IDomesticConferenceRepository interface {
 	UpdateDomesticConference(m model.DomesticConference) error
 	GetDomesticConferenceByID(id int) (model.DomesticConference, error)
 }
+
+type IAwardRepository interface {
+	CreateAward(m model.Award) error
+	ListAwards() ([]model.Award, error)
+	UpdateAward(m model.Award) error
+	GetAwardByID(id int) (model.Award, error)
+}
+
+type IOrganizationRepository interface {
+	CreateOrganization(m model.Organization) error
+	ListOrganizations() ([]model.Organization, error)
+	UpdateOrganization(m model.Organization) error
+	GetOrganizationByID(id int) (model.Organization, error)
+}

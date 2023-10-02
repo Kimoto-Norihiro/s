@@ -70,3 +70,17 @@ type IDomesticConferenceUsecase interface {
 	UpdateDomesticConference(m model.DomesticConference) error
 	GetDomesticConferenceByID(id int) (model.DomesticConference, error)
 }
+
+type IAwardUsecase interface {
+	CreateAward(m model.Award) error
+	ListAwards() ([]model.Award, error)
+	UpdateAward(m model.Award) error
+	GetAwardByID(id int) (model.Award, error)
+}
+
+type IOrganizationUsecase interface {
+	CreateOrganization(m model.Organization) error
+	ListOrganizations() ([]model.Organization, error)
+	UpdateOrganization(m model.Organization) error
+	GetOrganizationByID(id int) (model.Organization, error)
+}

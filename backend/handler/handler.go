@@ -63,3 +63,17 @@ type IDomesticConferenceInfoHandler interface {
 	GetDomesticConferenceByID(c *gin.Context)
 }
 
+type IAwardHandler interface {
+	CreateAward(c *gin.Context)
+	ListAwards(c *gin.Context)
+	GetAwardByID(c *gin.Context)
+	UpdateAward(c *gin.Context)
+}
+
+type IOrganizationHandler interface {
+	CreateOrganization(c *gin.Context)
+	ListOrganizations(c *gin.Context)
+	GetOrganizationByID(c *gin.Context)
+	UpdateOrganization(c *gin.Context)
+}
+
