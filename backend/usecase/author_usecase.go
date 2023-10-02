@@ -19,14 +19,30 @@ func NewAuthorUsecase(r repository.IAuthorRepository) *AuthorUsecase {
 	}
 }
 
-func (u *AuthorUsecase) IndexAuthor() ([]model.Author, error) {
-	return u.repository.IndexAuthor()
-}
-
 func (u *AuthorUsecase) CreateAuthor(m model.Author) error {
 	err := u.validate.Struct(m)
 	if err != nil {
 		return err
 	}
 	return u.repository.CreateAuthor(m)
+}
+
+func (u *AuthorUsecase) ListAuthors() ([]model.Author, error) {
+	return u.repository.ListAuthors()
+}
+
+func (u *AuthorUsecase) UpdateAuthor(m model.Author) error {
+	err := u.validate.Struct(m)
+	if err != nil {
+		return err
+	}
+	return u.repository.UpdateAuthor(m)
+}
+
+func (u *AuthorUsecase) GetAuthorByID(id int) (model.Author, error) {
+	return u.repository.GetAuthorByID(id)
+}
+
+func (u *AuthorUsecase) DeleteAuthor(m model.Author) error {
+	return u.repository.DeleteAuthor(m)
 }

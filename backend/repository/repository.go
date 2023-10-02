@@ -6,7 +6,10 @@ import (
 
 type IAuthorRepository interface {
 	CreateAuthor(m model.Author) error
-	IndexAuthor() ([]model.Author, error)
+	ListAuthors() ([]model.Author, error)
+	GetAuthorByID(id int) (model.Author, error)
+	UpdateAuthor(m model.Author) error
+	DeleteAuthor(m model.Author) error
 }
 
 type IPublisherRepository interface {

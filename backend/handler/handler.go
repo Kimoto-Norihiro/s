@@ -6,7 +6,10 @@ import (
 
 type IAuthorHandler interface {
 	CreateAuthor(c *gin.Context)
-	IndexAuthor(c *gin.Context)
+	ListAuthors(c *gin.Context)
+	GetAuthorByID(c *gin.Context)
+	UpdateAuthor(c *gin.Context)
+	DeleteAuthor(c *gin.Context)
 }
 
 type IPublisherHandler interface {

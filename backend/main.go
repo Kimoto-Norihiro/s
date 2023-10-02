@@ -35,7 +35,10 @@ func main() {
 	au := usecase.NewAuthorUsecase(ar)
 	ah := handler.NewAuthorHandler(au)
 	r.POST("/author", ah.CreateAuthor)
-	r.GET("/authors", ah.IndexAuthor)
+	r.GET("/authors", ah.ListAuthors)
+	r.PUT("/author", ah.UpdateAuthor)
+	r.GET("/author", ah.GetAuthorByID)
+	r.DELETE("/author", ah.DeleteAuthor)
 
 	// Tag
 	tr := repository.NewTagRepository(db)
