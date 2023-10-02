@@ -7,25 +7,25 @@ import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
 import { Publishers } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
-import { InternationalConferenceInfoUpsertValues } from '@/types/international_conference_info'
-import { createInternationalConferenceInfo } from '@/handlers/international_conference_info_handlers'
+import { DomesticConferenceInfoUpsertValues } from '@/types/domestic_conference_info'
+import { createDomesticConferenceInfo } from '@/handlers/domestic_conference_info_handlers'
 
-const InternationalConferenceInfoUpsertSchema = yup.object().shape({
+const DomesticConferenceInfoUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 	short_name: yup.string().required('入力してください'),
   iso4_name: yup.string().required('入力してください'),
   publisher: yup.object().required('選択してください'),
 })
 
-export const InternationalConferenceInfoForm = () => {
-	const { register, handleSubmit, control, formState: { errors }} = useForm<InternationalConferenceInfoUpsertValues>({
-		resolver: yupResolver(InternationalConferenceInfoUpsertSchema)
+export const DomesticConferenceInfoForm = () => {
+	const { register, handleSubmit, control, formState: { errors }} = useForm<DomesticConferenceInfoUpsertValues>({
+		resolver: yupResolver(DomesticConferenceInfoUpsertSchema)
 	})
 	const [publisherList, setPublisherList] = useState<Publishers>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createInternationalConferenceInfo(data)
+			await createDomesticConferenceInfo(data)
 			console.log("create journal info")
 		}, (error) => {
 			console.log('error', error)
@@ -52,21 +52,21 @@ export const InternationalConferenceInfoForm = () => {
 					required
 				/>
 				<InputWithError 
-					label='省略名'
+					label='略称名'
 					name='short_name'
 					register={register}
 					errors={errors}
 					required
 				/>
 				<InputWithError 
-					label='ISO4名'
-					name='iso4_name'
+					label='別名'
+					name='other_name'
 					register={register}
 					errors={errors}
 					required
 				/>
 				<InputWithError 
-					label='会議名_論文集'
+					label='論文集'
 					name='collection_notation'
 					register={register}
 					errors={errors}

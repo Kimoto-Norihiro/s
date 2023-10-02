@@ -102,12 +102,13 @@ type InternationalConference struct {
 
 // 国際会議名
 type InternationalConferenceInfo struct {
-	ID          int       `json:"id" gorm:"primaryKey" validate:"required"`
-	Name        string    `json:"name" validate:"required"`
-	ShortName   string    `json:"short_name" validate:"required"`
-	ISO4Name    string    `json:"iso4_name" validate:"required"`
-	Publisher   Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
-	PublisherID int       `json:"publisher_id"`
+	ID                 int       `json:"id" gorm:"primaryKey" validate:"required"`
+	Name               string    `json:"name" validate:"required"`
+	ShortName          string    `json:"short_name" validate:"required"`
+	ISO4Name           string    `json:"iso4_name" validate:"required"`
+	CollectionNotation string    `json:"collection_notation"`
+	Publisher          Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
+	PublisherID        int       `json:"publisher_id"`
 }
 
 // 国際会議評価

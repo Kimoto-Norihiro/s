@@ -15,22 +15,11 @@ export const InternationalConferenceInfoTable = () => {
 	const internationalConferenceInfoTableDisplayList = internationalConferencesToTableDisplays(internationalConferenceInfoList)
 
 	const columns: ColumnDef<InternationalConferenceInfoTableDisplay, any>[] = [
-		{
-			accessorKey: 'name',
-			header: '会議名',
-		},
-		{
-			accessorKey: 'short_name',
-			header: '省略名',
-		},
-		{
-			accessorKey: 'iso4_name',
-			header: 'ISO4名',
-		},
-		{
-			accessorKey: 'publisher_name',
-			header: '出版社名',
-		},
+		{ accessorKey: 'name', header: '会議名' },
+		{ accessorKey: 'short_name', header: '略称名' },
+		{ accessorKey: 'iso4_name', header: 'ISO4名' },
+		{ accessorKey: 'collection_notation', header: '論文集' },
+		{ accessorKey: 'publisher_name', header: '出版社名' },
 	]
 	const table = useReactTable<InternationalConferenceInfoTableDisplay>({
     data: internationalConferenceInfoTableDisplayList,

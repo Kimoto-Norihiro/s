@@ -5,6 +5,7 @@ export type InternationalConferenceInfo = {
 	name: string
 	short_name: string
 	iso4_name: string
+	collection_notation: string
 	publisher: Publisher
 }
 
@@ -20,6 +21,7 @@ export function internationalConferencesToTableDisplays(international_conference
 			name: international_conference_info.name,
 			short_name: international_conference_info.short_name,
 			iso4_name: international_conference_info.iso4_name,
+			collection_notation: international_conference_info.collection_notation,
 			publisher_name: international_conference_info.publisher.name
 		} 
 	})
