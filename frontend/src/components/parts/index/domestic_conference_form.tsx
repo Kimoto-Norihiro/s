@@ -46,8 +46,7 @@ export const DomesticConferenceForm = () => {
 		resolver: yupResolver(DomesticConferenceUpsertSchema)
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
-	const [domestic_conferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])
-	const [countryList, setCountryList] = useState<Countries>([])
+	const [domesticConferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
@@ -62,50 +61,57 @@ export const DomesticConferenceForm = () => {
 	useEffect(() => {
 		listAuthors(setAuthorList)
 		listDomesticConferenceInfos(setDomesticConferenceInfoList)
-		listCountries(setCountryList)
 		listTags(setTagList)
 	}, [])
 
 	return (
-		<div className='w-full flex flex-col items-center'>
+		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
-				className='w-[60%] flex flex-col' 
+				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
 					e.preventDefault()
 					submit()
 			}}>
-				<MultiSelectWithError
-					label='著者'
-					name='authors'
-					control={control}
-					errors={errors}
-					required
-					options={authorsToOptions(authorList)}
-					list={authorList}
-				/>
-				<InputWithError
-					label='題目' 
-					name='title'
-					register={register}
-					errors={errors}
-					required
-				/>
-				<SelectWithError
-					label='会議名'
-					name='domestic_conference_info'
-					control={control}
-					errors={errors}
-					required
-					options={domestic_conferenceInfoList.map((domestic_conference_info) => {
-						return {
-							value: domestic_conference_info.id,
-							label: `${domestic_conference_info.name}`
-						}
-					})}
-					list={domestic_conferenceInfoList}
-				/>
 				<div className='flex justify-between'>
-					<div className='w-[45%]'>
+					<div className='w-[50%] pr-4'>
+						<MultiSelectWithError
+							label='著者'
+							name='authors'
+							control={control}
+							errors={errors}
+							required
+							options={authorsToOptions(authorList)}
+							list={authorList}
+						/>
+					</div>
+					<div className='w-[50%] pr-4'>
+						<InputWithError
+							label='題目' 
+							name='title'
+							register={register}
+							errors={errors}
+							required
+						/>
+					</div>
+				</div>
+				<div className='flex justify-between'>
+					<div className='w-[50%] pr-4'>
+						<SelectWithError
+							label='会議名'
+							name='domestic_conference_info'
+							control={control}
+							errors={errors}
+							required
+							options={domesticConferenceInfoList.map((domestic_conference_info) => {
+								return {
+									value: domestic_conference_info.id,
+									label: `${domestic_conference_info.name}`
+								}
+							})}
+							list={domesticConferenceInfoList}
+						/>
+					</div>
+					<div className='w-[25%] pr-4'>
 						<InputWithError 
 							label='開始ページ'
 							name='start_page'
@@ -113,8 +119,7 @@ export const DomesticConferenceForm = () => {
 							errors={errors}
 						/>
 					</div>
-					<p>~</p>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<InputWithError 
 							label='終了ページ'
 							name='end_page'
@@ -124,7 +129,7 @@ export const DomesticConferenceForm = () => {
 					</div>
 				</div>
 				<div className='flex justify-between'>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<SelectWithError
 							label='年'
 							name='year'
@@ -139,7 +144,7 @@ export const DomesticConferenceForm = () => {
 							})}
 						/>
 					</div>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<SelectWithError
 							label='月'
 							name='month'
@@ -155,39 +160,53 @@ export const DomesticConferenceForm = () => {
 							}
 						/>
 					</div>
+					<div className='w-[50%] pr-4'> 
+						<InputWithError
+							label='メインURL'
+							name='url1'
+							register={register}
+							errors={errors}
+						/>
+					</div>
 				</div>
-				<InputWithError
-					label='メインURL'
-					name='url1'
-					register={register}
-					errors={errors}
-				/>
-				<InputWithError
-					label='サブURL'
-					name='url2'
-					register={register}
-					errors={errors}
-				/>
-				<InputWithError
-					label='DOI'
-					name='doi'
-					register={register}
-					errors={errors}
-				/>
-				<InputWithError
-					label='会場'
-					name='venue'
-					register={register}
-					errors={errors}
-				/>
-				<InputWithError
-					label='都市'
-					name='city'
-					register={register}
-					errors={errors}
-				/>
 				<div className='flex justify-between'>
-					<div className='w-[45%]'>
+					<div className='w-[50%] pr-4'>
+						<InputWithError
+							label='サブURL'
+							name='url2'
+							register={register}
+							errors={errors}
+						/>
+					</div>
+					<div className='w-[50%] pr-4'> 
+						<InputWithError
+							label='DOI'
+							name='doi'
+							register={register}
+							errors={errors}
+						/>
+					</div>
+				</div>
+				<div className='flex justify-between'>
+					<div className='w-[50%] pr-4'>
+						<InputWithError
+							label='会場'
+							name='venue'
+							register={register}
+							errors={errors}
+						/>
+					</div>
+					<div className='w-[50%] pr-4'>
+						<InputWithError
+							label='都市'
+							name='city'
+							register={register}
+							errors={errors}
+						/>
+					</div>
+				</div>
+				<div className='flex justify-between'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='共同研究'
 							name='is_joint_research'
@@ -195,7 +214,7 @@ export const DomesticConferenceForm = () => {
 							explain='該当する'
 						/>
 					</div>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='原稿'
 							name='is_manuscript_exist'
@@ -203,9 +222,7 @@ export const DomesticConferenceForm = () => {
 							explain='存在する'
 						/>
 					</div>
-				</div>
-				<div className='flex justify-between'>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='スライドPDF'
 							name='is_slide_pdf_exist'
@@ -213,7 +230,7 @@ export const DomesticConferenceForm = () => {
 							explain='存在する'
 						/>
 					</div>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='スライドPPT'
 							name='is_slide_pdf_exist'
@@ -223,7 +240,7 @@ export const DomesticConferenceForm = () => {
 					</div>
 				</div>
 				<div className='flex justify-between'>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='ポスター'
 							name='is_poster_exist'
@@ -231,7 +248,7 @@ export const DomesticConferenceForm = () => {
 							explain='存在する'
 						/>
 					</div>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='ビデオ'
 							name='is_video_exist'
@@ -239,16 +256,18 @@ export const DomesticConferenceForm = () => {
 							explain='存在する'
 						/>
 					</div>
+					<div className='w-[50%] pr-4'>
+						<MultiSelectWithError 
+							label='分野タグ'
+							name='tags'
+							control={control}
+							errors={errors}
+							required
+							options={tagsToOptions(tagList)}
+							list={tagList}
+						/>
+					</div>
 				</div>
-				<MultiSelectWithError 
-					label='分野タグ'
-					name='tags'
-					control={control}
-					errors={errors}
-					required
-					options={tagsToOptions(tagList)}
-					list={tagList}
-				/>
 				<FormButton />
 			</form>
 		</div>

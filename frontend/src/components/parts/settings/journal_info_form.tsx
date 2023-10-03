@@ -37,9 +37,9 @@ export const JournalInfoForm = () => {
 	}, [])
 
 	return (
-		<div className='w-full flex flex-col items-center'>
+		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
-				className='w-[60%] flex flex-col' 
+				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
 					e.preventDefault()
 					submit()

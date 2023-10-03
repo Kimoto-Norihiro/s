@@ -7,7 +7,9 @@ export const AuthorPage = () => {
 	const { showModal } = useCommonModal() 
 	return (
 		<div className='p-4'>
-			<button onClick={() => showModal(<AuthorForm/>) }>追加form</button>
+			<div className='mb-4'>
+				<button className='btn px-2 py-1' onClick={() => showModal(<AuthorForm/>) }>追加</button>
+			</div>
 			<AuthorTable/>
 		</div>
 	)

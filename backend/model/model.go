@@ -76,7 +76,7 @@ type InternationalConference struct {
 	ID                            int                               `json:"id" gorm:"primaryKey"`
 	Authors                       []Author                          `json:"authors" gorm:"many2many:jp_conference_authors;" validate:"required"`
 	Title                         string                            `json:"title" validate:"required"`
-	ConferenceInfo                InternationalConferenceInfo       `json:"conference_info" gorm:"foreignKey:InternationalConferenceInfoID"`
+	InternationalConferenceInfo   InternationalConferenceInfo       `json:"international_conference_info" gorm:"foreignKey:InternationalConferenceInfoID"`
 	InternationalConferenceInfoID int                               `json:"international_conference_info_id"`
 	StartPage                     int                               `json:"start_page"`
 	EndPage                       int                               `json:"end_page"`
@@ -164,7 +164,8 @@ type Award struct {
 	ID                 int          `json:"id" gorm:"primaryKey"`
 	Authors            []Author     `json:"authors" gorm:"many2many:award_authors;" validate:"required"`
 	Name               string       `json:"name" validate:"required"`
-	Organization       Organization `json:"organization" validate:"required"`
+	Organization       Organization `json:"organization" gorm:"foreignKey:OrganizationID"`
+	OrganizationID     int          `json:"organization_id"`
 	Year               int          `json:"year" validate:"required"`
 	Month              int          `json:"month" validate:"required"`
 	Url1               string       `json:"url1"`

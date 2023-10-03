@@ -22,7 +22,7 @@ export const MyTable = <T extends any>({ table }: Props<T>) => {
       <thead>
 				<tr>
 					{columns.map((column, idx) => (
-						<th key={idx} className='border border-slate-300 px-2 text-md'>
+						<th key={idx} className='border border-slate-300 px-2 text-xs'>
 							{ column.header }
 						</th>
 					))}
@@ -32,7 +32,7 @@ export const MyTable = <T extends any>({ table }: Props<T>) => {
         {data.map((d, idx) => (
           <tr key={idx}>
             {columns.map((column, idx) => (
-							<td key={idx} className='border border-slate-300 px-2 text-md'>
+							<td key={idx} className='border border-slate-300 px-2 text-xs'>
 								{ String(d[column.accessorKey]) }
 							</td>
 						))}
