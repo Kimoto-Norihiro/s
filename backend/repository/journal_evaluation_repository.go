@@ -32,3 +32,7 @@ func (r *JournalEvaluationRepository) GetJournalEvaluationByJournalIDAndYear(jou
 func (r *JournalEvaluationRepository) UpdateJournalEvaluation(m model.JournalEvaluation) error {
 	return r.db.Save(&m).Error
 }
+
+func (r *JournalEvaluationRepository) DeleteJournalEvaluation(journalID int, year int) error {
+	return r.db.Delete(&model.JournalEvaluation{}, "journal_info_id = ? AND year = ?", journalID, year).Error
+}

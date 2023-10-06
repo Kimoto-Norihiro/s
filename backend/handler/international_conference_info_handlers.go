@@ -70,3 +70,16 @@ func (h *InternationalConferenceInfoHandler) GetInternationalConferenceInfoByID(
 	}
 	c.JSON(200, internationalConferenceInfo)
 }
+
+func (h *InternationalConferenceInfoHandler) DeleteInternationalConferenceInfo(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err = h.usecase.DeleteInternationalConferenceInfo(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

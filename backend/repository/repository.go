@@ -15,9 +15,9 @@ type IAuthorRepository interface {
 type IPublisherRepository interface {
 	CreatePublisher(m model.Publisher) error
 	ListPublishers() ([]model.Publisher, error)
-	GetAuthorByID(id int) (model.Author, error)
-	UpdateAuthor(m model.Author) error
-	DeleteAuthor(id int) error
+	GetPublisherByID(id int) (model.Publisher, error)
+	UpdatePublisher(m model.Publisher) error
+	DeletePublisher(id int) error
 }
 
 type IJournalRepository interface {

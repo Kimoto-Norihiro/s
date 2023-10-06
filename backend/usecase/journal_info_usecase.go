@@ -37,3 +37,11 @@ func (u *JournalInfoUsecase) UpdateJournalInfo(m model.JournalInfo) error {
 	}
 	return u.repository.UpdateJournalInfo(m)
 }
+
+func (u *JournalInfoUsecase) GetJournalInfoByID(id int) (model.JournalInfo, error) {
+	return u.repository.GetJournalInfoByID(id)
+}
+
+func (u *JournalInfoUsecase) DeleteJournalInfo(id int) error {
+	return u.repository.DeleteJournalInfo(id)
+}

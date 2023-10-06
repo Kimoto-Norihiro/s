@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/Kimoto-Norihiro/scholar-manager/model"
@@ -50,6 +52,35 @@ func (h *JournalInfoHandler) UpdateJournalInfo(c *gin.Context) {
 	}
 
 	err = h.usecase.UpdateJournalInfo(m)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}
+
+func (h *JournalInfoHandler) GetJournalInfoByID(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	journalInfo, err := h.usecase.GetJournalInfoByID(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, journalInfo)
+}
+
+func (h *JournalInfoHandler) DeleteJournalInfo(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = h.usecase.DeleteJournalInfo(id)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

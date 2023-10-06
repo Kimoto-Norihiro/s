@@ -27,6 +27,12 @@ func (r *InternationalConferenceInfoRepository) UpdateInternationalConferenceInf
 	return r.db.Save(&m).Error
 }
 
+func (r *InternationalConferenceInfoRepository) GetInternationalConferenceInfoByID(id int) (model.InternationalConferenceInfo, error) {
+	var internationalConferenceInfo model.InternationalConferenceInfo
+	err := r.db.Preload("Publisher").Where("id = ?", id).First(&internationalConferenceInfo).Error
+	return internationalConferenceInfo, err
+}
+
 func (r *InternationalConferenceInfoRepository) DeleteInternationalConferenceInfo(id int) error {
 	return r.db.Delete(&model.InternationalConferenceInfo{}, id).Error
 }

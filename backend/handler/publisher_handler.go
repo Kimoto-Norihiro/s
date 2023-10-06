@@ -19,7 +19,7 @@ func NewPublisherHandler(u usecase.IPublisherUsecase) *PublisherHandler {
 	}
 }
 
-func (h *PublisherHandler) IndexPublisher(c *gin.Context) {
+func (h *PublisherHandler) ListPublishers(c *gin.Context) {
 	publishers, err := h.usecase.ListPublishers()
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})

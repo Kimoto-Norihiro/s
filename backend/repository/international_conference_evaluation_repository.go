@@ -34,6 +34,6 @@ func (r *InternationalConferenceEvaluationRepository) UpdateInternationalConfere
 	return r.db.Save(&m).Error
 }
 
-func (r *InternationalConferenceEvaluationRepository) DeleteInternationalConferenceEvaluation(id int) error {
-	return r.db.Delete(&model.InternationalConferenceEvaluation{}, id).Error
+func (r *InternationalConferenceEvaluationRepository) DeleteInternationalConferenceEvaluation(internationalConferenceID int, year int) error {
+	return r.db.Delete(&model.InternationalConferenceEvaluation{}, internationalConferenceID, year).Error
 }

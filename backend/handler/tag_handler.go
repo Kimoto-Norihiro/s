@@ -68,3 +68,17 @@ func (h *TagHandler) GetTagByID(c *gin.Context) {
 	}
 	c.JSON(200, tag)
 }
+
+func (h *TagHandler) DeleteTag(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err = h.usecase.DeleteTag(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

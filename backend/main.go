@@ -28,7 +28,10 @@ func main() {
 	pu := usecase.NewPublisherUsecase(pr)
 	ph := handler.NewPublisherHandler(pu)
 	r.POST("/publisher", ph.CreatePublisher)
-	r.GET("/publishers", ph.IndexPublisher)
+	r.GET("/publishers", ph.ListPublishers)
+	r.PUT("/publisher", ph.UpdatePublisher)
+	r.GET("/publisher/:id", ph.GetPublisherByID)
+	r.DELETE("/publisher/:id", ph.DeletePublisher)
 
 	// Author
 	ar := repository.NewAuthorRepository(db)
@@ -46,6 +49,9 @@ func main() {
 	th := handler.NewTagHandler(tu)
 	r.POST("/tag", th.CreateTag)
 	r.GET("/tags", th.ListTags)
+	r.PUT("/tag", th.UpdateTag)
+	r.GET("/tag/:id", th.GetTagByID)
+	r.DELETE("/tag/:id", th.DeleteTag)
 
 	// JournalInfo
 	jir := repository.NewJournalInfoRepository(db)
@@ -53,6 +59,9 @@ func main() {
 	jih := handler.NewJournalInfoHandler(jiu)
 	r.POST("/journal_info", jih.CreateJournalInfo)
 	r.GET("/journal_infos", jih.ListJournalInfos)
+	r.PUT("/journal_info", jih.UpdateJournalInfo)
+	r.GET("/journal_info/:id", jih.GetJournalInfoByID)
+	r.DELETE("/journal_info/:id", jih.DeleteJournalInfo)
 
 	// JournalEvaluation
 	jer := repository.NewJournalEvaluationRepository(db)
@@ -60,6 +69,9 @@ func main() {
 	jeh := handler.NewJournalEvaluationHandler(jeu)
 	r.POST("/journal_evaluation", jeh.CreateJournalEvaluation)
 	r.GET("/journal_evaluations", jeh.ListJournalEvaluations)
+	r.PUT("/journal_evaluation", jeh.UpdateJournalEvaluation)
+	r.GET("/journal_evaluation/:journal_id/:year", jeh.GetJournalEvaluationByJournalIDAndYear)
+	r.DELETE("/journal_evaluation/:journal_id/:year", jeh.DeleteJournalEvaluation)
 
 	// Journal
 	jr := repository.NewJournalRepository(db)
@@ -68,6 +80,8 @@ func main() {
 	r.POST("/journal", jh.CreateJournal)
 	r.GET("/journals", jh.ListJournals)
 	r.PUT("/journal", jh.UpdateJournal)
+	r.GET("/journal/:id", jh.GetJournalByID)
+	r.DELETE("/journal/:id", jh.DeleteJournal)
 
 	// InternationalConferenceInfo
 	icir := repository.NewInternationalConferenceInfoRepository(db)
@@ -76,6 +90,8 @@ func main() {
 	r.POST("/international_conference_info", icih.CreateInternationalConferenceInfo)
 	r.GET("/international_conference_infos", icih.ListInternationalConferenceInfos)
 	r.PUT("/international_conference_info", icih.UpdateInternationalConferenceInfo)
+	r.GET("/international_conference_info/:id", icih.GetInternationalConferenceInfoByID)
+	r.DELETE("/international_conference_info/:id", icih.DeleteInternationalConferenceInfo)
 
 	// InternationalConferenceEvaluation
 	icer := repository.NewInternationalConferenceEvaluationRepository(db)
@@ -84,7 +100,8 @@ func main() {
 	r.POST("/international_conference_evaluation", iceh.CreateInternationalConferenceEvaluation)
 	r.GET("/international_conference_evaluations", iceh.ListInternationalConferenceEvaluations)
 	r.PUT("/international_conference_evaluation", iceh.UpdateInternationalConferenceEvaluation)
-	r.GET("/international_conference_evaluation", iceh.GetInternationalConferenceEvaluationByInternationalConferenceIDAndYear)
+	r.GET("/international_conference_evaluation/:international_conference_id/:year", iceh.GetInternationalConferenceEvaluationByInternationalConferenceIDAndYear)
+	r.DELETE("/international_conference_evaluation/:international_conference_id/:year", iceh.DeleteInternationalConferenceEvaluation)
 
 	// InternationalConference
 	icr := repository.NewInternationalConferenceRepository(db)
@@ -93,7 +110,8 @@ func main() {
 	r.POST("/international_conference", ich.CreateInternationalConference)
 	r.GET("/international_conferences", ich.ListInternationalConferences)
 	r.PUT("/international_conference", ich.UpdateInternationalConference)
-	r.GET("/international_conference", ich.GetInternationalConferenceByID)
+	r.GET("/international_conference/:id", ich.GetInternationalConferenceByID)
+	r.DELETE("/international_conference/:id", ich.DeleteInternationalConference)
 
 	// DomesticConferenceInfo
 	dcir := repository.NewDomesticConferenceInfoRepository(db)
@@ -102,7 +120,9 @@ func main() {
 	r.POST("/domestic_conference_info", dcih.CreateDomesticConferenceInfo)
 	r.GET("/domestic_conference_infos", dcih.ListDomesticConferenceInfos)
 	r.PUT("/domestic_conference_info", dcih.UpdateDomesticConferenceInfo)
-	r.GET("/domestic_conference_info", dcih.GetDomesticConferenceInfoByID)
+	r.GET("/domestic_conference_info/:id", dcih.GetDomesticConferenceInfoByID)
+	r.DELETE("/domestic_conference_info/:id", dcih.DeleteDomesticConferenceInfo)
+
 
 	// DomesticConference
 	dcr := repository.NewDomesticConferenceRepository(db)
@@ -111,7 +131,8 @@ func main() {
 	r.POST("/domestic_conference", dch.CreateDomesticConference)
 	r.GET("/domestic_conferences", dch.ListDomesticConferences)
 	r.PUT("/domestic_conference", dch.UpdateDomesticConference)
-	r.GET("/domestic_conference", dch.GetDomesticConferenceByID)
+	r.GET("/domestic_conference/:id", dch.GetDomesticConferenceByID)
+	r.DELETE("/domestic_conference/:id", dch.DeleteDomesticConference)
 
 	// Award
 	awr := repository.NewAwardRepository(db)
@@ -120,7 +141,8 @@ func main() {
 	r.POST("/award", awh.CreateAward)
 	r.GET("/awards", awh.ListAwards)
 	r.PUT("/award", awh.UpdateAward)
-	r.GET("/award", awh.GetAwardByID)
+	r.GET("/award/:id", awh.GetAwardByID)
+	r.DELETE("/award/:id", awh.DeleteAward)
 
 	// Organization
 	or := repository.NewOrganizationRepository(db)
@@ -129,7 +151,8 @@ func main() {
 	r.POST("/organization", oh.CreateOrganization)
 	r.GET("/organizations", oh.ListOrganizations)
 	r.PUT("/organization", oh.UpdateOrganization)
-	r.GET("/organization", oh.GetOrganizationByID)
+	r.GET("/organization/:id", oh.GetOrganizationByID)
+	r.DELETE("/organization/:id", oh.DeleteOrganization)
 
 	r.Run(":8000")
 }
