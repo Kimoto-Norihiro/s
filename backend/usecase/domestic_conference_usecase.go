@@ -41,3 +41,7 @@ func (u *DomesticConferenceUsecase) UpdateDomesticConference(m model.DomesticCon
 func (u *DomesticConferenceUsecase) GetDomesticConferenceByID(id int) (model.DomesticConference, error) {
 	return u.repository.GetDomesticConferenceByID(id)
 }
+
+func (u *DomesticConferenceUsecase) DeleteDomesticConference(id int) error {
+	return u.repository.DeleteDomesticConference(id)
+}

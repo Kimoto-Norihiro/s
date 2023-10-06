@@ -36,3 +36,7 @@ func (r *JournalRepository) GetJournalByID(id int) (model.Journal, error) {
 	err := r.db.Preload("Authors").Preload("JournalInfo").Preload("Evaluation").Preload("Tags").Where("id = ?", id).First(&journal).Error
 	return journal, err
 }
+
+func (r *JournalRepository) DeleteJournal(id int) error {
+	return r.db.Delete(&model.Journal{}, id).Error
+}

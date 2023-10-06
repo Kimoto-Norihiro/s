@@ -32,3 +32,8 @@ func (r *DomesticConferenceInfoRepository) GetDomesticConferenceInfoByID(id int)
 	err := r.db.Preload("Publisher").Where("id = ?", id).First(&domesticConferenceInfo).Error
 	return domesticConferenceInfo, err
 }
+
+func (r *DomesticConferenceInfoRepository) DeleteDomesticConferenceInfo(id int) error {
+	return r.db.Delete(&model.DomesticConferenceInfo{}, id).Error
+}
+

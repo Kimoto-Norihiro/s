@@ -68,3 +68,17 @@ func (h *DomesticConferenceHandler) UpdateDomesticConference(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"message": "success"})
 }
+
+func (h *DomesticConferenceHandler) DeleteDomesticConference(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err = h.usecase.DeleteDomesticConference(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

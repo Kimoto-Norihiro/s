@@ -70,3 +70,17 @@ func (h *AwardHandler) GetAwardByID(c *gin.Context) {
 	}
 	c.JSON(200, award)
 }
+
+func (h *AwardHandler) DeleteAward(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err = h.usecase.DeleteAward(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

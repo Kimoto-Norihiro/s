@@ -29,3 +29,11 @@ func (u *JournalInfoUsecase) CreateJournalInfo(m model.JournalInfo) error {
 func (u *JournalInfoUsecase) ListJournalInfos() ([]model.JournalInfo, error) {
 	return u.repository.ListJournalInfos()
 }
+
+func (u *JournalInfoUsecase) UpdateJournalInfo(m model.JournalInfo) error {
+	err := u.validate.Struct(m)
+	if err != nil {
+		return err
+	}
+	return u.repository.UpdateJournalInfo(m)
+}

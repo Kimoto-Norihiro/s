@@ -33,3 +33,7 @@ func (r *AwardRepository) GetAwardByID(id int) (model.Award, error) {
 	return award, err
 }
 
+func (r *AwardRepository) DeleteAward(id int) error {
+	return r.db.Delete(&model.Award{}, id).Error
+}
+

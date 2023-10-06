@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strconv"
+
 	"github.com/Kimoto-Norihiro/scholar-manager/model"
 	"github.com/Kimoto-Norihiro/scholar-manager/usecase"
 	"github.com/gin-gonic/gin"
@@ -53,4 +55,18 @@ func (h *InternationalConferenceInfoHandler) UpdateInternationalConferenceInfo(c
 		return
 	}
 	c.JSON(200, gin.H{"message": "success"})
+}
+
+func (h *InternationalConferenceInfoHandler) GetInternationalConferenceInfoByID(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	internationalConferenceInfo, err := h.usecase.GetInternationalConferenceInfoByID(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, internationalConferenceInfo)
 }

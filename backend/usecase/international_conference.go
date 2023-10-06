@@ -43,3 +43,7 @@ func (u *InternationalConferenceUsecase) UpdateInternationalConference(m model.I
 	}
 	return u.repository.UpdateInternationalConference(m)
 }
+
+func (u *InternationalConferenceUsecase) DeleteInternationalConference(id int) error {
+	return u.repository.DeleteInternationalConference(id)
+}

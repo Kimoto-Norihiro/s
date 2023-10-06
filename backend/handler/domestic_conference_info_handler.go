@@ -66,3 +66,13 @@ func (h *DomesticConferenceInfoHandler) GetDomesticConferenceInfoByID(c *gin.Con
 	}
 	c.JSON(200, domestic_conference_info)
 }
+
+func (h *DomesticConferenceInfoHandler) DeleteDomesticConferenceInfo(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	err := h.usecase.DeleteDomesticConferenceInfo(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

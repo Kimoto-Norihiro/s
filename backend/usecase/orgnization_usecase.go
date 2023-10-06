@@ -42,3 +42,7 @@ func (u *OrganizationUsecase) UpdateOrganization(m model.Organization) error {
 	return u.repository.UpdateOrganization(m)
 }
 
+func (u *OrganizationUsecase) DeleteOrganization(id int) error {
+	return u.repository.DeleteOrganization(id)
+}
+

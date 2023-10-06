@@ -34,6 +34,6 @@ func (r *AuthorRepository) GetAuthorByID(id int) (model.Author, error) {
 	return author, err
 }
 
-func (r *AuthorRepository) DeleteAuthor(m model.Author) error {
-	return r.db.Delete(&m).Error
+func (r *AuthorRepository) DeleteAuthor(id int) error {
+	return r.db.Delete(&model.Author{}, id).Error
 }

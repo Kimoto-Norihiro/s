@@ -41,3 +41,7 @@ func (u *InternationalConferenceEvaluationUsecase) UpdateInternationalConference
 func (u *InternationalConferenceEvaluationUsecase) GetInternationalConferenceEvaluationByInternationalConferenceIDAndYear(internationalConferenceID int, year int) (model.InternationalConferenceEvaluation, error) {
 	return u.repository.GetInternationalConferenceEvaluationByInternationalConferenceIDAndYear(internationalConferenceID, year)
 }
+
+func (u *InternationalConferenceEvaluationUsecase) DeleteInternationalConferenceEvaluation(internationalConferenceID int, year int) error {
+	return u.repository.DeleteInternationalConferenceEvaluation(internationalConferenceID, year)
+}

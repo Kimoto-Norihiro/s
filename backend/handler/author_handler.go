@@ -73,13 +73,12 @@ func (h *AuthorHandler) GetAuthorByID(c *gin.Context) {
 }
 
 func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
-	var m model.Author
-	err := c.BindJSON(&m)
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	err = h.usecase.DeleteAuthor(m)
+	err = h.usecase.DeleteAuthor(id)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

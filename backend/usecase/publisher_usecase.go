@@ -19,8 +19,8 @@ func NewPublisherUsecase(r repository.IPublisherRepository) *PublisherUsecase {
 	}
 }
 
-func (u *PublisherUsecase) IndexPublisher() ([]model.Publisher, error) {
-	return u.repository.IndexPublisher()
+func (u *PublisherUsecase) ListPublishers() ([]model.Publisher, error) {
+	return u.repository.ListPublishers()
 }
 
 func (u *PublisherUsecase) CreatePublisher(m model.Publisher) error {

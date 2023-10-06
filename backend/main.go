@@ -37,8 +37,8 @@ func main() {
 	r.POST("/author", ah.CreateAuthor)
 	r.GET("/authors", ah.ListAuthors)
 	r.PUT("/author", ah.UpdateAuthor)
-	r.GET("/author", ah.GetAuthorByID)
-	r.DELETE("/author", ah.DeleteAuthor)
+	r.GET("/author/:id", ah.GetAuthorByID)
+	r.DELETE("/author/:id", ah.DeleteAuthor)
 
 	// Tag
 	tr := repository.NewTagRepository(db)

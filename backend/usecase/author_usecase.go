@@ -43,6 +43,6 @@ func (u *AuthorUsecase) GetAuthorByID(id int) (model.Author, error) {
 	return u.repository.GetAuthorByID(id)
 }
 
-func (u *AuthorUsecase) DeleteAuthor(m model.Author) error {
-	return u.repository.DeleteAuthor(m)
+func (u *AuthorUsecase) DeleteAuthor(id int) error {
+	return u.repository.DeleteAuthor(id)
 }

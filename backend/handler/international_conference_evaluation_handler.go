@@ -67,3 +67,14 @@ func (h *InternationalConferenceEvaluationHandler) UpdateInternationalConference
 	}
 	c.JSON(200, gin.H{"message": "success"})
 }
+
+func (h *InternationalConferenceEvaluationHandler) DeleteInternationalConferenceEvaluation(c *gin.Context) {
+	internationalConferenceID, _ := strconv.Atoi(c.Param("international_conference_id"))
+	year, _ := strconv.Atoi(c.Param("year"))
+	err := h.usecase.DeleteInternationalConferenceEvaluation(internationalConferenceID, year)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

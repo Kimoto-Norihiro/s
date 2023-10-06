@@ -53,3 +53,7 @@ func (u *JournalUsecase) UpdateJournal(m model.Journal) error {
 func (u *JournalUsecase) GetJournalByID(id int) (model.Journal, error) {
 	return u.repository.GetJournalByID(id)
 }
+
+func (u *JournalUsecase) DeleteJournal(id int) error {
+	return u.repository.DeleteJournal(id)
+}

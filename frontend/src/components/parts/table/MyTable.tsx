@@ -1,3 +1,4 @@
+import { useCommonModal } from '@/context/modal_context'
 import React from 'react'
 
 export type ColumnDef<T extends any, U extends any> = {
@@ -12,10 +13,13 @@ export type Table<T extends any> = {
 
 type Props<T extends any> = {
 	table: Table<T>
+	setObject?: React.Dispatch<React.SetStateAction<T>>
+	modal?: React.ReactNode
 }
 
-export const MyTable = <T extends any>({ table }: Props<T>) => {
+export const MyTable = <T extends any>({ table, modal, setObject }: Props<T>) => {
 	const { data, columns } = table
+	const { showModal } = useCommonModal()
 
 	return (
 		<table className='border-collapse border border-slate-300'>
@@ -38,7 +42,10 @@ export const MyTable = <T extends any>({ table }: Props<T>) => {
 						))}
             <td className='border border-slate-300 px-4'>
               <button
-                className='bg-black text-white px-2 rounded hover:bg-white hover:text-black hover: border border-black'
+                className='px-2 btn'
+								onClick={() => {
+									showModal(modal)
+								}}
               >
                 編集
               </button>

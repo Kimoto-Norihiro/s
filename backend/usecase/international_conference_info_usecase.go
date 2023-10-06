@@ -37,3 +37,11 @@ func (u *InternationalConferenceInfoUsecase) UpdateInternationalConferenceInfo(m
 	}
 	return u.repository.UpdateInternationalConferenceInfo(m)
 }
+
+func (u *InternationalConferenceInfoUsecase) GetInternationalConferenceInfoByID(id int) (model.InternationalConferenceInfo, error) {
+	return u.repository.GetInternationalConferenceInfoByID(id)
+}
+
+func (u *InternationalConferenceInfoUsecase) DeleteInternationalConferenceInfo(id int) error {
+	return u.repository.DeleteInternationalConferenceInfo(id)
+}

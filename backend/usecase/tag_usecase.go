@@ -29,3 +29,19 @@ func (u *TagUsecase) CreateTag(m model.Tag) error {
 	}
 	return u.repository.CreateTag(m)
 }
+
+func (u *TagUsecase) UpdateTag(m model.Tag) error {
+	err := u.validate.Struct(m)
+	if err != nil {
+		return err
+	}
+	return u.repository.UpdateTag(m)
+}
+
+func (u *TagUsecase) GetTagByID(id int) (model.Tag, error) {
+	return u.repository.GetTagByID(id)
+}
+
+func (u *TagUsecase) DeleteTag(id int) error {
+	return u.repository.DeleteTag(id)
+}

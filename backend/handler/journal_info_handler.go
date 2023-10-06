@@ -40,3 +40,19 @@ func (h *JournalInfoHandler) ListJournalInfos(c *gin.Context) {
 	}
 	c.JSON(200, journalInfos)
 }
+
+func (h *JournalInfoHandler) UpdateJournalInfo(c *gin.Context) {
+	var m model.JournalInfo
+	err := c.BindJSON(&m)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = h.usecase.UpdateJournalInfo(m)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

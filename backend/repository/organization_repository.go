@@ -32,3 +32,7 @@ func (r *OrganizationRepository) GetOrganizationByID(id int) (model.Organization
 	err := r.db.Where("id = ?", id).First(&organization).Error
 	return organization, err
 }
+
+func (r *OrganizationRepository) DeleteOrganization(id int) error {
+	return r.db.Delete(&model.Organization{}, id).Error
+}

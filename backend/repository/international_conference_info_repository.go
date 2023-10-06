@@ -26,3 +26,7 @@ func (r *InternationalConferenceInfoRepository) ListInternationalConferenceInfos
 func (r *InternationalConferenceInfoRepository) UpdateInternationalConferenceInfo(m model.InternationalConferenceInfo) error {
 	return r.db.Save(&m).Error
 }
+
+func (r *InternationalConferenceInfoRepository) DeleteInternationalConferenceInfo(id int) error {
+	return r.db.Delete(&model.InternationalConferenceInfo{}, id).Error
+}

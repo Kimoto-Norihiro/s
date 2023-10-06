@@ -28,3 +28,7 @@ func (r *JournalEvaluationRepository) GetJournalEvaluationByJournalIDAndYear(jou
 	err := r.db.Where("journal_info_id = ? AND year = ?", journalID, year).First(&journalEvaluation).Error
 	return journalEvaluation, err
 }
+
+func (r *JournalEvaluationRepository) UpdateJournalEvaluation(m model.JournalEvaluation) error {
+	return r.db.Save(&m).Error
+}

@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form'
 import { Author } from '@/types/author'
 import { InputWithError } from '../form/InputWithError'
 import { FormButton } from '../form/FormButton';
-import { CreateAuthor } from '@/handlers/author_handlers'
+import { createAuthor, updateAuthor } from '@/handlers/author_handlers'
+import { type } from 'os';
 
 const AuthorUpsertSchema = yup.object().shape({
   ja_first_name: yup.string().required('入力してください'),
@@ -14,17 +15,26 @@ const AuthorUpsertSchema = yup.object().shape({
 	en_last_name: yup.string().required('入力してください'),
 })
 
-export type AuthorUpsertValues = Omit<Author, 'id'>
+export type FormType = 'create' | 'update'
 
-export const AuthorForm = () => {
-	const { register, handleSubmit, formState: { errors }} = useForm<AuthorUpsertValues>({
-		resolver: yupResolver(AuthorUpsertSchema)
+type Props = {
+	type: FormType
+	defaultValues?: Author
+}
+
+export const AuthorForm = ({ type, defaultValues }: Props) => {
+	const { register, handleSubmit, formState: { errors }} = useForm<Author>({
+		resolver: yupResolver(AuthorUpsertSchema),
+		defaultValues,
 	})
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-      await CreateAuthor(data)
-      console.log("create Paper")
+			if (type === 'update') {
+				await updateAuthor(data)
+			} else {
+				await createAuthor(data)
+			}
     }, (error) => {
       console.log(error)
       console.log('error')
@@ -79,7 +89,7 @@ export const AuthorForm = () => {
 						/>
 					</div>
 				</div>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

@@ -32,3 +32,7 @@ func (r *InternationalConferenceRepository) GetInternationalConferenceByID(id in
 	err := r.db.Preload("Authors").Preload("InternationalConferenceInfo").Preload("Evaluation").Preload("Tags").Where("id = ?", id).First(&internationalConference).Error
 	return internationalConference, err
 }
+
+func (r *InternationalConferenceRepository) DeleteInternationalConference(id int) error {
+	return r.db.Delete(&model.InternationalConference{}, id).Error
+}

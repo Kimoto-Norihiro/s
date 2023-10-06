@@ -33,3 +33,15 @@ func (u *JournalEvaluationUsecase) ListJournalEvaluations() ([]model.JournalEval
 func (u *JournalEvaluationUsecase) GetJournalEvaluationByJournalIDAndYear(journalID int, year int) (model.JournalEvaluation, error) {
 	return u.repository.GetJournalEvaluationByJournalIDAndYear(journalID, year)
 }
+
+func (u *JournalEvaluationUsecase) UpdateJournalEvaluation(m model.JournalEvaluation) error {
+	err := u.validate.Struct(m)
+	if err != nil {
+		return err
+	}
+	return u.repository.UpdateJournalEvaluation(m)
+}
+
+func (u *JournalEvaluationUsecase) DeleteJournalEvaluation(journalID int, year int) error {
+	return u.repository.DeleteJournalEvaluation(journalID, year)
+}

@@ -70,3 +70,15 @@ func (h *OrganizationHandler) GetOrganizationByID(c *gin.Context) {
 	}
 	c.JSON(200, organization)
 }
+
+func (h *OrganizationHandler) DeleteOrganization(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+	}
+	err = h.usecase.DeleteOrganization(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+	}
+	c.JSON(200, gin.H{"message": "success"})
+}

@@ -45,3 +45,8 @@ func (u *AwardUsecase) UpdateAward(m model.Award) error {
 	}
 	return u.repository.UpdateAward(m)
 }
+
+// delete
+func (u *AwardUsecase) DeleteAward(id int) error {
+	return u.repository.DeleteAward(id)
+}
