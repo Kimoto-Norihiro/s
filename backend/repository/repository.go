@@ -4,6 +4,14 @@ import (
 	"github.com/Kimoto-Norihiro/scholar-manager/model"
 )
 
+type ICountryRepository interface {
+	CreateCountry(m model.Country) error
+	ListCountries() ([]model.Country, error)
+	GetCountryByID(id int) (model.Country, error)
+	UpdateCountry(m model.Country) error
+	DeleteCountry(id int) error
+}
+
 type IAuthorRepository interface {
 	CreateAuthor(m model.Author) error
 	ListAuthors() ([]model.Author, error)

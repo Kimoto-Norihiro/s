@@ -4,6 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type ICountryHandler interface {
+	CreateCountry(c *gin.Context)
+	ListCountries(c *gin.Context)
+	GetCountryByID(c *gin.Context)
+	UpdateCountry(c *gin.Context)
+	DeleteCountry(c *gin.Context)
+}
+
 type IAuthorHandler interface {
 	CreateAuthor(c *gin.Context)
 	ListAuthors(c *gin.Context)

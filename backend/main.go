@@ -23,6 +23,16 @@ func main() {
 		panic(err)
 	}
 
+	// Country
+	cr := repository.NewCountryRepository(db)
+	cu := usecase.NewCountryUsecase(cr)
+	ch := handler.NewCountryHandler(cu)
+	r.POST("/country", ch.CreateCountry)
+	r.GET("/countries", ch.ListCountries)
+	r.PUT("/country", ch.UpdateCountry)
+	r.GET("/country/:id", ch.GetCountryByID)
+	r.DELETE("/country/:id", ch.DeleteCountry)
+
 	// Publisher
 	pr := repository.NewPublisherRepository(db)
 	pu := usecase.NewPublisherUsecase(pr)
