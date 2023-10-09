@@ -27,7 +27,7 @@ export const CountryForm = ({ type, defaultValues, setList }: FormProps<Country>
 			} else {
 				await updateCountry(data)
 			}
-			listCountries(setList)
+			await listCountries(setList)
 			closeModal()
 		}, (error) => {
 			console.log(error)

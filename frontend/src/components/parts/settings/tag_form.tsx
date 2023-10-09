@@ -39,10 +39,8 @@ export const TagForm = ({ type, defaultValues, setList }: FormProps<Tag>) => {
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<InputWithError 
 					label='分野タグ名'
 					name='name'

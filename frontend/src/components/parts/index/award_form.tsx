@@ -50,7 +50,7 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 			} else {
 				await updateAward(data)
 			}
-			listAwards(setList)
+			await listAwards(setList)
 			closeModal()
 		}, (error) => {
 			console.log(error)
@@ -68,9 +68,8 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<MultiSelectWithError
 					label='著者'
 					name='authors'

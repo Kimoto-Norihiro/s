@@ -14,6 +14,7 @@ import { listInternationalConferenceInfos } from '@/handlers/international_confe
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { InternationalConference } from '@/types/international_conference';
 import { SearchButton } from '../form/SearchButton';
+import { useCommonModal } from '@/context/modal_context';
 
 type Props = {
 	setInternationalConferenceList: React.Dispatch<React.SetStateAction<InternationalConference[]>>
@@ -25,6 +26,7 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<InternationalConference>({
 		resolver: yupResolver(InternationalConferenceSearchSchema),
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [international_conferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
 	const [tagList, setTagList] = useState<Tags>([])
@@ -32,6 +34,7 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 	const submit = async () => {
 		handleSubmit(async (data) => {
 			listInternationalConferences(setInternationalConferenceList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -48,10 +51,8 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<div className='flex justify-between'>
 					<div className='w-[50%] pr-4'>
 						<MultiSelectWithError

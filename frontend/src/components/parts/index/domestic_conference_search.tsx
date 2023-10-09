@@ -15,6 +15,7 @@ import { listDomesticConferenceInfos } from '@/handlers/domestic_conference_info
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { DomesticConference } from '@/types/domestic_conference';
 import { SearchButton } from '../form/SearchButton';
+import { useCommonModal } from '@/context/modal_context';
 
 const DomesticConferenceSearchSchema = yup.object().shape({})
 
@@ -22,6 +23,7 @@ export const DomesticConferenceSearch = () => {
 	const { control, register, handleSubmit, formState: { errors }} = useForm<DomesticConference>({
 		resolver: yupResolver(DomesticConferenceSearchSchema),
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [domesticConferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])
 	const [tagList, setTagList] = useState<Tags>([])
@@ -29,6 +31,7 @@ export const DomesticConferenceSearch = () => {
 	const submit = async () => {
 		handleSubmit(async (data) => {
 			await createDomesticConference(data)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -45,10 +48,8 @@ export const DomesticConferenceSearch = () => {
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<div className='flex justify-between'>
 					<div className='w-[50%] pr-4'>
 						<MultiSelectWithError

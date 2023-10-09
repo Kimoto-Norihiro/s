@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { InputWithError } from '../../parts/form/InputWithError';
 import { SelectWithError } from '../../parts/form/SelectWithError';
-import { FormButton } from '../../parts/form/FormButton';
 import { Journal } from '@/types/journal'
 import { listJournals } from '@/handlers/journal_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
@@ -15,6 +14,7 @@ import { JournalInfos } from '../../../types/journal_info';
 import { listJournalInfos } from '@/handlers/journal_info_handlers';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { SearchButton } from '../form/SearchButton';
+import { useCommonModal } from '@/context/modal_context';
 
 type Props = {
 	setJournalList: React.Dispatch<React.SetStateAction<Journal[]>>
@@ -26,13 +26,15 @@ export const JournalSearch = ({ setJournalList }: Props) => {
 	const { control, register, handleSubmit, formState: { errors }} = useForm<Journal>({
 		resolver: yupResolver(JournalSearchSchema)
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			listJournals(setJournalList)
+			await listJournals(setJournalList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -49,10 +51,8 @@ export const JournalSearch = ({ setJournalList }: Props) => {
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<div className='flex justify-between'>
 					<div className='w-[50%] pr-4'>
 						<MultiSelectWithError

@@ -15,6 +15,7 @@ import { Award, Awards } from '@/types/award';
 import { Organizations, organizationsToOptions } from '../../../types/organization';
 import { listOrganizations } from '@/handlers/organization_handlers';
 import { SearchButton } from '../form/SearchButton';
+import { useCommonModal } from '@/context/modal_context';
 
 type Props = {
 	setAwardList: React.Dispatch<React.SetStateAction<Awards>>
@@ -26,6 +27,7 @@ export const AwardSearch = ({ setAwardList }: Props) => {
 	const { control, register, handleSubmit, formState: { errors }} = useForm<Award>({
 		resolver: yupResolver(AwardSearchSchema),
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [organizationList, setOrganizationList] = useState<Organizations>([])
 	const [tagList, setTagList] = useState<Tags>([])
@@ -33,6 +35,7 @@ export const AwardSearch = ({ setAwardList }: Props) => {
 	const submit = async () => {
 		handleSubmit(async (data) => {
 			await listAwards(setAwardList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -49,10 +52,8 @@ export const AwardSearch = ({ setAwardList }: Props) => {
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<div className='flex justify-between'>
 					<div className='w-[50%] pr-4'>
 						<MultiSelectWithError

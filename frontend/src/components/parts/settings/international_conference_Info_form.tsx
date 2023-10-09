@@ -49,10 +49,8 @@ export const InternationalConferenceInfoForm = ({ type, defaultValues, setList }
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<InputWithError 
 					label='会議名'
 					name='name'

@@ -38,7 +38,7 @@ export const InternationalConferenceEvaluationForm = ({ type, defaultValues, set
 			} else {
 				await updateInternationalConferenceEvaluation(data)
 			}
-			listInternationalConferenceEvaluations(setList)
+			await listInternationalConferenceEvaluations(setList)
 			closeModal()
 		}, (error) => {
 			console.log('error', error)
@@ -53,10 +53,8 @@ export const InternationalConferenceEvaluationForm = ({ type, defaultValues, set
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<SelectWithError
 					label='会議名'
 					name='international_conference_info'

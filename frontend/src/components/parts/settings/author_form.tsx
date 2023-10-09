@@ -30,7 +30,7 @@ export const AuthorForm = ({ type, defaultValues, setList }: FormProps<Author>) 
 			} else {
 				await createAuthor(data)
 			}
-			listAuthors(setList)
+			await listAuthors(setList)
 			closeModal()
     }, (error) => {
       console.log(error)

@@ -39,9 +39,8 @@ export const OrganizationForm = ({ type, defaultValues, setList }: FormProps<Org
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<InputWithError 
 					label='国名'
 					name='name'
