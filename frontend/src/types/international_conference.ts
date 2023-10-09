@@ -36,7 +36,7 @@ export type InternationalConferenceUpsertValues = Omit<InternationalConference, 
 
 // type for table display
 export type InternationalConferenceTableDisplay = {
-	id: string
+	id: number
 	authors_name: string
 	authors_name_short: string
 	title: string
@@ -79,7 +79,7 @@ function getAuthorsNameShort(authors: Author[]): string {
 export function InternationalConferencesToTableDisplays(international_conferences: InternationalConferences): InternationalConferenceTableDisplays {
 	return international_conferences.map((international_conference) => {
 		return {
-			id: `IC${international_conference.id}`,
+			id: international_conference.id,
 			authors_name: getAuthorsName(international_conference.authors),
 			authors_name_short: getAuthorsNameShort(international_conference.authors),
 			title: international_conference.title,

@@ -12,9 +12,10 @@ import { listAuthors } from '@/handlers/author_handlers'
 import { listTags } from '@/handlers/tag_handlers'
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
-import { AwardUpsertValues } from '@/types/award';
+import { Award } from '@/types/award';
 import { Organizations, organizationsToOptions } from '../../../types/organization';
 import { listOrganizations } from '@/handlers/organization_handlers';
+import { FormProps } from '@/types/form'
 
 const currentYear = new Date().getFullYear()
 
@@ -39,9 +40,10 @@ const AwardUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const AwardForm = () => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<AwardUpsertValues>({
-		resolver: yupResolver(AwardUpsertSchema)
+export const AwardForm = ({ type, defaultValues }: FormProps<Award>) => {
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<Award>({
+		resolver: yupResolver(AwardUpsertSchema),
+		defaultValues,
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [organizationList, setOrganizationList] = useState<Organizations>([])

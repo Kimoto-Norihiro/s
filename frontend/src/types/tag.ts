@@ -3,12 +3,13 @@ export type Tag = {
   name: string
 }
 export type Tags = Tag[]
-export type TagTableDisplay = Omit<Tag, 'id'>
+export type TagTableDisplay = Tag
 export type TagTableDisplays = TagTableDisplay[]
 
 export function tagsToTableDisplays(tags: Tags): TagTableDisplays {
   return tags.map((tag) => {
     return {
+      id: tag.id,
       name: tag.name,
     }
   })

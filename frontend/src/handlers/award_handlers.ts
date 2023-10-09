@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { AwardUpsertValues, Awards } from '@/types/award';
+import { Award, Awards } from '@/types/award';
 
-export const createAward = async (data: AwardUpsertValues) => {
+export const createAward = async (data: Award) => {
 	console.log('data', data)
 	try {
 		const res = await axios.post('http://localhost:8000/award', data, {
@@ -25,5 +25,38 @@ export const listAwards = async (setAwardList: React.Dispatch<React.SetStateActi
 		console.log('indexAward',res.data)
 	} catch (err) {
 		console.log(err)
+	}
+}
+
+export const getAwardById = async (id: number): Promise<Awards | any> => {
+	try {
+		const res = await axios.get(`http://localhost:8000/award/${id}`, {
+			withCredentials: true
+		})
+		return res.data
+	} catch (err) {
+		return err
+	}
+}
+
+export const updateAward = async (data: Award) => {
+	try {
+		const res = await axios.put(`http://localhost:8000/award`, data, {
+			withCredentials: true
+		})
+		console.log('success to update award', res)
+	} catch (err) {
+		console.log('fail to update award', err)
+	}
+}
+
+export const deleteAward = async (id: number) => {
+	try {
+		const res = await axios.delete(`http://localhost:8000/award/${id}`, {
+			withCredentials: true
+		})
+		console.log('success to delete award', res)
+	} catch (err) {
+		console.log('fail to delete award', err)
 	}
 }

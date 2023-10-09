@@ -10,12 +10,13 @@ export type JournalInfo = {
 export type JournalInfos = JournalInfo[]
 
 // type for table display
-export type JournalInfoTableDisplay = Omit<JournalInfo, 'id' | 'publisher'> & { publisher_name: string }
+export type JournalInfoTableDisplay = Omit<JournalInfo, 'publisher'> & { publisher_name: string }
 export type JournalInfoTableDisplays = JournalInfoTableDisplay[]
 
 export function journalInfosToTableDisplays(journalInfos: JournalInfos): JournalInfoTableDisplays {
 	return journalInfos.map((journalInfo) => {
 		return {
+			id: journalInfo.id,
 			name: journalInfo.name,
 			short_name: journalInfo.short_name,
 			iso4_name: journalInfo.iso4_name,

@@ -14,9 +14,8 @@ import { DomesticConferenceInfos } from '../../../types/domestic_conference_info
 import { listDomesticConferenceInfos } from '@/handlers/domestic_conference_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
-import { Countries } from '@/types/country';
-import { listCountries } from '@/handlers/country_handlers';
-import { DomesticConferenceUpsertValues } from '@/types/domestic_conference';
+import { DomesticConference } from '@/types/domestic_conference';
+import { FormProps } from '@/types/form'
 
 const currentYear = new Date().getFullYear()
 
@@ -41,9 +40,10 @@ const DomesticConferenceUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const DomesticConferenceForm = () => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<DomesticConferenceUpsertValues>({
-		resolver: yupResolver(DomesticConferenceUpsertSchema)
+export const DomesticConferenceForm = ({ type, defaultValues }: FormProps<DomesticConference>) => {
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<DomesticConference>({
+		resolver: yupResolver(DomesticConferenceUpsertSchema),
+		defaultValues,
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [domesticConferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])

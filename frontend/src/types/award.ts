@@ -19,12 +19,9 @@ export type Award = {
 }
 export type Awards = Award[]
 
-// type for crud
-export type AwardUpsertValues = Omit<Award, 'id'>
-
 // type for table display
 export type AwardTableDisplay = {
-	id: string
+	id: number
   authors_name: string
 	authors_name_short: string
   name: string
@@ -55,7 +52,7 @@ function getAuthorsNameShort(authors: Author[], is_domestic: boolean): string {
 export function AwardsToTableDisplays(awards: Awards): AwardTableDisplays {
 	return awards.map((award) => {
 		return {
-			id: `AW${award.id}`,
+			id: award.id,
 			authors_name: getAuthorsName(award.authors, award.is_domestic),
 			authors_name_short: getAuthorsNameShort(award.authors, award.is_domestic),
 			name: award.name,

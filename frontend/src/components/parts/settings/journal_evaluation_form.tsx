@@ -5,10 +5,11 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
-import { JournalEvaluationUpsertValues } from '@/types/journal_evaluation'
+import { JournalEvaluation } from '@/types/journal_evaluation'
 import { createJournalEvaluation } from '@/handlers/journal_evaluation_handlers'
 import { JournalInfos } from '@/types/journal_info'
 import { listJournalInfos } from '@/handlers/journal_info_handlers'
+import { FormProps } from '@/types/form'
 
 const currentYear = new Date().getFullYear()
 
@@ -21,9 +22,10 @@ const JournalEvaluationUpsertSchema = yup.object().shape({
 	number_of_accepted_papers: yup.number().required('入力してください'),
 })
 
-export const JournalEvaluationForm = () => {
-	const { register, handleSubmit, control, formState: { errors }} = useForm<JournalEvaluationUpsertValues>({
-		resolver: yupResolver(JournalEvaluationUpsertSchema)
+export const JournalEvaluationForm = ({ type, defaultValues }: FormProps<JournalEvaluation>) => {
+	const { register, handleSubmit, control, formState: { errors }} = useForm<JournalEvaluation>({
+		resolver: yupResolver(JournalEvaluationUpsertSchema),
+		defaultValues
 	})
 	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
 

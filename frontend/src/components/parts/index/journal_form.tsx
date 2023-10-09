@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '../../parts/form/InputWithError';
 import { SelectWithError } from '../../parts/form/SelectWithError';
 import { FormButton } from '../../parts/form/FormButton';
-import { JournalUpsertValues } from '@/types/journal'
+import { Journal } from '@/types/journal'
 import { createJournal } from '@/handlers/journal_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
@@ -15,6 +15,7 @@ import { JournalInfos } from '../../../types/journal_info';
 import { listJournalInfos } from '@/handlers/journal_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
+import { FormProps } from '@/types/form'
 
 const currentYear = new Date().getFullYear()
 
@@ -39,8 +40,8 @@ const JournalUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const JournalForm = () => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<JournalUpsertValues>({
+export const JournalForm = ({ type, defaultValues }: FormProps<Journal>) => {
+	const { control, register, handleSubmit, formState: { errors }} = useForm<Journal>({
 		resolver: yupResolver(JournalUpsertSchema)
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
@@ -55,16 +56,6 @@ export const JournalForm = () => {
 			console.log('error')
 		})()
 	}
-
-	const { authors, tags } = watch()
-
-	useEffect(() => {
-		console.log(authors)
-	}, [authors])
-
-	useEffect(() => {
-		console.log(tags)
-	}, [tags])
 
 	useEffect(() => {
 		listAuthors(setAuthorList)

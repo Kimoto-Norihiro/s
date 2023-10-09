@@ -7,26 +7,32 @@ import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
 import { Publishers } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
-import { DomesticConferenceInfoUpsertValues } from '@/types/domestic_conference_info'
-import { createDomesticConferenceInfo } from '@/handlers/domestic_conference_info_handlers'
+import { DomesticConferenceInfo } from '@/types/domestic_conference_info'
+import { createDomesticConferenceInfo, updateDomesticConferenceInfo } from '@/handlers/domestic_conference_info_handlers'
+import { FormProps } from '@/types/form'
 
 const DomesticConferenceInfoUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 	short_name: yup.string().required('入力してください'),
-  iso4_name: yup.string().required('入力してください'),
+  other_name: yup.string().required('入力してください'),
   publisher: yup.object().required('選択してください'),
 })
 
-export const DomesticConferenceInfoForm = () => {
-	const { register, handleSubmit, control, formState: { errors }} = useForm<DomesticConferenceInfoUpsertValues>({
-		resolver: yupResolver(DomesticConferenceInfoUpsertSchema)
+export const DomesticConferenceInfoForm = ({ type, defaultValues }: FormProps<DomesticConferenceInfo>) => {
+	const { register, handleSubmit, control, formState: { errors }} = useForm<DomesticConferenceInfo>({
+		resolver: yupResolver(DomesticConferenceInfoUpsertSchema),
+		defaultValues,
 	})
 	const [publisherList, setPublisherList] = useState<Publishers>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createDomesticConferenceInfo(data)
-			console.log("create journal info")
+			if (type === 'create') {
+				await createDomesticConferenceInfo(data)
+				console.log("create domestic conference info")
+			} else {
+				await updateDomesticConferenceInfo(data)
+			}
 		}, (error) => {
 			console.log('error', error)
 		})()

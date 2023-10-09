@@ -8,7 +8,7 @@ export const DomesticConferenceInfoPage = () => {
 	return (
 		<div className='p-4'>
 			<div className='mb-4'>
-				<button className='btn px-2 py-1' onClick={() => showModal(<DomesticConferenceInfoForm/>) }>追加</button>
+				<button className='btn px-2 py-1' onClick={() => showModal(<DomesticConferenceInfoForm type='create'/>) }>追加</button>
 			</div>
 			<DomesticConferenceInfoTable />
 		</div>

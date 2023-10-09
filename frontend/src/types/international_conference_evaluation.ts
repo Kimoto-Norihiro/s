@@ -13,16 +13,14 @@ export type InternationalConferenceEvaluation = {
 }
 export type InternationalConferenceEvaluations = InternationalConferenceEvaluation[]
 
-// type for form
-export type InternationalConferenceEvaluationUpsertValues = Omit<InternationalConferenceEvaluation, 'international_conference_info_id'>
-
 // type for table display
-export type InternationalConferenceEvaluationTableDisplay = Omit<InternationalConferenceEvaluation, 'international_conference_info_id' | 'international_conference_info'> & { international_conference_info_name: string }
+export type InternationalConferenceEvaluationTableDisplay = Omit<InternationalConferenceEvaluation, 'international_conference_info'> & { international_conference_info_name: string }
 export type InternationalConferenceEvaluationTableDisplays = InternationalConferenceEvaluationTableDisplay[]
 
 export function internationalConferenceEvaluationsToTableDisplays(international_conference_evaluations: InternationalConferenceEvaluations): InternationalConferenceEvaluationTableDisplays {
 	return international_conference_evaluations.map((international_conference_evaluation) => {
 		return {
+			international_conference_info_id: international_conference_evaluation.international_conference_info_id,
 			international_conference_info_name: international_conference_evaluation.international_conference_info.name,
 			year: international_conference_evaluation.year,
 			core_rank: international_conference_evaluation.core_rank,

@@ -2,19 +2,21 @@ import React from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { PublisherUpsertValues } from '@/types/publisher'
+import { Publisher } from '@/types/publisher'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
 import { createPublisher } from '@/handlers/publisher_handlers'
+import { FormProps } from '@/types/form'
 
 const PublisherUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 	short_name: yup.string().required('入力してください'),
 })
 
-export const PublisherForm = () => {
-	const { register, handleSubmit, formState: { errors }} = useForm<PublisherUpsertValues>({
-		resolver: yupResolver(PublisherUpsertSchema)
+export const PublisherForm = ({ type, defaultValues }: FormProps<Publisher>) => {
+	const { register, handleSubmit, formState: { errors }} = useForm<Publisher>({
+		resolver: yupResolver(PublisherUpsertSchema),
+		defaultValues,
 	})
 
 	const submit = async () => {

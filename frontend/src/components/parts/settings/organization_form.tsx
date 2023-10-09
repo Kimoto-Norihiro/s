@@ -6,16 +6,16 @@ import { Organization } from '@/types/organization'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
 import { createOrganization } from '@/handlers/organization_handlers'
+import { FormProps } from '@/types/form'
 
 const OrganizationUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 })
 
-export type OrganizationUpsertValues = Omit<Organization, 'id'>
-
-export const OrganizationForm = () => {
-	const { register, handleSubmit, formState: { errors }} = useForm<OrganizationUpsertValues>({
-		resolver: yupResolver(OrganizationUpsertSchema)
+export const OrganizationForm = ({ type, defaultValues }: FormProps<Organization>) => {
+	const { register, handleSubmit, formState: { errors }} = useForm<Organization>({
+		resolver: yupResolver(OrganizationUpsertSchema),
+		defaultValues,
 	})
 
 	const submit = async () => {

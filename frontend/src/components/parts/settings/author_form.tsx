@@ -6,7 +6,8 @@ import { Author } from '@/types/author'
 import { InputWithError } from '../form/InputWithError'
 import { FormButton } from '../form/FormButton';
 import { createAuthor, updateAuthor } from '@/handlers/author_handlers'
-import { type } from 'os';
+import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const AuthorUpsertSchema = yup.object().shape({
   ja_first_name: yup.string().required('入力してください'),
@@ -15,18 +16,12 @@ const AuthorUpsertSchema = yup.object().shape({
 	en_last_name: yup.string().required('入力してください'),
 })
 
-export type FormType = 'create' | 'update'
-
-type Props = {
-	type: FormType
-	defaultValues?: Author
-}
-
-export const AuthorForm = ({ type, defaultValues }: Props) => {
+export const AuthorForm = ({ type, defaultValues }: FormProps<Author>) => {
 	const { register, handleSubmit, formState: { errors }} = useForm<Author>({
 		resolver: yupResolver(AuthorUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
@@ -35,6 +30,7 @@ export const AuthorForm = ({ type, defaultValues }: Props) => {
 			} else {
 				await createAuthor(data)
 			}
+			closeModal()
     }, (error) => {
       console.log(error)
       console.log('error')
@@ -46,7 +42,6 @@ export const AuthorForm = ({ type, defaultValues }: Props) => {
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
-					e.preventDefault()
 					submit()
 			}}>
 				<div className='flex justify-between'>

@@ -16,7 +16,8 @@ import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { Countries } from '@/types/country';
 import { listCountries } from '@/handlers/country_handlers';
-import { InternationalConferenceUpsertValues } from '@/types/international_conference';
+import { InternationalConference } from '@/types/international_conference';
+import { FormProps } from '@/types/form'
 
 const currentYear = new Date().getFullYear()
 
@@ -41,9 +42,10 @@ const InternationalConferenceUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const InternationalConferenceForm = () => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<InternationalConferenceUpsertValues>({
-		resolver: yupResolver(InternationalConferenceUpsertSchema)
+export const InternationalConferenceForm = ({ type, defaultValues }: FormProps<InternationalConference>) => {
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<InternationalConference>({
+		resolver: yupResolver(InternationalConferenceUpsertSchema),
+		defaultValues,
 	})
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [international_conferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])

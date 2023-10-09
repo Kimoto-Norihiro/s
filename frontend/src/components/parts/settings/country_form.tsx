@@ -5,22 +5,28 @@ import { useForm } from 'react-hook-form'
 import { Country } from '@/types/country'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
-import { createCountry } from '@/handlers/country_handlers'
+import { createCountry, updateCountry } from '@/handlers/country_handlers'
+import { FormProps } from '@/types/form'
 
 const CountryUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 })
 
-export type CountryUpsertValues = Omit<Country, 'id'>
-
-export const CountryForm = () => {
-	const { register, handleSubmit, formState: { errors }} = useForm<CountryUpsertValues>({
-		resolver: yupResolver(CountryUpsertSchema)
+export const CountryForm = ({ type, defaultValues }: FormProps<Country>) => {
+	const { register, handleSubmit, formState: { errors }} = useForm<Country>({
+		resolver: yupResolver(CountryUpsertSchema),
+		defaultValues,
 	})
+
+
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createCountry(data)
+			if (type === 'create') {
+				await createCountry(data)
+			} else {
+				await updateCountry(data)
+			}
 			console.log("create Country")
 		}, (error) => {
 			console.log(error)
@@ -33,9 +39,9 @@ export const CountryForm = () => {
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
-					e.preventDefault()
 					submit()
-			}}>
+				}}
+			>
 				<InputWithError 
 					label='国名'
 					name='name'
@@ -43,7 +49,7 @@ export const CountryForm = () => {
 					errors={errors}
 					required
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { AwardTableDisplay, Awards, AwardsToTableDisplays } from '@/types/award'
-import { listAwards } from '@/handlers/award_handlers'
-import { MyTable, Table, ColumnDef } from '../table/MyTable';
+import { deleteAward, getAwardById, listAwards } from '@/handlers/award_handlers'
+import { ColumnDef } from '../table/MyTable';
+import { AwardForm } from './award_form';
+import { useCommonModal } from '@/context/modal_context';
+import { DeleteModal } from '../table/DeleteModal';
 
 
 export const AwardTable = () => {
 	const [domesticConferenceList, setAwardList] = useState<Awards>([])
+	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
 		listAwards(setAwardList)
 	}, [])
 
-	const domesticConferenceTableDisplayList = AwardsToTableDisplays(domesticConferenceList)
-
+	const data = AwardsToTableDisplays(domesticConferenceList)
 	const columns: ColumnDef<AwardTableDisplay, string>[] = [
 		{ accessorKey: 'id', header: 'ID'},
 		{ accessorKey: 'authors_name', header: '著者_正式'},
@@ -26,11 +29,55 @@ export const AwardTable = () => {
 		{ accessorKey: 'is_certificate_exist', header: '共同研究'},
 		{ accessorKey: 'tag_names', header: '分野タグ'},
 	]
-	
-	const table = ({
-		data: domesticConferenceTableDisplayList,
-		columns,
-	}) as Table<AwardTableDisplay>
 
-	return <MyTable table={table}/>
+	return (
+		<table className='border-collapse border border-slate-300'>
+			<thead>
+				<tr>
+					{columns.map((column, idx) => (
+						<th key={idx} className='border border-slate-300 px-2 text-xs'>
+							{ column.header }
+						</th>
+					))}
+				</tr>
+			</thead>
+			<tbody>
+				{data.map((d, idx) => (
+					<tr key={idx}>
+						{columns.map((column, idx) => (
+							<td key={idx} className='border border-slate-300 px-2 text-xs'>
+								{ String(d[column.accessorKey]) }
+							</td>
+						))}
+						<td className='border border-slate-300 px-4'>
+							<button
+								className='px-2 btn'
+								onClick={async () => {
+									const defaultValues = await getAwardById(d.id)
+									console.log(defaultValues)
+									if (!defaultValues) return
+									showModal(<AwardForm type='update' defaultValues={defaultValues}/>)
+								}}
+							>
+								編集
+							</button>
+							<button
+								className='px-2 btn'
+								onClick={async () => {
+									const deleteHandler = async () => {
+										await deleteAward(d.id)
+										closeModal()
+										listAwards(setAwardList)
+									} 
+									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
+								}}
+							>
+								削除
+							</button>
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	)
 }

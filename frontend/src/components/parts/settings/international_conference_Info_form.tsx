@@ -7,8 +7,9 @@ import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
 import { Publishers } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
-import { InternationalConferenceInfoUpsertValues } from '@/types/international_conference_info'
+import { InternationalConferenceInfo } from '@/types/international_conference_info'
 import { createInternationalConferenceInfo } from '@/handlers/international_conference_info_handlers'
+import { FormProps } from '@/types/form'
 
 const InternationalConferenceInfoUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
@@ -17,9 +18,10 @@ const InternationalConferenceInfoUpsertSchema = yup.object().shape({
   publisher: yup.object().required('選択してください'),
 })
 
-export const InternationalConferenceInfoForm = () => {
-	const { register, handleSubmit, control, formState: { errors }} = useForm<InternationalConferenceInfoUpsertValues>({
-		resolver: yupResolver(InternationalConferenceInfoUpsertSchema)
+export const InternationalConferenceInfoForm = ({ type, defaultValues }: FormProps<InternationalConferenceInfo>) => {
+	const { register, handleSubmit, control, formState: { errors }} = useForm<InternationalConferenceInfo>({
+		resolver: yupResolver(InternationalConferenceInfoUpsertSchema),
+		defaultValues,
 	})
 	const [publisherList, setPublisherList] = useState<Publishers>([])
 

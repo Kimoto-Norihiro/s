@@ -5,10 +5,11 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
-import { InternationalConferenceEvaluationUpsertValues } from '@/types/international_conference_evaluation'
+import { InternationalConferenceEvaluation } from '@/types/international_conference_evaluation'
 import { InternationalConferenceInfos } from '@/types/international_conference_info'
 import { listInternationalConferenceInfos } from '@/handlers/international_conference_info_handlers'
 import { createInternationalConferenceEvaluation } from '@/handlers/international_conference_evaluation_handlers'
+import { FormProps } from '@/types/form'
 
 const currentYear = new Date().getFullYear()
 
@@ -21,9 +22,10 @@ const InternationalConferenceEvaluationUpsertSchema = yup.object().shape({
 	number_of_accepted_papers: yup.number().required('入力してください'),
 })
 
-export const InternationalConferenceEvaluationForm = () => {
-	const { register, handleSubmit, control, formState: { errors }} = useForm<InternationalConferenceEvaluationUpsertValues>({
-		resolver: yupResolver(InternationalConferenceEvaluationUpsertSchema)
+export const InternationalConferenceEvaluationForm = ({ type, defaultValues }: FormProps<InternationalConferenceEvaluation>) => {
+	const { register, handleSubmit, control, formState: { errors }} = useForm<InternationalConferenceEvaluation>({
+		resolver: yupResolver(InternationalConferenceEvaluationUpsertSchema),
+		defaultValues,
 	})
 	const [internationalConferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
 

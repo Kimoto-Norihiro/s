@@ -32,7 +32,7 @@ export type DomesticConferenceUpsertValues = Omit<DomesticConference, 'id'>
 
 // type for table display
 export type DomesticConferenceTableDisplay = {
-	id: string
+	id: number
 	authors_name: string
 	authors_name_short: string
 	title: string
@@ -70,7 +70,7 @@ function getAuthorsNameShort(authors: Author[]): string {
 export function DomesticConferencesToTableDisplays(domestic_conferences: DomesticConferences): DomesticConferenceTableDisplays {
 	return domestic_conferences.map((domestic_conference) => {
 		return {
-			id: `DC${domestic_conference.id}`,
+			id: domestic_conference.id,
 			authors_name: getAuthorsName(domestic_conference.authors),
 			authors_name_short: getAuthorsNameShort(domestic_conference.authors),
 			title: domestic_conference.title,

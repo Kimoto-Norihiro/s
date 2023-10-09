@@ -12,12 +12,13 @@ export type DomesticConferenceInfo = {
 export type DomesticConferenceInfos = DomesticConferenceInfo[]
 
 // type for table display
-export type DomesticConferenceInfoTableDisplay = Omit<DomesticConferenceInfo, 'id' | 'publisher'> & { publisher_name: string }
+export type DomesticConferenceInfoTableDisplay = Omit<DomesticConferenceInfo, 'publisher'> & { publisher_name: string }
 export type DomesticConferenceInfoTableDisplays = DomesticConferenceInfoTableDisplay[]
 
 export function domesticConferencesToTableDisplays(domestic_conference_infos: DomesticConferenceInfos): DomesticConferenceInfoTableDisplays {
 	return domestic_conference_infos.map((domestic_conference_info) => {
 		return {
+			id: domestic_conference_info.id,
 			name: domestic_conference_info.name,
 			short_name: domestic_conference_info.short_name,
 			other_name: domestic_conference_info.other_name,

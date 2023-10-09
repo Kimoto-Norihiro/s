@@ -8,7 +8,7 @@ export const TagPage = () => {
 	return (
 		<div className='p-4'>
 			<div className='mb-4'>
-				<button className='btn px-2 py-1' onClick={() => showModal(<TagForm />) }>追加</button>
+				<button className='btn px-2 py-1' onClick={() => showModal(<TagForm type='create' />) }>追加</button>
 			</div>
 			<TagTable />
 		</div>

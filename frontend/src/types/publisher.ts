@@ -6,15 +6,13 @@ export type Publisher = {
 export type Publishers = Publisher[]
 
 // type for table display
-export type PublisherTableDisplay = Omit<Publisher, 'id'>
+export type PublisherTableDisplay = Publisher
 export type PublisherTableDisplays = PublisherTableDisplay[]
-
-// type for form
-export type PublisherUpsertValues = Omit<Publisher, 'id'>
 
 export function publishersToTableDisplays(publishers: Publishers): PublisherTableDisplays {
   return publishers.map((publisher) => {
     return {
+      id: publisher.id,
       name: publisher.name,
       short_name: publisher.short_name
     }

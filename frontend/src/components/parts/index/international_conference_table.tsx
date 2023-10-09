@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { InternationalConferenceTableDisplay, InternationalConferences, InternationalConferencesToTableDisplays } from '@/types/international_conference'
-import { listInternationalConferences } from '@/handlers/international_conference_handlers'
+import { deleteInternationalConference, getInternationalConferenceById, listInternationalConferences } from '@/handlers/international_conference_handlers'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
+import { useCommonModal } from '@/context/modal_context';
+import { DeleteModal } from '../table/DeleteModal';
+import { InternationalConferenceForm } from './international_conference_form';
 
 
 export const InternationalConferenceTable = () => {
 	const [internationalConferenceList, setInternationalConferenceList] = useState<InternationalConferences>([])
+	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
 		listInternationalConferences(setInternationalConferenceList)
 	}, [])
 
-	const internationalConferenceTableDisplayList = InternationalConferencesToTableDisplays(internationalConferenceList)
+	const data = InternationalConferencesToTableDisplays(internationalConferenceList)
 
 	const columns: ColumnDef<InternationalConferenceTableDisplay, any>[] = [
 		{ accessorKey: 'id', header: 'ID'},
@@ -42,11 +46,55 @@ export const InternationalConferenceTable = () => {
 		{ accessorKey: 'is_video_exist', header: 'ビデオ'},
 		{ accessorKey: 'tag_names', header: '分野タグ'},
 	]
-	
-	const table = ({
-		data: internationalConferenceTableDisplayList,
-		columns,
-	}) as Table<InternationalConferenceTableDisplay>
 
-	return <MyTable table={table}/>
+	return (
+		<table className='border-collapse border border-slate-300'>
+			<thead>
+				<tr>
+					{columns.map((column, idx) => (
+						<th key={idx} className='border border-slate-300 px-2 text-xs'>
+							{ column.header }
+						</th>
+					))}
+				</tr>
+			</thead>
+			<tbody>
+				{data.map((d, idx) => (
+					<tr key={idx}>
+						{columns.map((column, idx) => (
+							<td key={idx} className='border border-slate-300 px-2 text-xs'>
+								{ String(d[column.accessorKey]) }
+							</td>
+						))}
+						<td className='border border-slate-300 px-4'>
+							<button
+								className='px-2 btn'
+								onClick={async () => {
+									const defaultValues = await getInternationalConferenceById(d.id)
+									console.log(defaultValues)
+									if (!defaultValues) return
+									showModal(<InternationalConferenceForm type='update' defaultValues={defaultValues}/>)
+								}}
+							>
+								編集
+							</button>
+							<button
+								className='px-2 btn'
+								onClick={async () => {
+									const deleteHandler = async () => {
+										await deleteInternationalConference(d.id)
+										closeModal()
+										listInternationalConferences(setInternationalConferenceList)
+									} 
+									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
+								}}
+							>
+								削除
+							</button>
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	)
 }

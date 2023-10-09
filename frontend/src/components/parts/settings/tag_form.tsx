@@ -6,16 +6,16 @@ import { Tag } from '@/types/tag'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
 import { createTag } from '@/handlers/tag_handlers'
+import { FormProps } from '@/types/form'
 
 const TagUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 })
 
-export type TagUpsertValues = Omit<Tag, 'id'>
-
-export const TagForm = () => {
-	const { register, handleSubmit, formState: { errors }} = useForm<TagUpsertValues>({
-		resolver: yupResolver(TagUpsertSchema)
+export const TagForm = ({ type, defaultValues }: FormProps<Tag>) => {
+	const { register, handleSubmit, formState: { errors }} = useForm<Tag>({
+		resolver: yupResolver(TagUpsertSchema),
+		defaultValues,
 	})
 
 	const submit = async () => {

@@ -27,12 +27,9 @@ export type Journal = {
 }
 export type Journals = Journal[]
 
-// type for crud
-export type JournalUpsertValues = Omit<Journal, 'id'>
-
 // type for table display
 export type JournalTableDisplay = {
-	id: string
+	id: number
 	authors_name: string
 	authors_name_short: string
 	title: string
@@ -69,10 +66,9 @@ function getAuthorsNameShort(authors: Author[], is_domestic: boolean): string {
 }
 
 export function JournalsToTableDisplays(journals: Journals): JournalTableDisplays {
-	// console.log('journals', journals)
 	return journals.map((journal) => {
 		return {
-			id: `JN${journal.id}`,
+			id: journal.id,
 			authors_name: getAuthorsName(journal.authors, journal.is_domestic),
 			authors_name_short: getAuthorsNameShort(journal.authors, journal.is_domestic),
 			title: journal.title,

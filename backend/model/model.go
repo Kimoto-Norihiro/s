@@ -150,7 +150,7 @@ type DomesticConference struct {
 
 // 国内会議名
 type DomesticConferenceInfo struct {
-	ID                 int       `json:"id" gorm:"primaryKey" validate:"required"`
+	ID                 int       `json:"id" gorm:"primaryKey"`
 	Name               string    `json:"name" validate:"required"`
 	ShortName          string    `json:"short_name" validate:"required"`
 	OtherName          string    `json:"other_name"`
