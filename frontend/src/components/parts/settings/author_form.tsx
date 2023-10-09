@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { Author } from '@/types/author'
 import { InputWithError } from '../form/InputWithError'
 import { FormButton } from '../form/FormButton';
-import { createAuthor, updateAuthor } from '@/handlers/author_handlers'
+import { createAuthor, listAuthors, updateAuthor } from '@/handlers/author_handlers'
 import { FormProps } from '@/types/form'
 import { useCommonModal } from '@/context/modal_context'
 
@@ -16,7 +16,7 @@ const AuthorUpsertSchema = yup.object().shape({
 	en_last_name: yup.string().required('入力してください'),
 })
 
-export const AuthorForm = ({ type, defaultValues }: FormProps<Author>) => {
+export const AuthorForm = ({ type, defaultValues, setList }: FormProps<Author>) => {
 	const { register, handleSubmit, formState: { errors }} = useForm<Author>({
 		resolver: yupResolver(AuthorUpsertSchema),
 		defaultValues,
@@ -30,6 +30,7 @@ export const AuthorForm = ({ type, defaultValues }: FormProps<Author>) => {
 			} else {
 				await createAuthor(data)
 			}
+			listAuthors(setList)
 			closeModal()
     }, (error) => {
       console.log(error)
@@ -43,7 +44,8 @@ export const AuthorForm = ({ type, defaultValues }: FormProps<Author>) => {
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
 					submit()
-			}}>
+				}}
+			>
 				<div className='flex justify-between'>
 					<div className='w-[45%]'>
 						<InputWithError 

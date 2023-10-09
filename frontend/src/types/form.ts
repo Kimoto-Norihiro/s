@@ -5,6 +5,7 @@ export type FormType = 'create' | 'update'
 export type FormProps<T> = {
 	type: FormType
 	defaultValues?: T
+	setList: React.Dispatch<React.SetStateAction<Array<T>>>
 }
 
 export const numberCondition = yup.number()

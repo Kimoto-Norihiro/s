@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { JournalEvaluations, journalEvaluationsToTableDisplays, JournalEvaluationTableDisplay } from '@/types/journal_evaluation'
+import { JournalEvaluation, JournalEvaluations, journalEvaluationsToTableDisplays, JournalEvaluationTableDisplay } from '@/types/journal_evaluation'
 import { listJournalEvaluations, deleteJournalEvaluation, getJournalEvaluation } from '@/handlers/journal_evaluation_handlers'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { useCommonModal } from '@/context/modal_context';
 import { JournalEvaluationForm } from './journal_evaluation_form';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
 
-export const JournalEvaluationTable = () => {
-	const [journalEvaluationList, setJournalEvaluationList] = useState<JournalEvaluations>([])
+export const JournalEvaluationTable = ({ list, setList }: TableProps<JournalEvaluation>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listJournalEvaluations(setJournalEvaluationList)
-		console.log('journalEvaluationList',journalEvaluationList)
+		listJournalEvaluations(setList)
 	}, [])
 
-	const data = journalEvaluationsToTableDisplays(journalEvaluationList)
+	const data = journalEvaluationsToTableDisplays(list)
 	const columns: ColumnDef<JournalEvaluationTableDisplay, any>[] = [
 		{ accessorKey: 'journal_info_name', header: '雑誌名' },
 		{	accessorKey: 'year', header: '年' },
@@ -52,7 +51,7 @@ export const JournalEvaluationTable = () => {
 									const defaultValues = await getJournalEvaluation(d.journal_info_id, d.year)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<JournalEvaluationForm type='update' defaultValues={defaultValues}/>)
+									showModal(<JournalEvaluationForm type='update' defaultValues={defaultValues} setList={setList} />)
 								}}
 							>
 								編集
@@ -63,7 +62,7 @@ export const JournalEvaluationTable = () => {
 									const deleteHandler = async () => {
 										await deleteJournalEvaluation(d.journal_info_id, d.year)
 										closeModal()
-										listJournalEvaluations(setJournalEvaluationList)
+										listJournalEvaluations(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

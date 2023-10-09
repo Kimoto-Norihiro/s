@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '../form/InputWithError';
 import { SelectWithError } from '../form/SelectWithError';
 import { FormButton } from '../form/FormButton';
-import { createDomesticConference } from '@/handlers/domestic_conference_handlers'
+import { createDomesticConference, updateDomesticConference } from '@/handlers/domestic_conference_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
@@ -16,17 +16,11 @@ import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { DomesticConference } from '@/types/domestic_conference';
 import { FormProps } from '@/types/form'
+import { numberCondition } from '@/types/form';
+import { listDomesticConferences } from '../../../handlers/domestic_conference_handlers';
+import { useCommonModal } from '@/context/modal_context';
 
 const currentYear = new Date().getFullYear()
-
-const numberCondition = yup.number()
-.typeError('数字を入力してください')
-.integer('整数を入力してください')
-.min(0, '0以上の数字を入れてください')
-.nullable()
-.transform((value, originalValue) =>
-  String(originalValue).trim() === '' ? null : value
-)
 
 const DomesticConferenceUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
@@ -40,18 +34,25 @@ const DomesticConferenceUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const DomesticConferenceForm = ({ type, defaultValues }: FormProps<DomesticConference>) => {
+export const DomesticConferenceForm = ({ type, defaultValues, setList }: FormProps<DomesticConference>) => {
 	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<DomesticConference>({
 		resolver: yupResolver(DomesticConferenceUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [domesticConferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createDomesticConference(data)
+			if (type === 'create') {
+				await createDomesticConference(data)
+			} else {
+				await updateDomesticConference(data)
+			}
+			listDomesticConferences(setList)
+			closeModal
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -69,7 +70,6 @@ export const DomesticConferenceForm = ({ type, defaultValues }: FormProps<Domest
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
-					e.preventDefault()
 					submit()
 			}}>
 				<div className='flex justify-between'>

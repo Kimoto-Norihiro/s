@@ -5,23 +5,30 @@ import { useForm } from 'react-hook-form'
 import { Organization } from '@/types/organization'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
-import { createOrganization } from '@/handlers/organization_handlers'
+import { createOrganization, listOrganizations, updateOrganization } from '@/handlers/organization_handlers'
 import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const OrganizationUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 })
 
-export const OrganizationForm = ({ type, defaultValues }: FormProps<Organization>) => {
+export const OrganizationForm = ({ type, defaultValues, setList }: FormProps<Organization>) => {
 	const { register, handleSubmit, formState: { errors }} = useForm<Organization>({
 		resolver: yupResolver(OrganizationUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createOrganization(data)
-			console.log("create Organization")
+			if (type === 'create') {
+				await createOrganization(data)
+			} else {
+				await updateOrganization(data)
+			}
+			listOrganizations(setList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -33,7 +40,6 @@ export const OrganizationForm = ({ type, defaultValues }: FormProps<Organization
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
-					e.preventDefault()
 					submit()
 			}}>
 				<InputWithError 

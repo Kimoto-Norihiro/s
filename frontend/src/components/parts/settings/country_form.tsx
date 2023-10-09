@@ -5,20 +5,20 @@ import { useForm } from 'react-hook-form'
 import { Country } from '@/types/country'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { FormButton } from '../form/FormButton';
-import { createCountry, updateCountry } from '@/handlers/country_handlers'
+import { createCountry, listCountries, updateCountry } from '@/handlers/country_handlers'
 import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const CountryUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
 })
 
-export const CountryForm = ({ type, defaultValues }: FormProps<Country>) => {
+export const CountryForm = ({ type, defaultValues, setList }: FormProps<Country>) => {
 	const { register, handleSubmit, formState: { errors }} = useForm<Country>({
 		resolver: yupResolver(CountryUpsertSchema),
 		defaultValues,
 	})
-
-
+	const { closeModal } = useCommonModal()
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
@@ -27,7 +27,8 @@ export const CountryForm = ({ type, defaultValues }: FormProps<Country>) => {
 			} else {
 				await updateCountry(data)
 			}
-			console.log("create Country")
+			listCountries(setList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')

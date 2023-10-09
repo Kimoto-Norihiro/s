@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { InternationalConferenceTableDisplay, InternationalConferences, InternationalConferencesToTableDisplays } from '@/types/international_conference'
+import { InternationalConferenceTableDisplay, InternationalConference, InternationalConferencesToTableDisplays } from '@/types/international_conference'
 import { deleteInternationalConference, getInternationalConferenceById, listInternationalConferences } from '@/handlers/international_conference_handlers'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { useCommonModal } from '@/context/modal_context';
 import { DeleteModal } from '../table/DeleteModal';
 import { InternationalConferenceForm } from './international_conference_form';
+import { TableProps } from '@/types/table';
 
-
-export const InternationalConferenceTable = () => {
-	const [internationalConferenceList, setInternationalConferenceList] = useState<InternationalConferences>([])
+export const InternationalConferenceTable = ({ list, setList }: TableProps<InternationalConference>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listInternationalConferences(setInternationalConferenceList)
+		listInternationalConferences(setList)
 	}, [])
 
-	const data = InternationalConferencesToTableDisplays(internationalConferenceList)
+	const data = InternationalConferencesToTableDisplays(list)
 
 	const columns: ColumnDef<InternationalConferenceTableDisplay, any>[] = [
 		{ accessorKey: 'id', header: 'ID'},
@@ -73,7 +72,7 @@ export const InternationalConferenceTable = () => {
 									const defaultValues = await getInternationalConferenceById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<InternationalConferenceForm type='update' defaultValues={defaultValues}/>)
+									showModal(<InternationalConferenceForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
 							>
 								編集
@@ -84,7 +83,7 @@ export const InternationalConferenceTable = () => {
 									const deleteHandler = async () => {
 										await deleteInternationalConference(d.id)
 										closeModal()
-										listInternationalConferences(setInternationalConferenceList)
+										listInternationalConferences(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

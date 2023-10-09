@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '../form/InputWithError';
 import { SelectWithError } from '../form/SelectWithError';
 import { FormButton } from '../form/FormButton';
-import { createAward } from '@/handlers/award_handlers'
+import { createAward, listAwards, updateAward } from '@/handlers/award_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
@@ -16,17 +16,10 @@ import { Award } from '@/types/award';
 import { Organizations, organizationsToOptions } from '../../../types/organization';
 import { listOrganizations } from '@/handlers/organization_handlers';
 import { FormProps } from '@/types/form'
+import { numberCondition } from '@/types/form';
+import { useCommonModal } from '@/context/modal_context';
 
 const currentYear = new Date().getFullYear()
-
-const numberCondition = yup.number()
-.typeError('数字を入力してください')
-.integer('整数を入力してください')
-.min(0, '0以上の数字を入れてください')
-.nullable()
-.transform((value, originalValue) =>
-  String(originalValue).trim() === '' ? null : value
-)
 
 const AwardUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
@@ -40,18 +33,25 @@ const AwardUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const AwardForm = ({ type, defaultValues }: FormProps<Award>) => {
+export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) => {
 	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<Award>({
 		resolver: yupResolver(AwardUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [organizationList, setOrganizationList] = useState<Organizations>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createAward(data)
+			if (type === 'create') {
+				await createAward(data)
+			} else {
+				await updateAward(data)
+			}
+			listAwards(setList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')
@@ -69,7 +69,6 @@ export const AwardForm = ({ type, defaultValues }: FormProps<Award>) => {
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
-					e.preventDefault()
 					submit()
 			}}>
 				<MultiSelectWithError

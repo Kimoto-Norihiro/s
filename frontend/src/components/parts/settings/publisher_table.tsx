@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { Publishers, PublisherTableDisplay, publishersToTableDisplays } from '@/types/publisher'
+import { Publishers, PublisherTableDisplay, publishersToTableDisplays, Publisher } from '@/types/publisher'
 import { deletePublisher, getPublisherById, listPublishers } from '@/handlers/publisher_handlers'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { PublisherForm } from './publisher_form';
 import { DeleteModal } from '../table/DeleteModal';
 import { useCommonModal } from '@/context/modal_context';
+import { TableProps } from '@/types/table';
 
-export const PublisherTable = () => {
-	const [publisherList, setPublisherList] = useState<Publishers>([])
+export const PublisherTable = ({ list, setList }: TableProps<Publisher>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listPublishers(setPublisherList)
+		listPublishers(setList)
 	}, [])
 
-	const data = publishersToTableDisplays(publisherList)
+	const data = publishersToTableDisplays(list)
 	const columns: ColumnDef<PublisherTableDisplay, any>[] = [
 		{
 			accessorKey: 'name',
@@ -52,7 +52,7 @@ export const PublisherTable = () => {
 									const defaultValues = await getPublisherById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<PublisherForm type='update' defaultValues={defaultValues}/>)
+									showModal(<PublisherForm type='update' defaultValues={defaultValues} setList={setList} />)
 								}}
 							>
 								編集
@@ -63,7 +63,7 @@ export const PublisherTable = () => {
 									const deleteHandler = async () => {
 										await deletePublisher(d.id)
 										closeModal()
-										listPublishers(setPublisherList)
+										listPublishers(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

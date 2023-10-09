@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { Organizations, OrganizationTableDisplay } from '@/types/organization'
+import { Organization, Organizations, OrganizationTableDisplay } from '@/types/organization'
 import { deleteOrganization, getOrganizationById, listOrganizations } from '@/handlers/organization_handlers'
 import { organizationsToTableDisplays } from '@/types/organization'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { OrganizationForm } from './organization_form';
 import { useCommonModal } from '@/context/modal_context';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
 
-export const OrganizationTable = () => {
-	const [organizationList, setOrganizationList] = useState<Organizations>([])
+export const OrganizationTable = ({ list, setList }: TableProps<Organization>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listOrganizations(setOrganizationList)
+		listOrganizations(setList)
 	}, [])
 
-	const data = organizationsToTableDisplays(organizationList)
+	const data = organizationsToTableDisplays(list)
 	const columns: ColumnDef<OrganizationTableDisplay, any>[] = [
 		{
 			accessorKey: 'name',
@@ -50,7 +50,7 @@ export const OrganizationTable = () => {
 									const defaultValues = await getOrganizationById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<OrganizationForm type='update' defaultValues={defaultValues}/>)
+									showModal(<OrganizationForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
 							>
 								編集
@@ -61,7 +61,7 @@ export const OrganizationTable = () => {
 									const deleteHandler = async () => {
 										await deleteOrganization(d.id)
 										closeModal()
-										listOrganizations(setOrganizationList)
+										listOrganizations(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

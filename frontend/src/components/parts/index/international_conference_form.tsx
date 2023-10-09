@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '../form/InputWithError';
 import { SelectWithError } from '../form/SelectWithError';
 import { FormButton } from '../form/FormButton';
-import { createInternationalConference } from '@/handlers/international_conference_handlers'
+import { createInternationalConference, listInternationalConferences, updateInternationalConference } from '@/handlers/international_conference_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
@@ -18,17 +18,10 @@ import { Countries } from '@/types/country';
 import { listCountries } from '@/handlers/country_handlers';
 import { InternationalConference } from '@/types/international_conference';
 import { FormProps } from '@/types/form'
+import { numberCondition } from '@/types/form';
+import { useCommonModal } from '@/context/modal_context';
 
 const currentYear = new Date().getFullYear()
-
-const numberCondition = yup.number()
-.typeError('数字を入力してください')
-.integer('整数を入力してください')
-.min(0, '0以上の数字を入れてください')
-.nullable()
-.transform((value, originalValue) =>
-  String(originalValue).trim() === '' ? null : value
-)
 
 const InternationalConferenceUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
@@ -42,11 +35,12 @@ const InternationalConferenceUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const InternationalConferenceForm = ({ type, defaultValues }: FormProps<InternationalConference>) => {
+export const InternationalConferenceForm = ({ type, defaultValues, setList }: FormProps<InternationalConference>) => {
 	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<InternationalConference>({
 		resolver: yupResolver(InternationalConferenceUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [international_conferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
 	const [countryList, setCountryList] = useState<Countries>([])
@@ -54,7 +48,13 @@ export const InternationalConferenceForm = ({ type, defaultValues }: FormProps<I
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createInternationalConference(data)
+			if (type === 'create') {
+				await createInternationalConference(data)
+			} else {
+				await updateInternationalConference(data)
+			}
+			listInternationalConferences(setList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')

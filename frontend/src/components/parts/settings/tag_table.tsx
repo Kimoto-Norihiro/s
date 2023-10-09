@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { Tags, TagTableDisplay, tagsToTableDisplays } from '@/types/tag'
+import { Tags, TagTableDisplay, tagsToTableDisplays, Tag } from '@/types/tag'
 import { deleteTag, getTagById, listTags } from '@/handlers/tag_handlers';
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { TagForm } from './tag_form';
 import { useCommonModal } from '@/context/modal_context';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
-export const TagTable = () => {
-	const [tagList, setTagList] = useState<Tags>([])
+export const TagTable = ({ list, setList }: TableProps<Tag>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listTags(setTagList)
+		listTags(setList)
 	}, [])
 
-	const data = tagsToTableDisplays(tagList)
+	const data = tagsToTableDisplays(list)
 	const columns: ColumnDef<TagTableDisplay, any>[] = [
 		{
 			accessorKey: 'name',
@@ -48,7 +48,7 @@ export const TagTable = () => {
 									const defaultValues = await getTagById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<TagForm type='update' defaultValues={defaultValues}/>)
+									showModal(<TagForm type='update' defaultValues={defaultValues} setList={setList} />)
 								}}
 							>
 								編集
@@ -59,7 +59,7 @@ export const TagTable = () => {
 									const deleteHandler = async () => {
 										await deleteTag(d.id)
 										closeModal()
-										listTags(setTagList)
+										listTags(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

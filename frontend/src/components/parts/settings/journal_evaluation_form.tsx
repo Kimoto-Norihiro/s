@@ -6,10 +6,11 @@ import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
 import { JournalEvaluation } from '@/types/journal_evaluation'
-import { createJournalEvaluation } from '@/handlers/journal_evaluation_handlers'
+import { createJournalEvaluation, listJournalEvaluations } from '@/handlers/journal_evaluation_handlers'
 import { JournalInfos } from '@/types/journal_info'
 import { listJournalInfos } from '@/handlers/journal_info_handlers'
 import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const currentYear = new Date().getFullYear()
 
@@ -22,17 +23,23 @@ const JournalEvaluationUpsertSchema = yup.object().shape({
 	number_of_accepted_papers: yup.number().required('入力してください'),
 })
 
-export const JournalEvaluationForm = ({ type, defaultValues }: FormProps<JournalEvaluation>) => {
+export const JournalEvaluationForm = ({ type, defaultValues, setList }: FormProps<JournalEvaluation>) => {
 	const { register, handleSubmit, control, formState: { errors }} = useForm<JournalEvaluation>({
 		resolver: yupResolver(JournalEvaluationUpsertSchema),
 		defaultValues
 	})
+	const { closeModal } = useCommonModal()
 	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createJournalEvaluation(data)
-			console.log("create journal info")
+			if (type === 'create') {
+				await createJournalEvaluation(data)
+			} else {
+				await createJournalEvaluation(data)
+			}
+			listJournalEvaluations(setList)
+			closeModal()
 		}, (error) => {
 			console.log('error', error)
 		})()
@@ -46,10 +53,8 @@ export const JournalEvaluationForm = ({ type, defaultValues }: FormProps<Journal
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={(e) => {
-					e.preventDefault()
-					submit()
-			}}>
+				onSubmit={submit}
+			>
 				<SelectWithError
 					label='雑誌名'
 					name='journal_info'

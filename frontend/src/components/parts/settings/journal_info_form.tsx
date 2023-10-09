@@ -6,10 +6,11 @@ import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
 import { JournalInfo } from '@/types/journal_info'
-import { createJournalInfo } from '@/handlers/journal_info_handlers'
+import { createJournalInfo, listJournalInfos } from '@/handlers/journal_info_handlers'
 import { Publishers } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
 import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const JournalInfoUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
@@ -18,17 +19,23 @@ const JournalInfoUpsertSchema = yup.object().shape({
   publisher: yup.object().required('選択してください'),
 })
 
-export const JournalInfoForm = ({ type, defaultValues }: FormProps<JournalInfo>) => {
+export const JournalInfoForm = ({ type, defaultValues, setList }: FormProps<JournalInfo>) => {
 	const { register, handleSubmit, control, formState: { errors }} = useForm<JournalInfo>({
 		resolver: yupResolver(JournalInfoUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [publisherList, setPublisherList] = useState<Publishers>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createJournalInfo(data)
-			console.log("create journal info")
+			if (type === 'create') {
+				await createJournalInfo(data)
+			} else {
+				await createJournalInfo(data)
+			}
+			listJournalInfos(setList)
+			closeModal()
 		}, (error) => {
 			console.log('error', error)
 		})()

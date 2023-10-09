@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { InternationalConferenceEvaluations, internationalConferenceEvaluationsToTableDisplays, InternationalConferenceEvaluationTableDisplay } from '@/types/international_conference_evaluation'
+import { InternationalConferenceEvaluation, internationalConferenceEvaluationsToTableDisplays, InternationalConferenceEvaluationTableDisplay } from '@/types/international_conference_evaluation'
 import { DeleteInternationalConferenceEvaluation, getInternationalConferenceEvaluation, listInternationalConferenceEvaluations } from '@/handlers/international_conference_evaluation_handlers'
 import { ColumnDef } from '../table/MyTable';
 import { useCommonModal } from '@/context/modal_context';
 import { InternationalConferenceEvaluationForm } from './international_conference_evaluation_form';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
-export const InternationalConferenceEvaluationTable = () => {
-	const [internationalConferenceEvaluationList, setInternationalConferenceEvaluationList] = useState<InternationalConferenceEvaluations>([])
-
+export const InternationalConferenceEvaluationTable = ({ list, setList }: TableProps<InternationalConferenceEvaluation>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listInternationalConferenceEvaluations(setInternationalConferenceEvaluationList)
+		listInternationalConferenceEvaluations(setList)
 	}, [])
 
-	const data = internationalConferenceEvaluationsToTableDisplays(internationalConferenceEvaluationList)
+	const data = internationalConferenceEvaluationsToTableDisplays(list)
 	const columns: ColumnDef<InternationalConferenceEvaluationTableDisplay, any>[] = [
 		{ accessorKey: 'international_conference_info_name', header: '雑誌名' },
 		{ accessorKey: 'year', header: '年' },
@@ -53,7 +52,7 @@ export const InternationalConferenceEvaluationTable = () => {
 									const defaultValues = await getInternationalConferenceEvaluation(d.international_conference_info_id, d.year)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<InternationalConferenceEvaluationForm type='update' defaultValues={defaultValues}/>)
+									showModal(<InternationalConferenceEvaluationForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
 							>
 								編集
@@ -64,7 +63,7 @@ export const InternationalConferenceEvaluationTable = () => {
 									const deleteHandler = async () => {
 										await DeleteInternationalConferenceEvaluation(d.international_conference_info_id, d.year)
 										closeModal()
-										listInternationalConferenceEvaluations(setInternationalConferenceEvaluationList)
+										listInternationalConferenceEvaluations(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

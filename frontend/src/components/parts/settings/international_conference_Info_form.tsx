@@ -8,8 +8,9 @@ import { FormButton } from '../form/FormButton';
 import { Publishers } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
 import { InternationalConferenceInfo } from '@/types/international_conference_info'
-import { createInternationalConferenceInfo } from '@/handlers/international_conference_info_handlers'
+import { createInternationalConferenceInfo, listInternationalConferenceInfos, updateInternationalConferenceInfo } from '@/handlers/international_conference_info_handlers'
 import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const InternationalConferenceInfoUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
@@ -18,17 +19,23 @@ const InternationalConferenceInfoUpsertSchema = yup.object().shape({
   publisher: yup.object().required('選択してください'),
 })
 
-export const InternationalConferenceInfoForm = ({ type, defaultValues }: FormProps<InternationalConferenceInfo>) => {
+export const InternationalConferenceInfoForm = ({ type, defaultValues, setList }: FormProps<InternationalConferenceInfo>) => {
 	const { register, handleSubmit, control, formState: { errors }} = useForm<InternationalConferenceInfo>({
 		resolver: yupResolver(InternationalConferenceInfoUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [publisherList, setPublisherList] = useState<Publishers>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createInternationalConferenceInfo(data)
-			console.log("create journal info")
+			if (type === 'create') {
+				await createInternationalConferenceInfo(data)
+			} else {
+				await updateInternationalConferenceInfo(data)
+			}
+			listInternationalConferenceInfos(setList)
+			closeModal()
 		}, (error) => {
 			console.log('error', error)
 		})()

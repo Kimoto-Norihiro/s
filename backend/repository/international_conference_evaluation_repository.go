@@ -20,7 +20,7 @@ func (r *InternationalConferenceEvaluationRepository) CreateInternationalConfere
 
 func (r *InternationalConferenceEvaluationRepository) ListInternationalConferenceEvaluations() ([]model.InternationalConferenceEvaluation, error) {
 	var internationalConferenceEvaluations []model.InternationalConferenceEvaluation
-	err := r.db.Preload("InternationalConferenceInfo").Find(&internationalConferenceEvaluations).Error
+	err := r.db.Find(&internationalConferenceEvaluations).Error
 	return internationalConferenceEvaluations, err
 }
 

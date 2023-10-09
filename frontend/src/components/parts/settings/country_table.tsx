@@ -5,17 +5,16 @@ import { ColumnDef } from '../table/MyTable';
 import { CountryForm } from './country_form';
 import { useCommonModal } from '@/context/modal_context';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
-
-export const CountryTable = () => {
-	const [countryList, setCountryList] = useState<Countries>([])
+export const CountryTable = ({ list, setList }: TableProps<Country>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listCountries(setCountryList)
+		listCountries(setList)
 	}, [])
 
-	const data = countryList
+	const data = list
 	const columns: ColumnDef<Country, any>[] = [
 		{
 			accessorKey: 'name',
@@ -48,7 +47,7 @@ export const CountryTable = () => {
 								onClick={async () => {
 									const defaultValues = await getCountryById(d.id)
 									if (!defaultValues) return
-									showModal(<CountryForm type='update' defaultValues={defaultValues}/>)
+									showModal(<CountryForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
 							>
 								編集
@@ -59,7 +58,7 @@ export const CountryTable = () => {
 									const deleteHandler = async () => {
 										await deleteCountry(d.id)
 										closeModal()
-										listCountries(setCountryList)
+										listCountries(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

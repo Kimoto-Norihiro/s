@@ -5,16 +5,16 @@ import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { AuthorForm } from './author_form';
 import { useCommonModal } from '@/context/modal_context';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
-export const AuthorTable = () => {
-	const [authorList, setAuthorList] = useState<Authors>([])
+export const AuthorTable = ({ list, setList }: TableProps<Author>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listAuthors(setAuthorList)
+		listAuthors(setList)
 	}, [])
 
-	const data = authorsToTableDisplays(authorList)
+	const data = authorsToTableDisplays(list)
 	const columns: ColumnDef<AuthorTableDisplay, any>[] = [
 		{ accessorKey: 'ja_name', header: '日本語表記' },
 		{ accessorKey: 'en_name', header: '英語表記' },
@@ -46,7 +46,7 @@ export const AuthorTable = () => {
 									const defaultValues = await getAuthorById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<AuthorForm type='update' defaultValues={defaultValues}/>)
+									showModal(<AuthorForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
               >
                 編集
@@ -57,7 +57,7 @@ export const AuthorTable = () => {
 									const deleteHandler = async () => {
 										await deleteAuthor(d.id)
 										closeModal()
-										listAuthors(setAuthorList)
+										listAuthors(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

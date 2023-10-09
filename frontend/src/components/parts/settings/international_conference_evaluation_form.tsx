@@ -8,8 +8,9 @@ import { FormButton } from '../form/FormButton';
 import { InternationalConferenceEvaluation } from '@/types/international_conference_evaluation'
 import { InternationalConferenceInfos } from '@/types/international_conference_info'
 import { listInternationalConferenceInfos } from '@/handlers/international_conference_info_handlers'
-import { createInternationalConferenceEvaluation } from '@/handlers/international_conference_evaluation_handlers'
+import { createInternationalConferenceEvaluation, listInternationalConferenceEvaluations, updateInternationalConferenceEvaluation } from '@/handlers/international_conference_evaluation_handlers'
 import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const currentYear = new Date().getFullYear()
 
@@ -22,17 +23,23 @@ const InternationalConferenceEvaluationUpsertSchema = yup.object().shape({
 	number_of_accepted_papers: yup.number().required('入力してください'),
 })
 
-export const InternationalConferenceEvaluationForm = ({ type, defaultValues }: FormProps<InternationalConferenceEvaluation>) => {
+export const InternationalConferenceEvaluationForm = ({ type, defaultValues, setList }: FormProps<InternationalConferenceEvaluation>) => {
 	const { register, handleSubmit, control, formState: { errors }} = useForm<InternationalConferenceEvaluation>({
 		resolver: yupResolver(InternationalConferenceEvaluationUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [internationalConferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createInternationalConferenceEvaluation(data)
-			console.log("create journal info")
+			if (type === 'create') {
+				await createInternationalConferenceEvaluation(data)
+			} else {
+				await updateInternationalConferenceEvaluation(data)
+			}
+			listInternationalConferenceEvaluations(setList)
+			closeModal()
 		}, (error) => {
 			console.log('error', error)
 		})()

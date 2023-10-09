@@ -6,7 +6,7 @@ import { InputWithError } from '../../parts/form/InputWithError';
 import { SelectWithError } from '../../parts/form/SelectWithError';
 import { FormButton } from '../../parts/form/FormButton';
 import { Journal } from '@/types/journal'
-import { createJournal } from '@/handlers/journal_handlers'
+import { createJournal, listJournals, updateJournal } from '@/handlers/journal_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
@@ -16,17 +16,10 @@ import { listJournalInfos } from '@/handlers/journal_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { FormProps } from '@/types/form'
+import { numberCondition } from '@/types/form';
+import { useCommonModal } from '@/context/modal_context';
 
 const currentYear = new Date().getFullYear()
-
-const numberCondition = yup.number()
-.typeError('数字を入力してください')
-.integer('整数を入力してください')
-.min(0, '0以上の数字を入れてください')
-.nullable()
-.transform((value, originalValue) =>
-  String(originalValue).trim() === '' ? null : value
-)
 
 const JournalUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
@@ -40,17 +33,25 @@ const JournalUpsertSchema = yup.object().shape({
 	tags: yup.array().required('選択してください'),
 })
 
-export const JournalForm = ({ type, defaultValues }: FormProps<Journal>) => {
+export const JournalForm = ({ type, defaultValues, setList }: FormProps<Journal>) => {
 	const { control, register, handleSubmit, formState: { errors }} = useForm<Journal>({
-		resolver: yupResolver(JournalUpsertSchema)
+		resolver: yupResolver(JournalUpsertSchema),
+		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
 	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createJournal(data)
+			if (type === 'create') {
+				await createJournal(data)
+			} else {
+				await updateJournal(data)
+			}
+			listJournals(setList)
+			closeModal()
 		}, (error) => {
 			console.log(error)
 			console.log('error')

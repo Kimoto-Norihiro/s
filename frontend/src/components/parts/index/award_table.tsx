@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { AwardTableDisplay, Awards, AwardsToTableDisplays } from '@/types/award'
+import { Award, AwardTableDisplay, Awards, AwardsToTableDisplays } from '@/types/award'
 import { deleteAward, getAwardById, listAwards } from '@/handlers/award_handlers'
 import { ColumnDef } from '../table/MyTable';
 import { AwardForm } from './award_form';
 import { useCommonModal } from '@/context/modal_context';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
-
-export const AwardTable = () => {
-	const [domesticConferenceList, setAwardList] = useState<Awards>([])
+export const AwardTable = ({ list, setList }: TableProps<Award>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listAwards(setAwardList)
+		listAwards(setList)
 	}, [])
 
-	const data = AwardsToTableDisplays(domesticConferenceList)
+	const data = AwardsToTableDisplays(list)
 	const columns: ColumnDef<AwardTableDisplay, string>[] = [
 		{ accessorKey: 'id', header: 'ID'},
 		{ accessorKey: 'authors_name', header: '著者_正式'},
@@ -56,7 +55,7 @@ export const AwardTable = () => {
 									const defaultValues = await getAwardById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<AwardForm type='update' defaultValues={defaultValues}/>)
+									showModal(<AwardForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
 							>
 								編集
@@ -67,7 +66,7 @@ export const AwardTable = () => {
 									const deleteHandler = async () => {
 										await deleteAward(d.id)
 										closeModal()
-										listAwards(setAwardList)
+										listAwards(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

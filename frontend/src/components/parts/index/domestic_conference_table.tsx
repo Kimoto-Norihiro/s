@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { DomesticConferenceTableDisplay, DomesticConferences, DomesticConferencesToTableDisplays } from '@/types/domestic_conference'
+import { DomesticConferenceTableDisplay, DomesticConference, DomesticConferencesToTableDisplays } from '@/types/domestic_conference'
 import { deleteDomesticConference, getDomesticConferenceById, listDomesticConferences } from '@/handlers/domestic_conference_handlers'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { DomesticConferenceForm } from './domestic_conference_form';
 import { useCommonModal } from '@/context/modal_context';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
-export const DomesticConferenceTable = () => {
-	const [domesticConferenceList, setDomesticConferenceList] = useState<DomesticConferences>([])
+export const DomesticConferenceTable = ({list, setList}: TableProps<DomesticConference>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listDomesticConferences(setDomesticConferenceList)
+		listDomesticConferences(setList)
 	}, [])
 
-	const data = DomesticConferencesToTableDisplays(domesticConferenceList)
+	const data = DomesticConferencesToTableDisplays(list)
 	const columns: ColumnDef<DomesticConferenceTableDisplay, any>[] = [
 		{ accessorKey: 'id', header: 'ID'},
 		{ accessorKey: 'authors_name', header: '著者_正式'},
@@ -66,7 +66,7 @@ export const DomesticConferenceTable = () => {
 									const defaultValues = await getDomesticConferenceById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<DomesticConferenceForm type='update' defaultValues={defaultValues}/>)
+									showModal(<DomesticConferenceForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
 							>
 								編集
@@ -77,7 +77,7 @@ export const DomesticConferenceTable = () => {
 									const deleteHandler = async () => {
 										await deleteDomesticConference(d.id)
 										closeModal()
-										listDomesticConferences(setDomesticConferenceList)
+										listDomesticConferences(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

@@ -8,8 +8,9 @@ import { FormButton } from '../form/FormButton';
 import { Publishers } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
 import { DomesticConferenceInfo } from '@/types/domestic_conference_info'
-import { createDomesticConferenceInfo, updateDomesticConferenceInfo } from '@/handlers/domestic_conference_info_handlers'
+import { createDomesticConferenceInfo, listDomesticConferenceInfos, updateDomesticConferenceInfo } from '@/handlers/domestic_conference_info_handlers'
 import { FormProps } from '@/types/form'
+import { useCommonModal } from '@/context/modal_context'
 
 const DomesticConferenceInfoUpsertSchema = yup.object().shape({
   name: yup.string().required('入力してください'),
@@ -18,11 +19,12 @@ const DomesticConferenceInfoUpsertSchema = yup.object().shape({
   publisher: yup.object().required('選択してください'),
 })
 
-export const DomesticConferenceInfoForm = ({ type, defaultValues }: FormProps<DomesticConferenceInfo>) => {
+export const DomesticConferenceInfoForm = ({ type, defaultValues, setList }: FormProps<DomesticConferenceInfo>) => {
 	const { register, handleSubmit, control, formState: { errors }} = useForm<DomesticConferenceInfo>({
 		resolver: yupResolver(DomesticConferenceInfoUpsertSchema),
 		defaultValues,
 	})
+	const { closeModal } = useCommonModal()
 	const [publisherList, setPublisherList] = useState<Publishers>([])
 
 	const submit = async () => {
@@ -33,6 +35,8 @@ export const DomesticConferenceInfoForm = ({ type, defaultValues }: FormProps<Do
 			} else {
 				await updateDomesticConferenceInfo(data)
 			}
+			listDomesticConferenceInfos(setList)
+			closeModal()
 		}, (error) => {
 			console.log('error', error)
 		})()

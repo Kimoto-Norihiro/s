@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { JournalInfoTableDisplay, JournalInfos, journalInfosToTableDisplays } from '@/types/journal_info'
+import { JournalInfo, JournalInfoTableDisplay, JournalInfos, journalInfosToTableDisplays } from '@/types/journal_info'
 import { deleteJournalInfo, getJournalInfoById, listJournalInfos } from '@/handlers/journal_info_handlers'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { useCommonModal } from '@/context/modal_context';
 import { JournalInfoForm } from './journal_info_form';
 import { DeleteModal } from '../table/DeleteModal';
+import { TableProps } from '@/types/table';
 
-
-export const JournalInfoTable = () => {
-	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
+export const JournalInfoTable = ({ list, setList }: TableProps<JournalInfo>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listJournalInfos(setJournalInfoList)
+		listJournalInfos(setList)
 	}, [])
 
-	const data = journalInfosToTableDisplays(journalInfoList)
+	const data = journalInfosToTableDisplays(list)
 	const columns: ColumnDef<JournalInfoTableDisplay, any>[] = [
 		{
 			accessorKey: 'name',
@@ -61,7 +60,7 @@ export const JournalInfoTable = () => {
 									const defaultValues = await getJournalInfoById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<JournalInfoForm type='update' defaultValues={defaultValues}/>)
+									showModal(<JournalInfoForm type='update' defaultValues={defaultValues} setList={setList}/>)
 								}}
 							>
 								編集
@@ -72,7 +71,7 @@ export const JournalInfoTable = () => {
 									const deleteHandler = async () => {
 										await deleteJournalInfo(d.id)
 										closeModal()
-										listJournalInfos(setJournalInfoList)
+										listJournalInfos(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}

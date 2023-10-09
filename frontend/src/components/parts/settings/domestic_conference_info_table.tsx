@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { DomesticConferenceInfoTableDisplay, DomesticConferenceInfos,domesticConferencesToTableDisplays } from '@/types/domestic_conference_info'
+import { DomesticConferenceInfoTableDisplay, DomesticConferenceInfo, domesticConferencesToTableDisplays } from '@/types/domestic_conference_info'
 import { deleteDomesticConferenceInfo, getDomesticConferenceInfoById, listDomesticConferenceInfos } from '@/handlers/domestic_conference_info_handlers'
 import { MyTable, Table, ColumnDef } from '../table/MyTable';
 import { DeleteModal } from '../table/DeleteModal';
 import { useCommonModal } from '@/context/modal_context';
 import { DomesticConferenceInfoForm } from './domestic_conference_Info_form';
+import { TableProps } from '@/types/table';
 
-export const DomesticConferenceInfoTable = () => {
-	const [domesticConferenceInfoList, setDomesticConferenceInfoList] = useState<DomesticConferenceInfos>([])
+export const DomesticConferenceInfoTable = ({ list, setList }: TableProps<DomesticConferenceInfo>) => {
 	const { showModal, closeModal } = useCommonModal()
 
 	useEffect(() => {
-		listDomesticConferenceInfos(setDomesticConferenceInfoList)
+		listDomesticConferenceInfos(setList)
 	}, [])
 
-	const data = domesticConferencesToTableDisplays(domesticConferenceInfoList)
-
+	const data = domesticConferencesToTableDisplays(list)
 	const columns: ColumnDef<DomesticConferenceInfoTableDisplay, any>[] = [
 		{ accessorKey: 'name', header: '会議名' },
 		{ accessorKey: 'short_name', header: '略称名' },
@@ -50,7 +49,7 @@ export const DomesticConferenceInfoTable = () => {
 									const defaultValues = await getDomesticConferenceInfoById(d.id)
 									console.log(defaultValues)
 									if (!defaultValues) return
-									showModal(<DomesticConferenceInfoForm type='update' defaultValues={defaultValues}/>)
+									showModal(<DomesticConferenceInfoForm type='update' defaultValues={defaultValues} setList={setList} />)
 								}}
 							>
 								編集
@@ -61,7 +60,7 @@ export const DomesticConferenceInfoTable = () => {
 									const deleteHandler = async () => {
 										await deleteDomesticConferenceInfo(d.id)
 										closeModal()
-										listDomesticConferenceInfos(setDomesticConferenceInfoList)
+										listDomesticConferenceInfos(setList)
 									} 
 									showModal(<DeleteModal deleteHandler={deleteHandler}/>)
 								}}
