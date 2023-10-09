@@ -28,8 +28,13 @@ func (u *InternationalConferenceUsecase) CreateInternationalConference(m model.I
 	return u.repository.CreateInternationalConference(m)
 }
 
-func (u *InternationalConferenceUsecase) ListInternationalConferences() ([]model.InternationalConference, error) {
-	return u.repository.ListInternationalConferences()
+func (u *InternationalConferenceUsecase) ListInternationalConferences(filter model.InternationalConferenceFilter) ([]model.InternationalConference, error) {
+	err := u.validate.Struct(filter)
+	if err != nil {
+		return nil, err
+	}
+
+	return u.repository.ListInternationalConferences(filter)
 }
 
 func (u *InternationalConferenceUsecase) GetInternationalConferenceByID(id int) (model.InternationalConference, error) {

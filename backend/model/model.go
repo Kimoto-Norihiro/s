@@ -50,6 +50,14 @@ type Journal struct {
 	Tags              []Tag             `json:"tags" gorm:"many2many:journal_tags;"`
 }
 
+// filter
+type JournalFilter struct {
+	Authors     []Author    `json:"authors"`
+	Title       string      `json:"title"`
+	JournalInfo JournalInfo `json:"journal_info"`
+	Tags        []Tag       `json:"tags"`
+}
+
 // 雑誌名
 type JournalInfo struct {
 	ID          int       `json:"id" gorm:"primaryKey"`
@@ -100,6 +108,14 @@ type InternationalConference struct {
 	Tags                          []Tag                             `json:"tags" gorm:"many2many:jp_conference_tags;"`
 }
 
+// filter
+type InternationalConferenceFilter struct {
+	Authors                     []Author
+	Title                       string
+	InternationalConferenceInfo InternationalConferenceInfo
+	Tags                        []Tag
+}
+
 // 国際会議名
 type InternationalConferenceInfo struct {
 	ID                 int       `json:"id" gorm:"primaryKey" validate:"required"`
@@ -148,6 +164,14 @@ type DomesticConference struct {
 	Tags                   []Tag                  `json:"tags" gorm:"many2many:jp_conference_tags;"`
 }
 
+// filter
+type DomesticConferenceFilter struct {
+	Authors                []Author
+	Title                  string
+	DomesticConferenceInfo DomesticConferenceInfo
+	Tags                   []Tag
+}
+
 // 国内会議名
 type DomesticConferenceInfo struct {
 	ID                 int       `json:"id" gorm:"primaryKey"`
@@ -174,6 +198,13 @@ type Award struct {
 	IsJointResearch    bool         `json:"is_joint_research" validate:"required"`
 	IsCertificateExist bool         `json:"is_certificate_exist" validate:"required"`
 	Tags               []Tag        `json:"tags" gorm:"many2many:award_tags;"`
+}
+
+type AwardFilter struct {
+	Authors      []Author
+	Name         string
+	Organization Organization
+	Tags         []Tag
 }
 
 // 表彰団体

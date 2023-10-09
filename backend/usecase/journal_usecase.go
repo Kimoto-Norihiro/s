@@ -38,8 +38,12 @@ func (u *JournalUsecase) CreateJournal(m model.Journal) error {
 	return u.repository.CreateJournal(m)
 }
 
-func (u *JournalUsecase) ListJournals() ([]model.Journal, error) {
-	return u.repository.ListJournals()
+func (u *JournalUsecase) ListJournals(filter model.JournalFilter) ([]model.Journal, error) {
+	err := u.validate.Struct(filter)
+	if err != nil {
+		return nil, err
+	}
+	return u.repository.ListJournals(filter)
 }
 
 func (u *JournalUsecase) UpdateJournal(m model.Journal) error {

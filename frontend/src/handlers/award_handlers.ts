@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Award, Awards } from '@/types/award';
+import { Award, Awards, AwardFilter } from '@/types/award';
 
 export const createAward = async (data: Award) => {
 	console.log('data', data)
@@ -16,9 +16,12 @@ export const createAward = async (data: Award) => {
 	}
 }
 
-export const listAwards = async (setAwardList: React.Dispatch<React.SetStateAction<Awards>>) => {
+export const listAwards = async (
+		setAwardList: React.Dispatch<React.SetStateAction<Awards>>,
+		filter: AwardFilter = {} as AwardFilter
+	) => {
 	try {
-		const res = await axios.get('http://localhost:8000/awards', {
+		const res = await axios.post('http://localhost:8000/awards', filter, {
 			withCredentials: true
 		})
 		setAwardList(res.data)

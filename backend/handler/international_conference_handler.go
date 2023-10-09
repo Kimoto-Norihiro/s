@@ -34,7 +34,13 @@ func (h *InternationalConferenceHandler) CreateInternationalConference(c *gin.Co
 }
 
 func (h *InternationalConferenceHandler) ListInternationalConferences(c *gin.Context) {
-	internationalConferences, err := h.usecase.ListInternationalConferences()
+	var filter model.InternationalConferenceFilter
+	err := c.BindJSON(&filter)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	internationalConferences, err := h.usecase.ListInternationalConferences(filter)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

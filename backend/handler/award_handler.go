@@ -34,7 +34,13 @@ func (h *AwardHandler) CreateAward(c *gin.Context) {
 }
 
 func (h *AwardHandler) ListAwards(c *gin.Context) {
-	awards, err := h.usecase.ListAwards()
+	var filter model.AwardFilter
+	err := c.BindJSON(&filter)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	awards, err := h.usecase.ListAwards(filter)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

@@ -30,7 +30,7 @@ type IPublisherUsecase interface {
 
 type IJournalUsecase interface {
 	CreateJournal(m model.Journal) error
-	ListJournals() ([]model.Journal, error)
+	ListJournals(filter model.JournalFilter) ([]model.Journal, error)
 	UpdateJournal(m model.Journal) error
 	GetJournalByID(id int) (model.Journal, error)
 	DeleteJournal(id int) error
@@ -78,7 +78,7 @@ type IInternationalConferenceEvaluationUsecase interface {
 
 type IInternationalConferenceUsecase interface {
 	CreateInternationalConference(m model.InternationalConference) error
-	ListInternationalConferences() ([]model.InternationalConference, error)
+	ListInternationalConferences(filter model.InternationalConferenceFilter) ([]model.InternationalConference, error)
 	UpdateInternationalConference(m model.InternationalConference) error
 	GetInternationalConferenceByID(id int) (model.InternationalConference, error)
 	DeleteInternationalConference(id int) error
@@ -94,7 +94,7 @@ type IDomesticConferenceInfoUsecase interface {
 
 type IDomesticConferenceUsecase interface {
 	CreateDomesticConference(m model.DomesticConference) error
-	ListDomesticConferences() ([]model.DomesticConference, error)
+	ListDomesticConferences(filter model.DomesticConferenceFilter) ([]model.DomesticConference, error)
 	UpdateDomesticConference(m model.DomesticConference) error
 	GetDomesticConferenceByID(id int) (model.DomesticConference, error)
 	DeleteDomesticConference(id int) error
@@ -102,7 +102,7 @@ type IDomesticConferenceUsecase interface {
 
 type IAwardUsecase interface {
 	CreateAward(m model.Award) error
-	ListAwards() ([]model.Award, error)
+	ListAwards(filter model.AwardFilter) ([]model.Award, error)
 	UpdateAward(m model.Award) error
 	GetAwardByID(id int) (model.Award, error)
 	DeleteAward(id int) error

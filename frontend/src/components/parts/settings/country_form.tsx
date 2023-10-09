@@ -40,6 +40,7 @@ export const CountryForm = ({ type, defaultValues, setList }: FormProps<Country>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
 				onSubmit={(e) => {
+					e.preventDefault()
 					submit()
 				}}
 			>

@@ -18,8 +18,12 @@ func NewDomesticConferenceUsecase(r repository.IDomesticConferenceRepository) *D
 	}
 }
 
-func (u *DomesticConferenceUsecase) ListDomesticConferences() ([]model.DomesticConference, error) {
-	return u.repository.ListDomesticConferences()
+func (u *DomesticConferenceUsecase) ListDomesticConferences(filter model.DomesticConferenceFilter) ([]model.DomesticConference, error) {
+	err := u.validate.Struct(filter)
+	if err != nil {
+		return nil, err
+	}
+	return u.repository.ListDomesticConferences(filter)
 }
 
 func (u *DomesticConferenceUsecase) CreateDomesticConference(m model.DomesticConference) error {

@@ -94,3 +94,10 @@ export function JournalsToTableDisplays(journals: Journals): JournalTableDisplay
 		} 
 	})
 }
+
+export type JournalFilter = {
+	authors: Authors
+  title: string
+  journal_info: JournalInfo
+  tags: Tags
+}

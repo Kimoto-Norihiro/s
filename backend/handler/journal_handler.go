@@ -36,7 +36,14 @@ func (h *JournalHandler) CreateJournal(c *gin.Context) {
 }
 
 func (h *JournalHandler) ListJournals(c *gin.Context) {
-	journals, err := h.usecase.ListJournals()
+	var filter model.JournalFilter
+	err := c.BindJSON(&filter)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	journals, err := h.usecase.ListJournals(filter)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

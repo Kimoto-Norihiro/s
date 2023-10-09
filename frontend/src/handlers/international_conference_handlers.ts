@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { InternationalConference, InternationalConferences } from '@/types/international_conference';
+import { InternationalConference, InternationalConferenceFilter, InternationalConferences } from '@/types/international_conference';
 
 export const createInternationalConference = async (data: InternationalConference) => {
 	console.log('data', data)
@@ -16,9 +16,12 @@ export const createInternationalConference = async (data: InternationalConferenc
 	}
 }
 
-export const listInternationalConferences = async (setInternationalConferenceList: React.Dispatch<React.SetStateAction<InternationalConferences>>) => {
+export const listInternationalConferences = async (
+	setInternationalConferenceList: React.Dispatch<React.SetStateAction<InternationalConferences>>,
+	filter: InternationalConferenceFilter = {} as InternationalConferenceFilter
+) => {
 	try {
-		const res = await axios.get('http://localhost:8000/international_conferences', {
+		const res = await axios.post('http://localhost:8000/international_conferences', filter, {
 			withCredentials: true
 		})
 		setInternationalConferenceList(res.data)

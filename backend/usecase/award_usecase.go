@@ -19,8 +19,12 @@ func NewAwardUsecase(r repository.IAwardRepository) *AwardUsecase {
 }
 
 // list
-func (u *AwardUsecase) ListAwards() ([]model.Award, error) {
-	return u.repository.ListAwards()
+func (u *AwardUsecase) ListAwards(filter model.AwardFilter) ([]model.Award, error) {
+	err := u.validate.Struct(filter)
+	if err != nil {
+		return nil, err
+	}
+	return u.repository.ListAwards(filter)
 }
 
 // create

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { Journal, Journals } from '@/types/journal';
+import { Journal, JournalFilter, Journals } from '@/types/journal';
+
 
 export const createJournal = async (data: Journal) => {
 	console.log('data', data)
@@ -16,9 +17,12 @@ export const createJournal = async (data: Journal) => {
 	}
 }
 
-export const listJournals = async (setJournalList: React.Dispatch<React.SetStateAction<Journals>>) => {
+export const listJournals = async (
+		setJournalList: React.Dispatch<React.SetStateAction<Journals>>,
+		filter: JournalFilter = {} as JournalFilter
+	) => {
 	try {
-		const res = await axios.get('http://localhost:8000/journals', {
+		const res = await axios.post('http://localhost:8000/journals', filter, {
 			withCredentials: true
 		})
 		setJournalList(res.data)

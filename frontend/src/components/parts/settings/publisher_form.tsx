@@ -40,7 +40,10 @@ export const PublisherForm = ({ type, defaultValues, setList }: FormProps<Publis
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={submit}
+				onSubmit={(e) => {
+					e.preventDefault()
+					submit()
+				}}
 			>
 				<InputWithError 
 					label='出版社名'

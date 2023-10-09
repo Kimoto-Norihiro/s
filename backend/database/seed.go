@@ -56,6 +56,34 @@ func seed(db *gorm.DB) {
 		})
 	}
 
+	// domestic_conference_info
+	for i := 0; i < 10; i++ {
+		db.Create(&model.DomesticConferenceInfo{
+			Name: fmt.Sprintf("国内学会%d", i),
+			OtherName:  fmt.Sprintf("内%d", i),
+			ShortName: fmt.Sprintf("内%d", i),
+			Publisher: model.Publisher{
+				ID:        i + 1,
+				Name:      fmt.Sprintf("出版社%d", i),
+				ShortName: fmt.Sprintf("出%d", i),
+			},
+		})
+	}
+
+	// international_conference_info
+	for i := 0; i < 10; i++ {
+		db.Create(&model.InternationalConferenceInfo{
+			Name: fmt.Sprintf("国際学会%d", i),
+			ISO4Name:  fmt.Sprintf("際%d", i),
+			ShortName: fmt.Sprintf("際%d", i),
+			Publisher: model.Publisher{
+				ID:        i + 1,
+				Name:      fmt.Sprintf("出版社%d", i),
+				ShortName: fmt.Sprintf("出%d", i),
+			},
+		})
+	}
+
 	// country
 	names := []string{"Japan", "United States"}
 	for _, name := range names {

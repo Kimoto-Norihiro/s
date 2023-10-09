@@ -35,7 +35,13 @@ func (h *DomesticConferenceHandler) CreateDomesticConference(c *gin.Context) {
 }
 
 func (h *DomesticConferenceHandler) ListDomesticConferences(c *gin.Context) {
-	domesticConferences, err := h.usecase.ListDomesticConferences()
+	var filter model.DomesticConferenceFilter
+	err := c.BindJSON(&filter)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	domesticConferences, err := h.usecase.ListDomesticConferences(filter)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

@@ -95,3 +95,10 @@ export function DomesticConferencesToTableDisplays(domestic_conferences: Domesti
 		} 
 	})
 }
+
+export type DomesticConferenceFilter = {
+	authors: Authors
+  title: string
+  domestic_conference_info: DomesticConferenceInfo
+  tags: Tags
+}

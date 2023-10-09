@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DomesticConference, DomesticConferences } from '@/types/domestic_conference';
+import { DomesticConference, DomesticConferences, DomesticConferenceFilter } from '@/types/domestic_conference';
 
 export const createDomesticConference = async (data: DomesticConference) => {
 	console.log('data', data)
@@ -16,9 +16,12 @@ export const createDomesticConference = async (data: DomesticConference) => {
 	}
 }
 
-export const listDomesticConferences = async (setDomesticConferenceList: React.Dispatch<React.SetStateAction<DomesticConferences>>) => {
+export const listDomesticConferences = async (
+	setDomesticConferenceList: React.Dispatch<React.SetStateAction<DomesticConferences>>, 
+	filter: DomesticConferenceFilter = {} as DomesticConferenceFilter
+) => {
 	try {
-		const res = await axios.get('http://localhost:8000/domestic_conferences', {
+		const res = await axios.post('http://localhost:8000/domestic_conferences', filter, {
 			withCredentials: true
 		})
 		setDomesticConferenceList(res.data)

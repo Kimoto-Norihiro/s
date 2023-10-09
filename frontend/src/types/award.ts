@@ -68,3 +68,10 @@ export function AwardsToTableDisplays(awards: Awards): AwardTableDisplays {
 		} 
 	})
 }
+
+export type AwardFilter = {
+	authors: Authors
+	name: string
+	organization: Organization
+	tags: Tags
+}

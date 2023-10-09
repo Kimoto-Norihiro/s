@@ -33,7 +33,7 @@ export const JournalSearch = ({ setJournalList }: Props) => {
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await listJournals(setJournalList)
+			await listJournals(setJournalList, data)
 			closeModal()
 		}, (error) => {
 			console.log(error)
@@ -51,7 +51,10 @@ export const JournalSearch = ({ setJournalList }: Props) => {
 		<div className='w-[80vw] flex flex-col items-center p-4'>
 			<form 
 				className='w-full flex flex-col bg-white p-4 pr-0 rounded-md' 
-				onSubmit={submit}
+				onSubmit={(e) => {
+					e.preventDefault()
+					submit()
+				}}
 			>
 				<div className='flex justify-between'>
 					<div className='w-[50%] pr-4'>
