@@ -34,7 +34,7 @@ export const AwardSearch = ({ setAwardList }: Props) => {
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await listAwards(setAwardList)
+			await listAwards(setAwardList, data)
 			closeModal()
 		}, (error) => {
 			console.log(error)

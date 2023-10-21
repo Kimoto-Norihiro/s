@@ -43,7 +43,7 @@ func (r *InternationalConferenceRepository) DeleteInternationalConference(id int
 func ApplyInternationalConferenceFilter(db *gorm.DB, filter model.InternationalConferenceFilter) *gorm.DB {
 	if filter.Title != "" {
 		log.Print(filter.Title)
-		db = db.Where("title LIKE ?", filter.Title)
+		db = db.Where("title LIKE ?", "%"+filter.Title+"%")
 	}
 	if filter.Authors != nil {
 		log.Print(filter.Authors)

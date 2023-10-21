@@ -42,8 +42,7 @@ func (r *DomesticConferenceRepository) DeleteDomesticConference(id int) error {
 
 func ApplyDomesticConferenceFilter(db *gorm.DB, filter model.DomesticConferenceFilter) *gorm.DB {
 	if filter.Title != "" {
-		log.Print(filter.Title)
-		db = db.Where("title LIKE ?", filter.Title)
+		db = db.Where("title LIKE ?", "%"+filter.Title+"%")
 	}
 	if filter.Authors != nil {
 		log.Print(filter.Authors)

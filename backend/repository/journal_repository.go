@@ -44,7 +44,7 @@ func (r *JournalRepository) DeleteJournal(id int) error {
 func ApplyJournalFilter(db *gorm.DB, filter model.JournalFilter) *gorm.DB {
 	if filter.Title != "" {
 		log.Print(filter.Title)
-		db = db.Where("title LIKE ?", filter.Title)
+		db = db.Where("title LIKE ?", "%"+filter.Title+"%")
 	}
 	if filter.Authors != nil {
 		log.Print(filter.Authors)
@@ -53,7 +53,7 @@ func ApplyJournalFilter(db *gorm.DB, filter model.JournalFilter) *gorm.DB {
 			ids = append(ids, author.ID)
 		}
 		db = db.Joins("JOIN journal_authors ON journal_authors.journal_id = journals.id").
-		Where("journal_authors.author_id IN (?)", ids).Preload("Authors")
+			Where("journal_authors.author_id IN (?)", ids).Preload("Authors")
 	} else {
 		db = db.Preload("Authors")
 	}
@@ -70,8 +70,8 @@ func ApplyJournalFilter(db *gorm.DB, filter model.JournalFilter) *gorm.DB {
 			ids = append(ids, tag.ID)
 		}
 		db = db.Joins("JOIN journal_tags ON journal_tags.journal_id = journals.id").
-		Where("journal_tags.tag_id IN (?)", ids).Preload("Tags")
-		} else {
+			Where("journal_tags.tag_id IN (?)", ids).Preload("Tags")
+	} else {
 		db = db.Preload("Tags")
 	}
 	return db

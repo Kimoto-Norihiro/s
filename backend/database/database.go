@@ -28,6 +28,14 @@ func NewMySql(dns string) (db *gorm.DB, err error) {
 		&model.Organization{},
 		&model.Tag{},
 		&model.Country{},
+		&model.AwardAuthor{},
+		&model.AwardTag{},
+		&model.InternationalConferenceAuthor{},
+		&model.InternationalConferenceTag{},
+		&model.DomesticConferenceAuthor{},
+		&model.DomesticConferenceTag{},
+		&model.JournalAuthor{},
+		&model.JournalTag{},
 	)
 
 	db.AutoMigrate(
@@ -45,6 +53,14 @@ func NewMySql(dns string) (db *gorm.DB, err error) {
 		&model.Organization{},
 		&model.Tag{},
 		&model.Country{},
+		&model.AwardAuthor{},
+		&model.AwardTag{},
+		&model.InternationalConferenceAuthor{},
+		&model.InternationalConferenceTag{},
+		&model.DomesticConferenceAuthor{},
+		&model.DomesticConferenceTag{},
+		&model.JournalAuthor{},
+		&model.JournalTag{},
 	)
 
 	seed(db)

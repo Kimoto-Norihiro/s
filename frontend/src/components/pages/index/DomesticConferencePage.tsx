@@ -3,10 +3,11 @@ import { DomesticConferenceForm } from '../../parts/index/domestic_conference_fo
 import { DomesticConferenceTable } from '../../parts/index/domestic_conference_table';
 import { useCommonModal } from '@/context/modal_context';
 import { DomesticConferenceSearch } from '@/components/parts/index/domestic_conference_search';
-import { DomesticConferences } from '../../../types/domestic_conference';
+import { DomesticConferenceFilter, DomesticConferences } from '../../../types/domestic_conference';
 
 export const DomesticConferencePage = () => {
 	const [domesticConferenceList, setDomesticConferenceList] = useState<DomesticConferences>([])
+	const [filter, setFilter] = useState<DomesticConferenceFilter>({} as DomesticConferenceFilter)
 	const { showModal } = useCommonModal()
 	return (
 		<div className='p-4'>
@@ -24,7 +25,13 @@ export const DomesticConferencePage = () => {
 				</button>
 				<button 
 					className='btn px-2 py-1' 
-					onClick={() => showModal(<DomesticConferenceSearch/>) }
+					onClick={() => showModal(
+						<DomesticConferenceSearch 
+							filter={filter} 
+							setFilter={setFilter} 
+							setDomesticConferenceList={setDomesticConferenceList}
+						/>) 
+					}
 				>
 					検索
 				</button>

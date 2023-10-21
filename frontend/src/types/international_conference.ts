@@ -115,6 +115,6 @@ export function InternationalConferencesToTableDisplays(international_conference
 export type InternationalConferenceFilter = {
 	authors: Authors
   title: string
-  domestic_conference_info: InternationalConferenceInfo
+  international_conference_info: InternationalConferenceInfo
   tags: Tags
 }

@@ -43,7 +43,7 @@ func (r *AwardRepository) DeleteAward(id int) error {
 func ApplyAwardFilter(db *gorm.DB, filter *model.AwardFilter) *gorm.DB {
 	if filter.Name != "" {
 		log.Print(filter.Name)
-		db = db.Where("name LIKE ?", filter.Name)
+		db = db.Where("name LIKE ?", "%"+filter.Name+"%")
 	}
 	if filter.Authors != nil {
 		log.Print(filter.Authors)
@@ -60,7 +60,7 @@ func ApplyAwardFilter(db *gorm.DB, filter *model.AwardFilter) *gorm.DB {
 		log.Print(filter.Organization)
 		db = db.Where("organization_id = ?", filter.Organization.ID).Preload("Organization")
 	} else {
-		db = db.Preload("awardInfo")
+		db = db.Preload("Organization")
 	}
 	if filter.Tags != nil {
 		log.Print(filter.Tags)

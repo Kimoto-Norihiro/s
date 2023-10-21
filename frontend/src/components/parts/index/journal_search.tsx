@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { InputWithError } from '../../parts/form/InputWithError';
 import { SelectWithError } from '../../parts/form/SelectWithError';
-import { Journal } from '@/types/journal'
+import { Journal, JournalFilter } from '@/types/journal'
 import { listJournals } from '@/handlers/journal_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
@@ -23,7 +23,7 @@ type Props = {
 const JournalSearchSchema = yup.object().shape({})
 
 export const JournalSearch = ({ setJournalList }: Props) => {
-	const { control, register, handleSubmit, formState: { errors }} = useForm<Journal>({
+	const { control, register, handleSubmit, formState: { errors }} = useForm<JournalFilter>({
 		resolver: yupResolver(JournalSearchSchema)
 	})
 	const { closeModal } = useCommonModal()

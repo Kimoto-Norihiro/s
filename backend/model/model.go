@@ -82,7 +82,7 @@ type JournalEvaluation struct {
 // 国際会議
 type InternationalConference struct {
 	ID                            int                               `json:"id" gorm:"primaryKey"`
-	Authors                       []Author                          `json:"authors" gorm:"many2many:jp_conference_authors;" validate:"required"`
+	Authors                       []Author                          `json:"authors" gorm:"many2many:international_conference_authors;" validate:"required"`
 	Title                         string                            `json:"title" validate:"required"`
 	InternationalConferenceInfo   InternationalConferenceInfo       `json:"international_conference_info" gorm:"foreignKey:InternationalConferenceInfoID"`
 	InternationalConferenceInfoID int                               `json:"international_conference_info_id"`
@@ -105,7 +105,7 @@ type InternationalConference struct {
 	ISSlidePPTExist               bool                              `json:"is_slide_ppt_exist" validate:"required"`
 	IsPosterExist                 bool                              `json:"is_poster_exist" validate:"required"`
 	IsVideoExist                  bool                              `json:"is_video_exist" validate:"required"`
-	Tags                          []Tag                             `json:"tags" gorm:"many2many:jp_conference_tags;"`
+	Tags                          []Tag                             `json:"tags" gorm:"many2many:international_conference_tags;"`
 }
 
 // filter
@@ -118,10 +118,10 @@ type InternationalConferenceFilter struct {
 
 // 国際会議名
 type InternationalConferenceInfo struct {
-	ID                 int       `json:"id" gorm:"primaryKey" validate:"required"`
-	Name               string    `json:"name" validate:"required"`
-	ShortName          string    `json:"short_name" validate:"required"`
-	ISO4Name           string    `json:"iso4_name" validate:"required"`
+	ID                 int       `json:"id" gorm:"primaryKey"`
+	Name               string    `json:"name"`
+	ShortName          string    `json:"short_name"`
+	ISO4Name           string    `json:"iso4_name"`
 	CollectionNotation string    `json:"collection_notation"`
 	Publisher          Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
 	PublisherID        int       `json:"publisher_id"`
@@ -129,23 +129,24 @@ type InternationalConferenceInfo struct {
 
 // 国際会議評価
 type InternationalConferenceEvaluation struct {
-	ConferenceNameID        int     `json:"conference_name_id" gorm:"primaryKey"`
-	Year                    int     `json:"year" gorm:"primaryKey"`
-	CORERank                float64 `json:"core_rank"`
-	Qualis                  float64 `json:"qualis"`
-	RankGuide2Research      float64 `json:"rank_guide2research"`
-	AcceptanceRate          float64 `json:"acceptance_rate"`
-	NumberOfSubmittedPapers int     `json:"number_of_submitted_papers"`
-	NumberOfAcceptedPapers  int     `json:"number_of_accepted_papers"`
+	InternationalConferenceInfo   InternationalConferenceInfo `json:"international_conference_info" gorm:"foreignKey:InternationalConferenceInfoID"`
+	InternationalConferenceInfoID int                         `json:"international_conference_info_id" gorm:"primaryKey"`
+	Year                          int                         `json:"year" gorm:"primaryKey"`
+	CORERank                      float64                     `json:"core_rank"`
+	Qualis                        float64                     `json:"qualis"`
+	RankGuide2Research            float64                     `json:"rank_guide2research"`
+	AcceptanceRate                float64                     `json:"acceptance_rate"`
+	NumberOfSubmittedPapers       int                         `json:"number_of_submitted_papers"`
+	NumberOfAcceptedPapers        int                         `json:"number_of_accepted_papers"`
 }
 
 // 国内会議
 type DomesticConference struct {
 	ID                     int                    `json:"id" gorm:"primaryKey"`
-	Authors                []Author               `json:"authors" gorm:"many2many:jp_conference_authors;" validate:"required"`
+	Authors                []Author               `json:"authors" gorm:"many2many:domestic_conference_authors;" validate:"required"`
 	Title                  string                 `json:"title" validate:"required"`
-	DomesticConferenceInfo DomesticConferenceInfo `json:"conference_info" gorm:"foreignKey:ConferenceInfoID"`
-	ConferenceInfoID       int                    `json:"conference_info_id"`
+	DomesticConferenceInfo DomesticConferenceInfo `json:"domestic_conference_info" gorm:"foreignKey:ConferenceInfoID"`
+	ConferenceInfoID       int                    `json:"domestic_conference_info_id"`
 	StartPage              int                    `json:"start_page"`
 	EndPage                int                    `json:"end_page"`
 	Year                   int                    `json:"year" validate:"required"`
@@ -161,7 +162,7 @@ type DomesticConference struct {
 	ISSlidePPTExist        bool                   `json:"is_slide_ppt_exist" validate:"required"`
 	IsPosterExist          bool                   `json:"is_poster_exist" validate:"required"`
 	IsVideoExist           bool                   `json:"is_video_exist" validate:"required"`
-	Tags                   []Tag                  `json:"tags" gorm:"many2many:jp_conference_tags;"`
+	Tags                   []Tag                  `json:"tags" gorm:"many2many:domestic_conference_tags;"`
 }
 
 // filter
@@ -175,8 +176,8 @@ type DomesticConferenceFilter struct {
 // 国内会議名
 type DomesticConferenceInfo struct {
 	ID                 int       `json:"id" gorm:"primaryKey"`
-	Name               string    `json:"name" validate:"required"`
-	ShortName          string    `json:"short_name" validate:"required"`
+	Name               string    `json:"name"`
+	ShortName          string    `json:"short_name"`
 	OtherName          string    `json:"other_name"`
 	CollectionNotation string    `json:"collection_notation"`
 	Publisher          Publisher `json:"publisher" gorm:"foreignKey:PublisherID"`
@@ -210,5 +211,45 @@ type AwardFilter struct {
 // 表彰団体
 type Organization struct {
 	ID   int    `json:"id" gorm:"primaryKey"`
-	Name string `json:"name" validate:"required"`
+	Name string `json:"name"`
+}
+
+type JournalAuthor struct {
+	JournalID int `json:"journal_id" gorm:"primaryKey"`
+	AuthorID  int `json:"author_id" gorm:"primaryKey"`
+}
+
+type InternationalConferenceAuthor struct {
+	InternationalConferenceID int `json:"international_conference_id" gorm:"primaryKey"`
+	AuthorID                  int `json:"author_id" gorm:"primaryKey"`
+}
+
+type DomesticConferenceAuthor struct {
+	DomesticConferenceID int `json:"domestic_conference_id" gorm:"primaryKey"`
+	AuthorID             int `json:"author_id" gorm:"primaryKey"`
+}
+
+type AwardAuthor struct {
+	AwardID  int `json:"award_id" gorm:"primaryKey"`
+	AuthorID int `json:"author_id" gorm:"primaryKey"`
+}
+
+type JournalTag struct {
+	JournalID int `json:"journal_id" gorm:"primaryKey"`
+	TagID     int `json:"tag_id" gorm:"primaryKey"`
+}
+
+type InternationalConferenceTag struct {
+	InternationalConferenceID int `json:"international_conference_id" gorm:"primaryKey"`
+	TagID                     int `json:"tag_id" gorm:"primaryKey"`
+}
+
+type DomesticConferenceTag struct {
+	DomesticConferenceID int `json:"domestic_conference_id" gorm:"primaryKey"`
+	TagID                int `json:"tag_id" gorm:"primaryKey"`
+}
+
+type AwardTag struct {
+	AwardID int `json:"award_id" gorm:"primaryKey"`
+	TagID   int `json:"tag_id" gorm:"primaryKey"`
 }

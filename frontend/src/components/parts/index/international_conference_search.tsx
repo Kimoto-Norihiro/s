@@ -12,7 +12,7 @@ import { listTags } from '@/handlers/tag_handlers'
 import { InternationalConferenceInfos } from '../../../types/international_conference_info';
 import { listInternationalConferenceInfos } from '@/handlers/international_conference_info_handlers';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
-import { InternationalConference } from '@/types/international_conference';
+import { InternationalConference, InternationalConferenceFilter } from '@/types/international_conference';
 import { SearchButton } from '../form/SearchButton';
 import { useCommonModal } from '@/context/modal_context';
 
@@ -23,7 +23,7 @@ type Props = {
 const InternationalConferenceSearchSchema = yup.object().shape({})
 
 export const InternationalConferenceSearch = ({ setInternationalConferenceList }: Props) => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<InternationalConference>({
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<InternationalConferenceFilter>({
 		resolver: yupResolver(InternationalConferenceSearchSchema),
 	})
 	const { closeModal } = useCommonModal()
@@ -33,7 +33,7 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			listInternationalConferences(setInternationalConferenceList)
+			listInternationalConferences(setInternationalConferenceList, data)
 			closeModal()
 		}, (error) => {
 			console.log(error)
