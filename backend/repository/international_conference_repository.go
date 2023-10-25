@@ -5,6 +5,7 @@ import (
 
 	"github.com/Kimoto-Norihiro/scholar-manager/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type InternationalConferenceRepository struct {
@@ -32,7 +33,7 @@ func (r *InternationalConferenceRepository) UpdateInternationalConference(m mode
 
 func (r *InternationalConferenceRepository) GetInternationalConferenceByID(id int) (model.InternationalConference, error) {
 	var internationalConference model.InternationalConference
-	err := r.db.Preload("Authors").Preload("InternationalConferenceInfo").Preload("Evaluation").Preload("Tags").Where("id = ?", id).First(&internationalConference).Error
+	err := r.db.Preload(clause.Associations).Preload("InternationalConferenceInfo.Publisher").Where("id = ?", id).First(&internationalConference).Error
 	return internationalConference, err
 }
 

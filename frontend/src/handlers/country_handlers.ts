@@ -18,7 +18,6 @@ export async function listCountries(setCountryList: React.Dispatch<React.SetStat
 			withCredentials: true
 		})
 		setCountryList(res.data)
-		console.log('indexCountry',res.data)
 	} catch (err) {
 		console.log(err)
 	}

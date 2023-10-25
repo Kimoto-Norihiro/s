@@ -1,4 +1,5 @@
 import { type } from "os"
+import { GroupBase, GroupProps, OptionsOrGroups } from "react-select"
 
 export type Organization = {
   id: number
@@ -21,8 +22,10 @@ export function organizationsToTableDisplays(organizations: Organizations): Orga
 export const organizationsToOptions = (list: Organizations) => {
 	return list.map((organization) => {
 		return {
-			value: organization.id,
+			value: organization,
 			label: organization.name
-		}
-	})
+		} 
+	}) 
 }
+
+// OptionsOrGroups<Organization, GroupBase<Organization>>

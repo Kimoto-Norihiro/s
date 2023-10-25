@@ -25,7 +25,6 @@ export const listAwards = async (
 			withCredentials: true
 		})
 		setAwardList(res.data)
-		console.log('indexAward',res.data)
 	} catch (err) {
 		console.log(err)
 	}

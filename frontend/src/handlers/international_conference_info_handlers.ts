@@ -20,7 +20,6 @@ export const listInternationalConferenceInfos = async (setInternationalConferenc
 			withCredentials: true
 		})
 		setInternationalConferenceInfoList(res.data)
-		console.log('indexInternationalConferenceInfo',res.data)
 	} catch (err) {
 		console.log(err)
 	}

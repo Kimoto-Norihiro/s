@@ -1,3 +1,4 @@
+import exp from "constants"
 import { Publisher } from "./publisher"
 
 export type DomesticConferenceInfo = {
@@ -26,6 +27,15 @@ export function domesticConferencesToTableDisplays(domestic_conference_infos: Do
 			publisher_name: domestic_conference_info.publisher.name
 		} 
 	})
+}
+
+export const domesticConferenceInfosToOptions = (list: DomesticConferenceInfos) => {
+	return list.map((domestic_conference_info) => {
+		return {
+			value: domestic_conference_info,
+			label: domestic_conference_info.name
+		} 
+	}) 
 }
 
 // type for form

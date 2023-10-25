@@ -18,7 +18,6 @@ export const listTags = async (setTagList: React.Dispatch<React.SetStateAction<T
 			withCredentials: true
 		})
 		setTagList(res.data)
-		console.log('indexTag',res.data)
 	} catch (err) {
 		console.log(err)
 	}

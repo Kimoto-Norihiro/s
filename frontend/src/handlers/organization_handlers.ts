@@ -18,7 +18,6 @@ export async function listOrganizations(setOrganizationList: React.Dispatch<Reac
 			withCredentials: true
 		})
 		setOrganizationList(res.data)
-		console.log('indexOrganization',res.data)
 	} catch (err) {
 		console.log(err)
 	}

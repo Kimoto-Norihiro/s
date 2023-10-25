@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AddLabel } from './AddLabel'
-import { Controller, FieldErrors, FieldValues, Path, Control, Field } from 'react-hook-form';
-import Select from 'react-select'
+import { Controller, FieldErrors, FieldValues, Path, Control, PathValue } from 'react-hook-form';
+import Select, { Options } from 'react-select'
+import _ from 'lodash'
 
 type Props<T extends FieldValues> = {
 	label: string
@@ -9,29 +10,30 @@ type Props<T extends FieldValues> = {
 	control: Control<T>
 	errors: FieldErrors<T>
 	required?: boolean
-	options: {value: number, label: string}[]
-	list?: any[]
+	options: Options<{value: PathValue<T, Path<T>>, label: string}>
 }
 
-export const SelectWithError = <T extends FieldValues>({ label, name, control, errors, required, options, list}: Props<T>) => {
+export const SelectWithError = <T extends FieldValues>({ label, name, control, errors, required, options}: Props<T>) => {
 	return (
 		<AddLabel label={label} required={required}>
 			<Controller
 				control={control}
 				name={name}
-				render={({ field }) => (
-					<Select
-						options={options}
-						onChange={(option) => {
-							if (!option) return
-							if (!list) {
+				render={({ field }) => {
+					console.log(field.value)
+					console.log(options)
+					const defaultValue = options.find((option) => _.isEqual(option.value, field.value))
+					return(
+						<Select
+							value={defaultValue}
+							options={options}
+							onChange={(option) => {
+								if (!option) return
 								field.onChange(option.value)
-								return
-							}
-							field.onChange(list[option.value-1])
-						}}
-					/>
-				)}
+							}}
+						/>
+					)
+				}}
 			/>
 			{
         errors[name] ? <div className='text-red-800 text-sm'>{`${errors[name]?.message}`}</div> : <div className='h-5'></div>

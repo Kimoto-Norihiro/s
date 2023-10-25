@@ -80,7 +80,6 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 					errors={errors}
 					required
 					options={authorsToOptions(authorList)}
-					list={authorList}
 				/>
 				<InputWithError
 					label='賞名' 
@@ -99,7 +98,7 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 				/>
 				<div className='flex justify-between'>
 					<div className='w-[45%]'>
-						<SelectWithError
+						{/* <SelectWithError
 							label='年'
 							name='year'
 							required
@@ -111,10 +110,10 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 									label: `${currentYear - year}`
 								}
 							})}
-						/>
+						/> */}
 					</div>
 					<div className='w-[45%]'>
-						<SelectWithError
+						{/* <SelectWithError
 							label='月'
 							name='month'
 							control={control}
@@ -127,7 +126,7 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 									}
 								})
 							}
-						/>
+						/> */}
 					</div>
 				</div>
 				<InputWithError
@@ -167,9 +166,8 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 					errors={errors}
 					required
 					options={tagsToOptions(tagList)}
-					list={tagList}
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

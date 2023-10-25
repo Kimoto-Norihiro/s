@@ -19,7 +19,6 @@ export const listJournalInfos = async (setJournalInfoList: React.Dispatch<React.
 			withCredentials: true
 		})
 		setJournalInfoList(res.data)
-		console.log('indexJournalInfo',res.data)
 	} catch (err) {
 		console.log(err)
 	}

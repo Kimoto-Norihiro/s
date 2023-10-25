@@ -29,7 +29,7 @@ export function authorsToTableDisplays(authors: Authors): AuthorTableDisplays {
 export const authorsToOptions = (list: Authors) => {
 	return list.map((author) => {
 		return {
-			value: author.id,
+			value: author,
 			label: `${author.ja_first_name} ${author.ja_last_name}`
 		}
 	})

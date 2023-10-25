@@ -89,7 +89,7 @@ export const JournalInfoForm = ({ type, defaultValues, setList }: FormProps<Jour
 					})}
 					list={publisherList}
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

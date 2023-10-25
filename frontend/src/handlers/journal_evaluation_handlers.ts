@@ -18,7 +18,6 @@ export const listJournalEvaluations = async (setJournalEvaluationList: React.Dis
 			withCredentials: true
 		})
 		setJournalEvaluationList(res.data)
-		console.log('indexJournalEvaluation',res.data)
 	} catch (err) {
 		console.log(err)
 	}

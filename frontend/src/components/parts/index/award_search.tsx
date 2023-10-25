@@ -65,7 +65,6 @@ export const AwardSearch = ({ setAwardList }: Props) => {
 							control={control}
 							errors={errors}
 							options={authorsToOptions(authorList)}
-							list={authorList}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -95,7 +94,6 @@ export const AwardSearch = ({ setAwardList }: Props) => {
 							control={control}
 							errors={errors}
 							options={tagsToOptions(tagList)}
-							list={tagList}
 						/>
 					</div>
 				</div>

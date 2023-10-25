@@ -5,6 +5,7 @@ import (
 
 	"github.com/Kimoto-Norihiro/scholar-manager/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type JournalRepository struct {
@@ -33,7 +34,7 @@ func (r *JournalRepository) UpdateJournal(m model.Journal) error {
 
 func (r *JournalRepository) GetJournalByID(id int) (model.Journal, error) {
 	var journal model.Journal
-	err := r.db.Preload("Authors").Preload("JournalInfo").Preload("Evaluation").Preload("Tags").Where("id = ?", id).First(&journal).Error
+	err := r.db.Preload("JournalInfo.Publisher").Preload(clause.Associations).Where("id = ?", id).First(&journal).Error
 	return journal, err
 }
 

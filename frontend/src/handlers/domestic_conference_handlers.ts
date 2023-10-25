@@ -25,7 +25,6 @@ export const listDomesticConferences = async (
 			withCredentials: true
 		})
 		setDomesticConferenceList(res.data)
-		console.log('indexDomesticConference',res.data)
 	} catch (err) {
 		console.log(err)
 	}

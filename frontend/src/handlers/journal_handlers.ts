@@ -26,7 +26,6 @@ export const listJournals = async (
 			withCredentials: true
 		})
 		setJournalList(res.data)
-		console.log('indexJournal',res.data)
 	} catch (err) {
 		console.log(err)
 	}

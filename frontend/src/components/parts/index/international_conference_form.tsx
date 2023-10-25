@@ -86,7 +86,6 @@ export const InternationalConferenceForm = ({ type, defaultValues, setList }: Fo
 							errors={errors}
 							required
 							options={authorsToOptions(authorList)}
-							list={authorList}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -109,11 +108,10 @@ export const InternationalConferenceForm = ({ type, defaultValues, setList }: Fo
 							required
 							options={international_conferenceInfoList.map((international_conference_info) => {
 								return {
-									value: international_conference_info.id,
+									value: international_conference_info,
 									label: `${international_conference_info.name}`
 								}
 							})}
-							list={international_conferenceInfoList}
 						/>
 					</div>
 					<div className='w-[25%] pr-4'>
@@ -228,11 +226,10 @@ export const InternationalConferenceForm = ({ type, defaultValues, setList }: Fo
 							required
 							options={countryList.map((country) => {
 								return {
-									value: country.id,
+									value: country,
 									label: `${country.name}`
 								}
 							})}
-							list={international_conferenceInfoList}
 						/>
 					</div>
 				</div>
@@ -295,12 +292,11 @@ export const InternationalConferenceForm = ({ type, defaultValues, setList }: Fo
 							errors={errors}
 							required
 							options={tagsToOptions(tagList)}
-							list={tagList}
 						/>
 					</div>
 				</div>
 				
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

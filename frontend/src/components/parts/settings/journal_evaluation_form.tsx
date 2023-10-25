@@ -112,7 +112,7 @@ export const JournalEvaluationForm = ({ type, defaultValues, setList }: FormProp
 					errors={errors}
 					required
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

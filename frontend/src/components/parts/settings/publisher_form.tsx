@@ -59,7 +59,7 @@ export const PublisherForm = ({ type, defaultValues, setList }: FormProps<Publis
 					errors={errors}
 					required
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

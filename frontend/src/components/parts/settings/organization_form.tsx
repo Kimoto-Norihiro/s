@@ -51,7 +51,7 @@ export const OrganizationForm = ({ type, defaultValues, setList }: FormProps<Org
 					errors={errors}
 					required
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

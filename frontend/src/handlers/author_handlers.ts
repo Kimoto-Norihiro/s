@@ -28,7 +28,6 @@ export async function listAuthors(setAuthorList: React.Dispatch<React.SetStateAc
 		const res = await axios.get('http://localhost:8000/authors', {
 			withCredentials: true
 		})
-		console.log('indexAuthor', res.data)
 		setAuthorList(res.data)
 	} catch (err) {
 		console.log('fail to index author', err)

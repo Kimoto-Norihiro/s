@@ -18,7 +18,7 @@ export function tagsToTableDisplays(tags: Tags): TagTableDisplays {
 export const tagsToOptions = (list: Tags) => {
 	return list.map((tag) => {
 		return {
-			value: tag.id,
+			value: tag,
 			label: tag.name
 		}
 	})

@@ -97,7 +97,7 @@ export const DomesticConferenceInfoForm = ({ type, defaultValues, setList }: For
 					})}
 					list={publisherList}
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

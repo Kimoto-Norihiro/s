@@ -28,5 +28,14 @@ export function internationalConferencesToTableDisplays(international_conference
 	})
 }
 
+export function internationalConferencesToOptions(list: InternationalConferenceInfos) {
+	return list.map((international_conference_info) => {
+		return {
+			value: international_conference_info,
+			label: international_conference_info.name
+		} 
+	}) 
+}
+
 // type for form
 export type InternationalConferenceInfoUpsertValues = Omit<InternationalConferenceInfo, 'id'>

@@ -5,6 +5,7 @@ import (
 
 	"github.com/Kimoto-Norihiro/scholar-manager/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type AwardRepository struct {
@@ -32,7 +33,7 @@ func (r *AwardRepository) UpdateAward(m model.Award) error {
 
 func (r *AwardRepository) GetAwardByID(id int) (model.Award, error) {
 	var award model.Award
-	err := r.db.Preload("Organization").Preload("Tags").Where("id = ?", id).First(&award).Error
+	err := r.db.Preload(clause.Associations).Where("id = ?", id).First(&award).Error
 	return award, err
 }
 

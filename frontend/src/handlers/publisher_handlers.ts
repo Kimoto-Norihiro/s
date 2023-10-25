@@ -7,7 +7,6 @@ export const listPublishers = async (setPublisherList: React.Dispatch<React.SetS
 			withCredentials: true
 		})
 		setPublisherList(res.data)
-		console.log('indexPublisher',res.data)
 	} catch (err) {
 		console.log(err)
 	}

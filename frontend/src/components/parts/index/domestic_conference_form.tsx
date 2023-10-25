@@ -10,8 +10,8 @@ import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
 import { listTags } from '@/handlers/tag_handlers'
-import { DomesticConferenceInfos } from '../../../types/domestic_conference_info';
-import { listDomesticConferenceInfos } from '@/handlers/domestic_conference_info_handlers';
+import { DomesticConferenceInfos, domesticConferenceInfosToOptions } from '../../../types/domestic_conference_info';
+import { deleteDomesticConferenceInfo, listDomesticConferenceInfos } from '@/handlers/domestic_conference_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { DomesticConference } from '@/types/domestic_conference';
@@ -83,7 +83,6 @@ export const DomesticConferenceForm = ({ type, defaultValues, setList }: FormPro
 							errors={errors}
 							required
 							options={authorsToOptions(authorList)}
-							list={authorList}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -104,13 +103,7 @@ export const DomesticConferenceForm = ({ type, defaultValues, setList }: FormPro
 							control={control}
 							errors={errors}
 							required
-							options={domesticConferenceInfoList.map((domestic_conference_info) => {
-								return {
-									value: domestic_conference_info.id,
-									label: `${domestic_conference_info.name}`
-								}
-							})}
-							list={domesticConferenceInfoList}
+							options={domesticConferenceInfosToOptions(domesticConferenceInfoList)}
 						/>
 					</div>
 					<div className='w-[25%] pr-4'>
@@ -266,11 +259,10 @@ export const DomesticConferenceForm = ({ type, defaultValues, setList }: FormPro
 							errors={errors}
 							required
 							options={tagsToOptions(tagList)}
-							list={tagList}
 						/>
 					</div>
 				</div>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

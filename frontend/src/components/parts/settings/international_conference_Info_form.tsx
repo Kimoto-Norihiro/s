@@ -96,7 +96,7 @@ export const InternationalConferenceInfoForm = ({ type, defaultValues, setList }
 					})}
 					list={publisherList}
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

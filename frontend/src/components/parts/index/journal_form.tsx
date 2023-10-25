@@ -11,7 +11,7 @@ import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
 import { listTags } from '@/handlers/tag_handlers'
-import { JournalInfos } from '../../../types/journal_info';
+import { JournalInfos, journalInfosToOptions } from '../../../types/journal_info';
 import { listJournalInfos } from '@/handlers/journal_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
@@ -34,7 +34,7 @@ const JournalUpsertSchema = yup.object().shape({
 })
 
 export const JournalForm = ({ type, defaultValues, setList }: FormProps<Journal>) => {
-	const { control, register, handleSubmit, formState: { errors }} = useForm<Journal>({
+	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<Journal>({
 		resolver: yupResolver(JournalUpsertSchema),
 		defaultValues,
 	})
@@ -82,7 +82,6 @@ export const JournalForm = ({ type, defaultValues, setList }: FormProps<Journal>
 							errors={errors}
 							required
 							options={authorsToOptions(authorList)}
-							list={authorList}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -103,13 +102,7 @@ export const JournalForm = ({ type, defaultValues, setList }: FormProps<Journal>
 							control={control}
 							errors={errors}
 							required
-							options={journalInfoList.map((journal_info) => {
-								return {
-									value: journal_info.id,
-									label: `${journal_info.name}`
-								}
-							})}
-							list={journalInfoList}
+							options={journalInfosToOptions(journalInfoList)}
 						/>
 					</div>
 					<div className='w-[25%] pr-4'>
@@ -256,11 +249,9 @@ export const JournalForm = ({ type, defaultValues, setList }: FormProps<Journal>
 						errors={errors}
 						required
 						options={tagsToOptions(tagList)}
-						list={tagList}
 					/>
 				</div>
-				
-				<FormButton />
+				<FormButton type={type}/>
 			</form>
 		</div>
 	)

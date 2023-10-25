@@ -51,7 +51,7 @@ export const TagForm = ({ type, defaultValues, setList }: FormProps<Tag>) => {
 					errors={errors}
 					required
 				/>
-				<FormButton />
+				<FormButton type={type} />
 			</form>
 		</div>
 	)

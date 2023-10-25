@@ -18,7 +18,6 @@ export const listInternationalConferenceEvaluations = async (setInternationalCon
 			withCredentials: true
 		})
 		setInternationalConferenceEvaluationList(res.data)
-		console.log('indexInternationalConferenceEvaluation',res.data)
 	} catch (err) {
 		console.log(err)
 	}

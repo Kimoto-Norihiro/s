@@ -27,3 +27,12 @@ export function journalInfosToTableDisplays(journalInfos: JournalInfos): Journal
 
 // type for form
 export type JournalInfoUpsertValues = Omit<JournalInfo, 'id'>
+
+export const journalInfosToOptions = (list: JournalInfos) => {
+	return list.map((journalInfo) => {
+		return {
+			value: journalInfo,
+			label: journalInfo.name
+		} 
+	}) 
+}

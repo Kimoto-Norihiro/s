@@ -5,23 +5,30 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '../form/InputWithError';
 import { SelectWithError } from '../form/SelectWithError';
 import { FormButton } from '../form/FormButton';
-import { createDomesticConference } from '@/handlers/domestic_conference_handlers'
+import { createDomesticConference, listDomesticConferences } from '@/handlers/domestic_conference_handlers'
 import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
 import { listTags } from '@/handlers/tag_handlers'
-import { DomesticConferenceInfos } from '../../../types/domestic_conference_info';
+import { DomesticConferenceInfos, domesticConferenceInfosToOptions } from '../../../types/domestic_conference_info';
 import { listDomesticConferenceInfos } from '@/handlers/domestic_conference_info_handlers';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
-import { DomesticConference } from '@/types/domestic_conference';
+import { DomesticConference, DomesticConferenceFilter } from '@/types/domestic_conference';
 import { SearchButton } from '../form/SearchButton';
 import { useCommonModal } from '@/context/modal_context';
 
 const DomesticConferenceSearchSchema = yup.object().shape({})
 
-export const DomesticConferenceSearch = () => {
-	const { control, register, handleSubmit, formState: { errors }} = useForm<DomesticConference>({
+type Props = {
+	filter: DomesticConferenceFilter
+	setFilter: React.Dispatch<React.SetStateAction<DomesticConferenceFilter>>
+	setDomesticConferenceList: React.Dispatch<React.SetStateAction<DomesticConference[]>>
+}
+
+export const DomesticConferenceSearch = ({ filter, setFilter, setDomesticConferenceList }: Props) => {
+	const { control, register, handleSubmit, formState: { errors }} = useForm<DomesticConferenceFilter>({
 		resolver: yupResolver(DomesticConferenceSearchSchema),
+		defaultValues: filter,
 	})
 	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
@@ -30,7 +37,8 @@ export const DomesticConferenceSearch = () => {
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
-			await createDomesticConference(data)
+			listDomesticConferences(setDomesticConferenceList, data)
+			setFilter(data)
 			closeModal()
 		}, (error) => {
 			console.log(error)
@@ -61,7 +69,6 @@ export const DomesticConferenceSearch = () => {
 							control={control}
 							errors={errors}
 							options={authorsToOptions(authorList)}
-							list={authorList}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -80,13 +87,7 @@ export const DomesticConferenceSearch = () => {
 							name='domestic_conference_info'
 							control={control}
 							errors={errors}
-							options={domesticConferenceInfoList.map((domestic_conference_info) => {
-								return {
-									value: domestic_conference_info.id,
-									label: `${domestic_conference_info.name}`
-								}
-							})}
-							list={domesticConferenceInfoList}
+							options={domesticConferenceInfosToOptions(domesticConferenceInfoList)}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -96,7 +97,6 @@ export const DomesticConferenceSearch = () => {
 							control={control}
 							errors={errors}
 							options={tagsToOptions(tagList)}
-							list={tagList}
 						/>
 					</div>
 				</div>
