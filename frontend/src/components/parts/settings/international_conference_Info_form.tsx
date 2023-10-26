@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
-import { Publishers } from '@/types/publisher'
+import { Publishers, publishersToOptions } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
 import { InternationalConferenceInfo } from '@/types/international_conference_info'
 import { createInternationalConferenceInfo, listInternationalConferenceInfos, updateInternationalConferenceInfo } from '@/handlers/international_conference_info_handlers'
@@ -88,13 +88,7 @@ export const InternationalConferenceInfoForm = ({ type, defaultValues, setList }
 					control={control}
 					errors={errors}
 					required
-					options={publisherList.map((publisher) => {
-						return {
-							value: publisher.id,
-							label: `${publisher.name}`
-						}
-					})}
-					list={publisherList}
+					options={publishersToOptions(publisherList)}
 				/>
 				<FormButton type={type} />
 			</form>

@@ -23,18 +23,14 @@ const currentYear = new Date().getFullYear()
 
 const AwardUpsertSchema = yup.object().shape({
 	authors: yup.array().required('選択してください'),
-	title: yup.string().required('入力してください'),
-	volume: numberCondition,
-	number: numberCondition,
-	start_page: numberCondition,
-	end_page: numberCondition,
+	name: yup.string().required('入力してください'),
 	year: yup.number().required('選択してください'),
-	award_info: yup.object().required('選択してください'),
+	organization: yup.object().required('選択してください'),
 	tags: yup.array().required('選択してください'),
 })
 
 export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) => {
-	const { control, register, handleSubmit, formState: { errors }, watch} = useForm<Award>({
+	const { control, register, handleSubmit, formState: { errors }} = useForm<Award>({
 		resolver: yupResolver(AwardUpsertSchema),
 		defaultValues,
 	})
@@ -73,32 +69,30 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 					submit()
 				}}
 			>
-				<MultiSelectWithError
-					label='著者'
-					name='authors'
-					control={control}
-					errors={errors}
-					required
-					options={authorsToOptions(authorList)}
-				/>
-				<InputWithError
-					label='賞名' 
-					name='name'
-					register={register}
-					errors={errors}
-					required
-				/>
-				<SelectWithError
-					label='表彰団体'
-					name='organization'
-					required
-					control={control}
-					errors={errors}
-					options={organizationsToOptions(organizationList)}
-				/>
 				<div className='flex justify-between'>
-					<div className='w-[45%]'>
-						{/* <SelectWithError
+					<div className='w-[50%] pr-4'>
+						<MultiSelectWithError
+							label='著者'
+							name='authors'
+							control={control}
+							errors={errors}
+							required
+							options={authorsToOptions(authorList)}
+						/>
+					</div>
+					<div className='w-[50%] pr-4'>
+						<InputWithError
+							label='賞名' 
+							name='name'
+							register={register}
+							errors={errors}
+							required
+						/>
+					</div>
+				</div>
+				<div className='flex justify-between'>
+					<div className='w-[25%] pr-4'>
+						<SelectWithError
 							label='年'
 							name='year'
 							required
@@ -110,10 +104,10 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 									label: `${currentYear - year}`
 								}
 							})}
-						/> */}
+						/>
 					</div>
-					<div className='w-[45%]'>
-						{/* <SelectWithError
+					<div className='w-[25%] pr-4'>
+						<SelectWithError
 							label='月'
 							name='month'
 							control={control}
@@ -126,23 +120,39 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 									}
 								})
 							}
-						/> */}
+						/>
+					</div>
+					<div className='w-[50%] pr-4'> 
+						<SelectWithError
+							label='表彰団体'
+							name='organization'
+							required
+							control={control}
+							errors={errors}
+							options={organizationsToOptions(organizationList)}
+						/>
 					</div>
 				</div>
-				<InputWithError
-					label='メインURL'
-					name='url1'
-					register={register}
-					errors={errors}
-				/>
-				<InputWithError
-					label='サブURL'
-					name='url2'
-					register={register}
-					errors={errors}
-				/>
 				<div className='flex justify-between'>
-					<div className='w-[45%]'>
+					<div className='w-[50%] pr-4'>
+						<InputWithError
+							label='メインURL'
+							name='url1'
+							register={register}
+							errors={errors}
+						/>
+					</div>
+					<div className='w-[50%] pr-4'>
+						<InputWithError
+							label='サブURL'
+							name='url2'
+							register={register}
+							errors={errors}
+						/>
+					</div>
+				</div>
+				<div className='flex justify-between'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='共同研究'
 							name='is_joint_research'
@@ -150,7 +160,7 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 							explain='該当する'
 						/>
 					</div>
-					<div className='w-[45%]'>
+					<div className='w-[25%] pr-4'>
 						<CheckBox 
 							label='賞状'
 							name='is_certificate_exist'
@@ -158,15 +168,17 @@ export const AwardForm = ({ type, defaultValues, setList }: FormProps<Award>) =>
 							explain='存在する'
 						/>
 					</div>
+					<div className='w-[50%] pr-4'>
+						<MultiSelectWithError 
+							label='分野タグ'
+							name='tags'
+							control={control}
+							errors={errors}
+							required
+							options={tagsToOptions(tagList)}
+						/>
+					</div>
 				</div>
-				<MultiSelectWithError 
-					label='分野タグ'
-					name='tags'
-					control={control}
-					errors={errors}
-					required
-					options={tagsToOptions(tagList)}
-				/>
 				<FormButton type={type} />
 			</form>
 		</div>

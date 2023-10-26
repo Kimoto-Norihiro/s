@@ -18,3 +18,12 @@ export function publishersToTableDisplays(publishers: Publishers): PublisherTabl
     }
   })
 }
+
+export function publishersToOptions(list: Publishers) {
+  return list.map((publisher) => {
+    return {
+      value: publisher,
+      label: publisher.name
+    }
+  })
+}

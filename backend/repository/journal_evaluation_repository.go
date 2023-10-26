@@ -25,7 +25,7 @@ func (r *JournalEvaluationRepository) ListJournalEvaluations() ([]model.JournalE
 
 func (r *JournalEvaluationRepository) GetJournalEvaluationByJournalIDAndYear(journalID int, year int) (model.JournalEvaluation, error) {
 	var journalEvaluation model.JournalEvaluation
-	err := r.db.Where("journal_info_id = ? AND year = ?", journalID, year).First(&journalEvaluation).Error
+	err := r.db.Preload("JournalInfo").Preload("JournalInfo.Publisher").Where("journal_info_id = ? AND year = ?", journalID, year).First(&journalEvaluation).Error
 	return journalEvaluation, err
 }
 

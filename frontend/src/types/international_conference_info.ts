@@ -28,7 +28,7 @@ export function internationalConferencesToTableDisplays(international_conference
 	})
 }
 
-export function internationalConferencesToOptions(list: InternationalConferenceInfos) {
+export const internationalConferenceInfosToOptions = (list: InternationalConferenceInfos) => {
 	return list.map((international_conference_info) => {
 		return {
 			value: international_conference_info,

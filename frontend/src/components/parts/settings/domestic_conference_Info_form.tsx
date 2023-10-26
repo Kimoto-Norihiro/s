@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
-import { Publishers } from '@/types/publisher'
+import { Publishers, publishersToOptions } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
 import { DomesticConferenceInfo } from '@/types/domestic_conference_info'
 import { createDomesticConferenceInfo, listDomesticConferenceInfos, updateDomesticConferenceInfo } from '@/handlers/domestic_conference_info_handlers'
@@ -26,6 +26,8 @@ export const DomesticConferenceInfoForm = ({ type, defaultValues, setList }: For
 	})
 	const { closeModal } = useCommonModal()
 	const [publisherList, setPublisherList] = useState<Publishers>([])
+
+	console.log(defaultValues)
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
@@ -89,13 +91,7 @@ export const DomesticConferenceInfoForm = ({ type, defaultValues, setList }: For
 					control={control}
 					errors={errors}
 					required
-					options={publisherList.map((publisher) => {
-						return {
-							value: publisher.id,
-							label: `${publisher.name}`
-						}
-					})}
-					list={publisherList}
+					options={publishersToOptions(publisherList)}
 				/>
 				<FormButton type={type} />
 			</form>

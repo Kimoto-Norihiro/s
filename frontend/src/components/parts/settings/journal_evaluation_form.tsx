@@ -6,8 +6,8 @@ import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
 import { JournalEvaluation } from '@/types/journal_evaluation'
-import { createJournalEvaluation, listJournalEvaluations } from '@/handlers/journal_evaluation_handlers'
-import { JournalInfos } from '@/types/journal_info'
+import { createJournalEvaluation, listJournalEvaluations, updateJournalEvaluation } from '@/handlers/journal_evaluation_handlers'
+import { JournalInfos, journalInfosToOptions } from '@/types/journal_info'
 import { listJournalInfos } from '@/handlers/journal_info_handlers'
 import { FormProps } from '@/types/form'
 import { useCommonModal } from '@/context/modal_context'
@@ -31,12 +31,14 @@ export const JournalEvaluationForm = ({ type, defaultValues, setList }: FormProp
 	const { closeModal } = useCommonModal()
 	const [journalInfoList, setJournalInfoList] = useState<JournalInfos>([])
 
+	console.log(defaultValues)
+
 	const submit = async () => {
 		handleSubmit(async (data) => {
 			if (type === 'create') {
 				await createJournalEvaluation(data)
 			} else {
-				await createJournalEvaluation(data)
+				await updateJournalEvaluation(data)
 			}
 			listJournalEvaluations(setList)
 			closeModal()
@@ -64,13 +66,7 @@ export const JournalEvaluationForm = ({ type, defaultValues, setList }: FormProp
 					control={control}
 					errors={errors}
 					required
-					options={journalInfoList.map((journal_info) => {
-						return {
-							value: journal_info.id,
-							label: `${journal_info.name}`
-						}
-					})}
-					list={journalInfoList}
+					options={journalInfosToOptions(journalInfoList)}
 				/>
 				<SelectWithError
 					label='年'

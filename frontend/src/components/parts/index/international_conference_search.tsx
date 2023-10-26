@@ -9,7 +9,7 @@ import { Authors, authorsToOptions } from '@/types/author'
 import { Tags, tagsToOptions } from '@/types/tag'
 import { listAuthors } from '@/handlers/author_handlers'
 import { listTags } from '@/handlers/tag_handlers'
-import { InternationalConferenceInfos } from '../../../types/international_conference_info';
+import { InternationalConferenceInfos, internationalConferenceInfosToOptions } from '../../../types/international_conference_info';
 import { listInternationalConferenceInfos } from '@/handlers/international_conference_info_handlers';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
 import { InternationalConference, InternationalConferenceFilter } from '@/types/international_conference';
@@ -28,7 +28,7 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 	})
 	const { closeModal } = useCommonModal()
 	const [authorList, setAuthorList] = useState<Authors>([])
-	const [international_conferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
+	const [internationalConferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
 	const [tagList, setTagList] = useState<Tags>([])
 
 	const submit = async () => {
@@ -65,7 +65,6 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 							errors={errors}
 							required
 							options={authorsToOptions(authorList)}
-							list={authorList}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -86,13 +85,7 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 							control={control}
 							errors={errors}
 							required
-							options={international_conferenceInfoList.map((international_conference_info) => {
-								return {
-									value: international_conference_info.id,
-									label: `${international_conference_info.name}`
-								}
-							})}
-							list={international_conferenceInfoList}
+							options={internationalConferenceInfosToOptions(internationalConferenceInfoList)}
 						/>
 					</div>
 					<div className='w-[50%] pr-4'>
@@ -103,7 +96,6 @@ export const InternationalConferenceSearch = ({ setInternationalConferenceList }
 							errors={errors}
 							required
 							options={tagsToOptions(tagList)}
-							list={tagList}
 						/>
 					</div>
 				</div>

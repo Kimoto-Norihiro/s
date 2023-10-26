@@ -58,7 +58,7 @@ func (h *JournalHandler) UpdateJournal(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	err = h.usecase.CreateJournal(m)
+	err = h.usecase.UpdateJournal(m)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

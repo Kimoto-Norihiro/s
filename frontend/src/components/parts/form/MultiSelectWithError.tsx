@@ -27,7 +27,6 @@ export const MultiSelectWithError = <T extends FieldValues>({ label, name, contr
 						})
 						return result.includes(true)
 					})
-					console.log(defaultValue)
 					return(
 						<Select
 							isMulti

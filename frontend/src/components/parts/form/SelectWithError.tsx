@@ -20,8 +20,6 @@ export const SelectWithError = <T extends FieldValues>({ label, name, control, e
 				control={control}
 				name={name}
 				render={({ field }) => {
-					console.log(field.value)
-					console.log(options)
 					const defaultValue = options.find((option) => _.isEqual(option.value, field.value))
 					return(
 						<Select

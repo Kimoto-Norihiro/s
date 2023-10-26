@@ -6,8 +6,8 @@ import { InputWithError } from '@/components/parts/form/InputWithError'
 import { SelectWithError } from '@/components/parts/form/SelectWithError'
 import { FormButton } from '../form/FormButton';
 import { JournalInfo } from '@/types/journal_info'
-import { createJournalInfo, listJournalInfos } from '@/handlers/journal_info_handlers'
-import { Publishers } from '@/types/publisher'
+import { createJournalInfo, listJournalInfos, updateJournalInfo } from '@/handlers/journal_info_handlers'
+import { Publishers, publishersToOptions } from '@/types/publisher'
 import { listPublishers } from '@/handlers/publisher_handlers'
 import { FormProps } from '@/types/form'
 import { useCommonModal } from '@/context/modal_context'
@@ -29,10 +29,11 @@ export const JournalInfoForm = ({ type, defaultValues, setList }: FormProps<Jour
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
+			console.log("data", data)
 			if (type === 'create') {
 				await createJournalInfo(data)
 			} else {
-				await createJournalInfo(data)
+				await updateJournalInfo(data)
 			}
 			listJournalInfos(setList)
 			closeModal()
@@ -81,13 +82,7 @@ export const JournalInfoForm = ({ type, defaultValues, setList }: FormProps<Jour
 					control={control}
 					errors={errors}
 					required
-					options={publisherList.map((publisher) => {
-						return {
-							value: publisher.id,
-							label: `${publisher.name}`
-						}
-					})}
-					list={publisherList}
+					options={publishersToOptions(publisherList)}
 				/>
 				<FormButton type={type} />
 			</form>

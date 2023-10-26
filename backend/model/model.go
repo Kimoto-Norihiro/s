@@ -89,22 +89,22 @@ type InternationalConference struct {
 	StartPage                     int                               `json:"start_page"`
 	EndPage                       int                               `json:"end_page"`
 	Year                          int                               `json:"year" validate:"required"`
-	Month                         int                               `json:"month" validate:"required"`
+	Month                         int                               `json:"month"`
 	Url1                          string                            `json:"url1"`
 	Url2                          string                            `json:"url2"`
 	DOI                           string                            `json:"doi"`
-	IsJointResearch               bool                              `json:"is_joint_research" validate:"required"`
+	IsJointResearch               bool                              `json:"is_joint_research"`
 	Country                       Country                           `json:"country" gorm:"foreignKey:CountryID"`
 	CountryID                     int                               `json:"country_id"`
 	City                          string                            `json:"city"`
 	Venue                         string                            `json:"venue"`
 	Evaluation                    InternationalConferenceEvaluation `json:"evaluation" gorm:"foreignKey:InternationalConferenceInfoID, Year"`
 	PeerReviewCourse              string                            `json:"peer_review_course"`
-	IsManuscriptExist             bool                              `json:"is_manuscript_exist" validate:"required"`
-	IsSlidePDFExist               bool                              `json:"is_slide_pdf_exist" validate:"required"`
-	ISSlidePPTExist               bool                              `json:"is_slide_ppt_exist" validate:"required"`
-	IsPosterExist                 bool                              `json:"is_poster_exist" validate:"required"`
-	IsVideoExist                  bool                              `json:"is_video_exist" validate:"required"`
+	IsManuscriptExist             bool                              `json:"is_manuscript_exist"`
+	IsSlidePDFExist               bool                              `json:"is_slide_pdf_exist"`
+	ISSlidePPTExist               bool                              `json:"is_slide_ppt_exist"`
+	IsPosterExist                 bool                              `json:"is_poster_exist"`
+	IsVideoExist                  bool                              `json:"is_video_exist"`
 	Tags                          []Tag                             `json:"tags" gorm:"many2many:international_conference_tags;"`
 }
 
@@ -150,18 +150,18 @@ type DomesticConference struct {
 	StartPage              int                    `json:"start_page"`
 	EndPage                int                    `json:"end_page"`
 	Year                   int                    `json:"year" validate:"required"`
-	Month                  int                    `json:"month" validate:"required"`
+	Month                  int                    `json:"month"`
 	Url1                   string                 `json:"url1"`
 	Url2                   string                 `json:"url2"`
 	DOI                    string                 `json:"doi"`
-	IsJointResearch        bool                   `json:"is_joint_research" validate:"required"`
+	IsJointResearch        bool                   `json:"is_joint_research"`
 	Venue                  string                 `json:"venue"`
 	City                   string                 `json:"city"`
-	IsManuscriptExist      bool                   `json:"is_manuscript_exist" validate:"required"`
-	IsSlidePDFExist        bool                   `json:"is_slide_pdf_exist" validate:"required"`
-	ISSlidePPTExist        bool                   `json:"is_slide_ppt_exist" validate:"required"`
-	IsPosterExist          bool                   `json:"is_poster_exist" validate:"required"`
-	IsVideoExist           bool                   `json:"is_video_exist" validate:"required"`
+	IsManuscriptExist      bool                   `json:"is_manuscript_exist"`
+	IsSlidePDFExist        bool                   `json:"is_slide_pdf_exist"`
+	ISSlidePPTExist        bool                   `json:"is_slide_ppt_exist"`
+	IsPosterExist          bool                   `json:"is_poster_exist"`
+	IsVideoExist           bool                   `json:"is_video_exist"`
 	Tags                   []Tag                  `json:"tags" gorm:"many2many:domestic_conference_tags;"`
 }
 
@@ -192,12 +192,12 @@ type Award struct {
 	Organization       Organization `json:"organization" gorm:"foreignKey:OrganizationID"`
 	OrganizationID     int          `json:"organization_id"`
 	Year               int          `json:"year" validate:"required"`
-	Month              int          `json:"month" validate:"required"`
+	Month              int          `json:"month"`
 	Url1               string       `json:"url1"`
 	Url2               string       `json:"url2"`
 	RelationID         int          `json:"relation_id"`
-	IsJointResearch    bool         `json:"is_joint_research" validate:"required"`
-	IsCertificateExist bool         `json:"is_certificate_exist" validate:"required"`
+	IsJointResearch    bool         `json:"is_joint_research"`
+	IsCertificateExist bool         `json:"is_certificate_exist"`
 	Tags               []Tag        `json:"tags" gorm:"many2many:award_tags;"`
 }
 

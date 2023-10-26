@@ -14,7 +14,7 @@ import { InternationalConferenceInfos } from '../../../types/international_confe
 import { listInternationalConferenceInfos } from '@/handlers/international_conference_info_handlers';
 import CheckBox from '../form/CheckBox';
 import { MultiSelectWithError } from '../form/MultiSelectWithError';
-import { Countries } from '@/types/country';
+import { Countries, countriesToOptions } from '@/types/country';
 import { listCountries } from '@/handlers/country_handlers';
 import { InternationalConference } from '@/types/international_conference';
 import { FormProps } from '@/types/form'
@@ -224,12 +224,7 @@ export const InternationalConferenceForm = ({ type, defaultValues, setList }: Fo
 							control={control}
 							errors={errors}
 							required
-							options={countryList.map((country) => {
-								return {
-									value: country,
-									label: `${country.name}`
-								}
-							})}
+							options={countriesToOptions(countryList)}
 						/>
 					</div>
 				</div>

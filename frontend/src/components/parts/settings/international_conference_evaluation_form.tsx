@@ -11,6 +11,7 @@ import { listInternationalConferenceInfos } from '@/handlers/international_confe
 import { createInternationalConferenceEvaluation, listInternationalConferenceEvaluations, updateInternationalConferenceEvaluation } from '@/handlers/international_conference_evaluation_handlers'
 import { FormProps } from '@/types/form'
 import { useCommonModal } from '@/context/modal_context'
+import { internationalConferenceInfosToOptions } from '../../../types/international_conference_info';
 
 const currentYear = new Date().getFullYear()
 
@@ -30,6 +31,8 @@ export const InternationalConferenceEvaluationForm = ({ type, defaultValues, set
 	})
 	const { closeModal } = useCommonModal()
 	const [internationalConferenceInfoList, setInternationalConferenceInfoList] = useState<InternationalConferenceInfos>([])
+
+	console.log(defaultValues)
 
 	const submit = async () => {
 		handleSubmit(async (data) => {
@@ -64,13 +67,7 @@ export const InternationalConferenceEvaluationForm = ({ type, defaultValues, set
 					control={control}
 					errors={errors}
 					required
-					options={internationalConferenceInfoList.map((international_conference_info) => {
-						return {
-							value: international_conference_info.id,
-							label: `${international_conference_info.name}`
-						}
-					})}
-					list={internationalConferenceInfoList}
+					options={internationalConferenceInfosToOptions(internationalConferenceInfoList)}
 				/>
 				<SelectWithError
 					label='年'
