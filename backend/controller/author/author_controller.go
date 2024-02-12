@@ -1,25 +1,38 @@
-package handler
+package controller
 
 import (
 	"strconv"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/Kimoto-Norihiro/scholar-manager/model"
-	"github.com/Kimoto-Norihiro/scholar-manager/usecase"
+	repository "github.com/Kimoto-Norihiro/scholar-manager/repository/author"
+	usecase "github.com/Kimoto-Norihiro/scholar-manager/usecase/author"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-type AuthorHandler struct {
-	usecase usecase.IAuthorUsecase
+type AuthorController interface {
+	CreateAuthor(c *gin.Context)
+	ListAuthors(c *gin.Context)
+	UpdateAuthor(c *gin.Context)
+	GetAuthorByID(c *gin.Context)
+	DeleteAuthor(c *gin.Context)
 }
 
-func NewAuthorHandler(u usecase.IAuthorUsecase) *AuthorHandler {
-	return &AuthorHandler{
-		usecase: u,
+type authorController struct {
+	usecase usecase.AuthorUsecase
+}
+
+func NewAuthorController(db *gorm.DB) AuthorController {
+	repo := repository.NewAuthorRepository(db)
+	usecase := usecase.NewAuthorUsecase(repo)
+
+	return &authorController{
+		usecase: usecase,
 	}
 }
 
-func (h *AuthorHandler) CreateAuthor(c *gin.Context) {
+func (h *authorController) CreateAuthor(c *gin.Context) {
 	var m model.Author
 	err := c.BindJSON(&m)
 	if err != nil {
@@ -34,7 +47,7 @@ func (h *AuthorHandler) CreateAuthor(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "success"})
 }
 
-func (h *AuthorHandler) ListAuthors(c *gin.Context) {
+func (h *authorController) ListAuthors(c *gin.Context) {
 	authors, err := h.usecase.ListAuthors()
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
@@ -43,7 +56,7 @@ func (h *AuthorHandler) ListAuthors(c *gin.Context) {
 	c.JSON(200, authors)
 }
 
-func (h *AuthorHandler) UpdateAuthor(c *gin.Context) {
+func (h *authorController) UpdateAuthor(c *gin.Context) {
 	var m model.Author
 	err := c.BindJSON(&m)
 	if err != nil {
@@ -58,7 +71,7 @@ func (h *AuthorHandler) UpdateAuthor(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "success"})
 }
 
-func (h *AuthorHandler) GetAuthorByID(c *gin.Context) {
+func (h *authorController) GetAuthorByID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
@@ -72,7 +85,7 @@ func (h *AuthorHandler) GetAuthorByID(c *gin.Context) {
 	c.JSON(200, author)
 }
 
-func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
+func (h *authorController) DeleteAuthor(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})

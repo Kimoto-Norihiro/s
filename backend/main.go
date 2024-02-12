@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
+	controller "github.com/Kimoto-Norihiro/scholar-manager/controller/author"
 	"github.com/Kimoto-Norihiro/scholar-manager/database"
 	"github.com/Kimoto-Norihiro/scholar-manager/handler"
 	"github.com/Kimoto-Norihiro/scholar-manager/middleware"
@@ -44,9 +45,7 @@ func main() {
 	r.DELETE("/publisher/:id", ph.DeletePublisher)
 
 	// Author
-	ar := repository.NewAuthorRepository(db)
-	au := usecase.NewAuthorUsecase(ar)
-	ah := handler.NewAuthorHandler(au)
+	ah := controller.NewAuthorController(db)
 	r.POST("/author", ah.CreateAuthor)
 	r.GET("/authors", ah.ListAuthors)
 	r.PUT("/author", ah.UpdateAuthor)
@@ -132,7 +131,6 @@ func main() {
 	r.PUT("/domestic_conference_info", dcih.UpdateDomesticConferenceInfo)
 	r.GET("/domestic_conference_info/:id", dcih.GetDomesticConferenceInfoByID)
 	r.DELETE("/domestic_conference_info/:id", dcih.DeleteDomesticConferenceInfo)
-
 
 	// DomesticConference
 	dcr := repository.NewDomesticConferenceRepository(db)
