@@ -1,11 +1,12 @@
-package usecase
+package author
 
 import (
 	"github.com/Kimoto-Norihiro/scholar-manager/domain"
-	repository "github.com/Kimoto-Norihiro/scholar-manager/repository/author"
+	"github.com/Kimoto-Norihiro/scholar-manager/domain/author"
+	"gorm.io/gorm"
 )
 
-type AuthorUsecase interface {
+type Usecase interface {
 	CreateAuthor(m domain.Author) error
 	ListAuthors() ([]domain.Author, error)
 	UpdateAuthor(m domain.Author) error
@@ -13,32 +14,34 @@ type AuthorUsecase interface {
 	DeleteAuthor(id int) error
 }
 
-type authorUsecase struct {
-	repo repository.AuthorRepository
+type usecase struct {
+	db   *gorm.DB
+	repo author.Repository
 }
 
-func NewAuthorUsecase(repo repository.AuthorRepository) AuthorUsecase {
-	return &authorUsecase{
+func NewUsecase(db *gorm.DB, repo author.Repository) Usecase {
+	return &usecase{
+		db:   db,
 		repo: repo,
 	}
 }
 
-func (u *authorUsecase) CreateAuthor(m domain.Author) error {
-	return u.repo.CreateAuthor(m)
+func (u *usecase) CreateAuthor(m domain.Author) error {
+	return u.repo.CreateAuthor(u.db, m)
 }
 
-func (u *authorUsecase) ListAuthors() ([]domain.Author, error) {
-	return u.repo.ListAuthors()
+func (u *usecase) ListAuthors() ([]domain.Author, error) {
+	return u.repo.ListAuthors(u.db)
 }
 
-func (u *authorUsecase) UpdateAuthor(m domain.Author) error {
-	return u.repo.UpdateAuthor(m)
+func (u *usecase) UpdateAuthor(m domain.Author) error {
+	return u.repo.UpdateAuthor(u.db, m)
 }
 
-func (u *authorUsecase) GetAuthorByID(id int) (domain.Author, error) {
-	return u.repo.GetAuthorByID(id)
+func (u *usecase) GetAuthorByID(id int) (domain.Author, error) {
+	return u.repo.GetAuthorByID(u.db, id)
 }
 
-func (u *authorUsecase) DeleteAuthor(id int) error {
-	return u.repo.DeleteAuthor(id)
+func (u *usecase) DeleteAuthor(id int) error {
+	return u.repo.DeleteAuthor(u.db, id)
 }

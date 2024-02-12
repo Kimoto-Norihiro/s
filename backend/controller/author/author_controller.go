@@ -4,8 +4,8 @@ import (
 	"strconv"
 
 	"github.com/Kimoto-Norihiro/scholar-manager/domain"
-	repository "github.com/Kimoto-Norihiro/scholar-manager/repository/author"
-	usecase "github.com/Kimoto-Norihiro/scholar-manager/usecase/author"
+	repo "github.com/Kimoto-Norihiro/scholar-manager/infra/repository/author"
+	"github.com/Kimoto-Norihiro/scholar-manager/usecase/author"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -20,12 +20,12 @@ type AuthorController interface {
 }
 
 type authorController struct {
-	usecase usecase.AuthorUsecase
+	usecase author.Usecase
 }
 
 func NewAuthorController(db *gorm.DB) AuthorController {
-	repo := repository.NewAuthorRepository(db)
-	usecase := usecase.NewAuthorUsecase(repo)
+	repo := repo.NewRepository()
+	usecase := author.NewUsecase(db, repo)
 
 	return &authorController{
 		usecase: usecase,

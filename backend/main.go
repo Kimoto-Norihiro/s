@@ -15,14 +15,14 @@ import (
 func main() {
 	utils.LoadEnv()
 
-	r := gin.Default()
-	r.Use(middleware.Cors())
-
 	const dns = "n000r111:password@tcp(localhost:3306)/nkt_scholar?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := database.NewMySql(dns)
 	if err != nil {
 		panic(err)
 	}
+
+	r := gin.Default()
+	r.Use(middleware.Cors())
 
 	// Country
 	cr := repository.NewCountryRepository(db)
