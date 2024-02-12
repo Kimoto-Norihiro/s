@@ -3,7 +3,7 @@ package controller
 import (
 	"strconv"
 
-	"github.com/Kimoto-Norihiro/scholar-manager/model"
+	"github.com/Kimoto-Norihiro/scholar-manager/domain"
 	repository "github.com/Kimoto-Norihiro/scholar-manager/repository/author"
 	usecase "github.com/Kimoto-Norihiro/scholar-manager/usecase/author"
 
@@ -33,7 +33,7 @@ func NewAuthorController(db *gorm.DB) AuthorController {
 }
 
 func (h *authorController) CreateAuthor(c *gin.Context) {
-	var m model.Author
+	var m domain.Author
 	err := c.BindJSON(&m)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
@@ -57,7 +57,7 @@ func (h *authorController) ListAuthors(c *gin.Context) {
 }
 
 func (h *authorController) UpdateAuthor(c *gin.Context) {
-	var m model.Author
+	var m domain.Author
 	err := c.BindJSON(&m)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
